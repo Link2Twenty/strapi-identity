@@ -1,16 +1,31 @@
 import type { Plugin } from '@strapi/types';
 
-const route = () => ({
+const route = (): Plugin.LoadedPlugin['routes']['admin'] => ({
   type: 'admin',
   routes: [
     {
       method: 'POST',
       path: '/verify',
-      handler: 'controller.index',
+      handler: 'controller.verify',
+      info: { apiName: 'verify', pluginName: 'better-auth', type: 'content-api' },
       config: {
         auth: false,
         policies: ['has-mfa'],
       },
+    },
+    {
+      method: 'POST',
+      path: '/enable',
+      handler: 'controller.enable',
+      info: { apiName: 'enable', pluginName: 'better-auth', type: 'content-api' },
+      config: {},
+    },
+    {
+      method: 'POST',
+      path: '/setup',
+      handler: 'controller.setup',
+      info: { apiName: 'setup', pluginName: 'better-auth', type: 'content-api' },
+      config: {},
     },
   ],
 });

@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mfa-temps",
+  "info": {
+    "singularName": "mfa-temp",
+    "pluralName": "mfa-temps",
+    "displayName": "MFA Temp"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "admin_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    },
+    "secret": {
+      "type": "string",
+      "required": false,
+      "private": true
+    }
+  }
+}

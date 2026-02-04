@@ -60,6 +60,13 @@ const replaceLogin = (route: Core.Route, secret: string, cookieOptions: Record<s
     // decode jwt
     const payload = jwt.verify(token, secret) as { userId: string };
 
+    // check if userId has MFA enabled
+    const exists = await strapi.documents('plugin::better-auth.mfa-token').findFirst({
+      filters: { admin_user: payload.userId, enabled: true },
+    });
+
+    if (!exists) return;
+
     ctx.res.removeHeader('set-cookie');
 
     const newPayload = { userId: payload.userId, deviceId, rememberMe, type: 'mfa' };

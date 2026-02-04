@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mfa-tokens",
+  "info": {
+    "singularName": "mfa-token",
+    "pluralName": "mfa-tokens",
+    "displayName": "MFA Token"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "admin_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["totp", "hotp"],
+      "default": "totp"
+    },
+    "secret": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "counter": {
+      "type": "biginteger",
+      "default": "0"
+    },
+    "digits": {
+      "type": "integer",
+      "default": 6
+    },
+    "recovery_codes": {
+      "type": "json",
+      "private": true
+    }
+  }
+}
