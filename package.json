@@ -34,7 +34,9 @@
     "@strapi/design-system": "^2.1.2",
     "@strapi/icons": "^2.1.2",
     "input-otp": "^1.4.2",
-    "react-intl": "^8.1.1"
+    "otpauth": "^9.4.1",
+    "react-intl": "^8.1.1",
+    "react-qr-code": "^2.0.18"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.4.0",
