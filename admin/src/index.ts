@@ -20,7 +20,7 @@ const plugin: StrapiApp['appPlugins'][string] = {
 
     app.addMiddlewares([mfaRedirect]);
 
-    InjectVerify(app.router);
+    InjectVerify(app);
     InjectMe(app);
   },
 

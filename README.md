@@ -9,7 +9,8 @@ Strapi plugin to add missing features to the strapi auth system
 - [x] TOTP app compatibility
 - [ ] Email passcode compatibility
 - [x] Integrated setup screen
-- [ ] MFA Page matches theme
+- [x] MFA Page matches theme
 - [ ] Enforced mode, users must have MFA or can't login
 - [ ] Custom issuer
 - [ ] Reset from admin
+- [ ] Multi-language support
