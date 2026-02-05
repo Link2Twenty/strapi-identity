@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Box, Button, DesignSystemProvider, Field, Flex } from '@strapi/design-system';
-import { Modal, Toggle, Typography } from '@strapi/design-system';
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '../components/InputOTP';
-import QRCode from 'react-qr-code';
+import { Box, DesignSystemProvider, Field, Flex } from '@strapi/design-system';
+import { Toggle, Typography } from '@strapi/design-system';
+import ConfirmModal from '../components/ConfirmModal';
+import RemoveModal from '../components/RemoveModal';
 
 import type { Root } from 'react-dom/client';
 import type { Router as RemixRouter, RouterState } from '@remix-run/router';
@@ -127,10 +127,14 @@ const MeExtraComponents = ({ strapi }: { strapi: StrapiApp }) => {
   const themeName = state?.admin_app.theme.currentTheme || 'light';
   const locale = strapi.configurations.locales[0] || 'en';
 
-  const [enabled, setEnabled] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<'full' | 'temp' | null>(null);
+
+  const [disableDialogOpen, setDisableDialogOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   const [uri, setUri] = useState<string | null>(null);
   const [secret, setSecret] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [passcodes, setPasscodes] = useState<string[] | null>(null);
 
   // Handle the 'system' logic manually
   let finalThemeName = themeName;
@@ -140,32 +144,55 @@ const MeExtraComponents = ({ strapi }: { strapi: StrapiApp }) => {
 
   const themeObject = strapi.configurations.themes[finalThemeName as 'light' | 'dark'];
 
+  /**
+   * Handle toggle of the MFA switch
+   * @param event the change event from the toggle switch
+   * @param event.target the toggle switch input element containing the new checked state
+   */
   const handleToggle = async ({ target }: { target: HTMLInputElement }) => {
     // Get jwtToken from cookies
     const token = getToken();
 
     const enable = target?.checked || false;
 
+    if (!enable && enabled === 'full') {
+      setDisableDialogOpen(true);
+      return;
+    }
+
     try {
-      const reponse = await fetch('/better-auth/enable', {
+      const response = await fetch('/better-auth/enable', {
         method: 'POST',
-        credentials: 'include',
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
         body: JSON.stringify({ enable }),
-      }).then((res) => res.json());
+      });
 
-      const data = reponse.data;
+      const body = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`${response.status} - ${body.error || 'Failed to update MFA status'}`);
+      }
+
+      const data = body.data;
+
+      if (!data) {
+        throw new Error('No data returned from server');
+      }
 
       if (enable) setModalOpen(true);
       setUri(data?.uri || null);
       setSecret(data?.secret || null);
+      setEnabled(enable ? 'temp' : null);
     } catch (error) {
       console.error(error);
-    } finally {
-      setEnabled(enable);
+      setEnabled(null);
     }
   };
 
+  /**
+   * Handle confirmation of the MFA setup by validating the provided TOTP code
+   * @param e the form submission event containing the TOTP code entered by the user
+   */
   const handleConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -177,32 +204,105 @@ const MeExtraComponents = ({ strapi }: { strapi: StrapiApp }) => {
     const token = getToken();
 
     try {
-      const reponse = await fetch('/better-auth/setup', {
+      const response = await fetch('/better-auth/setup', {
         method: 'POST',
-        credentials: 'include',
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
         body: JSON.stringify({ code }),
-      }).then((res) => res.json());
+      });
 
-      const data = reponse.data;
+      const body = await response.json();
 
-      console.log(data.recovery_codes);
+      if (!response.ok) {
+        throw new Error(`${response.status} - ${body.error || 'Failed to set up MFA'}`);
+      }
 
-      setModalOpen(false);
+      if (body.data?.recoveryCodes) {
+        setPasscodes(body.data.recoveryCodes);
+      } else {
+        setModalOpen(false);
+      }
       setUri(null);
       setSecret(null);
+      setEnabled('full');
     } catch (error) {
       console.error(error);
-    } finally {
     }
   };
 
+  /**
+   * Handle closing of the MFA setup modal, resetting all related state to initial values
+   */
   const handleClose = () => {
+    if (!passcodes) setEnabled(null);
+
     setModalOpen(false);
     setUri(null);
     setSecret(null);
-    setEnabled(false);
+    setPasscodes(null);
   };
+
+  const handleDisable = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const code = formData.get('otp');
+
+    // Get jwtToken from cookies
+    const token = getToken();
+
+    try {
+      const response = await fetch('/better-auth/disable', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
+        body: JSON.stringify({ code }),
+      });
+
+      const body = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`${response.status} - ${body.error || 'Failed to disable MFA'}`);
+      }
+
+      setDisableDialogOpen(false);
+      setUri(null);
+      setSecret(null);
+      setEnabled(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // get starting status of MFA for the user
+  useEffect(() => {
+    const ac = new AbortController();
+
+    (async () => {
+      const token = getToken();
+
+      try {
+        const response = await fetch('/better-auth/status', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
+          signal: ac.signal,
+        });
+
+        const body = await response.json();
+
+        if (!response.ok) {
+          throw new Error(`${response.status} - ${body.error || 'Failed to set up MFA'}`);
+        }
+
+        setEnabled(body.data?.status || null);
+      } catch (error) {
+        if ((error as Error).name === 'AbortError') return;
+
+        console.error('Failed to fetch MFA status:', error);
+      }
+    })();
+
+    return () => ac.abort();
+  }, []);
 
   return (
     <DesignSystemProvider theme={themeObject} locale={locale}>
@@ -229,75 +329,29 @@ const MeExtraComponents = ({ strapi }: { strapi: StrapiApp }) => {
                 aria-label="Enable Two-Factor Authentication"
                 onLabel="On"
                 offLabel="Off"
-                checked={enabled}
+                checked={enabled !== null}
                 onChange={handleToggle}
               />
               <Field.Hint />
             </Field.Root>
-            <Modal.Root open={modalOpen} onOpenChange={handleClose}>
-              <Modal.Content>
-                <form onSubmit={handleConfirm}>
-                  <Modal.Header>
-                    <Modal.Title>Set up Two-Factor Authentication</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Flex
-                      direction="column"
-                      alignItems="center"
-                      gap={4}
-                      marginTop={4}
-                      marginBottom={4}
-                    >
-                      <Typography>
-                        You will need an authenticator app to scan the QR code below.
-                      </Typography>
-                      <QRCode value={uri || ''} />
-                      {secret && <Typography variant="pi">{secret || ''}</Typography>}
-                    </Flex>
-                    <hr
-                      style={{
-                        height: '1px',
-                        border: '0',
-                        backgroundColor: '#e5e5e5',
-                      }}
-                    />
-                    <Flex
-                      direction="column"
-                      alignItems="center"
-                      gap={4}
-                      marginTop={4}
-                      marginBottom={4}
-                    >
-                      <Typography>
-                        You will need an authenticator app to scan the QR code below.
-                      </Typography>
-                      <InputOTP maxLength={6} name="otp" id="otp">
-                        <InputOTPGroup>
-                          <InputOTPSlot index={0} />
-                          <InputOTPSlot index={1} />
-                          <InputOTPSlot index={2} />
-                        </InputOTPGroup>
-                        <InputOTPSeparator />
-                        <InputOTPGroup>
-                          <InputOTPSlot index={3} />
-                          <InputOTPSlot index={4} />
-                          <InputOTPSlot index={5} />
-                        </InputOTPGroup>
-                      </InputOTP>
-                    </Flex>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Modal.Close>
-                      <Button variant="tertiary">Cancel</Button>
-                    </Modal.Close>
-                    <Button type="submit">Confirm</Button>
-                  </Modal.Footer>
-                </form>
-              </Modal.Content>
-            </Modal.Root>
           </Flex>
         </Flex>
       </Box>
+
+      <ConfirmModal
+        open={modalOpen}
+        onOpenChange={handleClose}
+        qrCodeUri={uri}
+        secret={secret}
+        passcodes={passcodes}
+        onSubmit={handleConfirm}
+      />
+
+      <RemoveModal
+        open={disableDialogOpen}
+        onOpenChange={setDisableDialogOpen}
+        onSubmit={handleDisable}
+      />
     </DesignSystemProvider>
   );
 };

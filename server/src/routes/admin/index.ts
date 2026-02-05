@@ -27,6 +27,20 @@ const route = (): Plugin.LoadedPlugin['routes']['admin'] => ({
       info: { apiName: 'setup', pluginName: 'better-auth', type: 'content-api' },
       config: {},
     },
+    {
+      method: 'POST',
+      path: '/disable',
+      handler: 'controller.disable',
+      info: { apiName: 'disable', pluginName: 'better-auth', type: 'content-api' },
+      config: {},
+    },
+    {
+      method: 'GET',
+      path: '/status',
+      handler: 'controller.checkStatus',
+      info: { apiName: 'checkStatus', pluginName: 'better-auth', type: 'content-api' },
+      config: {},
+    },
   ],
 });
 

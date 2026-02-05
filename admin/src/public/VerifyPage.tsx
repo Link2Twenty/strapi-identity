@@ -67,10 +67,32 @@ const Logo = () => {
 const VerifyPage = () => {
   const { token } = useAuth('MFA', (auth) => auth);
 
-  const handleSubmit = async () => {
-    const response = await fetch('/better-auth/verify', { method: 'POST' });
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-    if (response.ok) window.location.replace('/admin');
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    const code = formData.get('code');
+
+    try {
+      const response = await fetch('/better-auth/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          `${response.status} ${response.statusText}: ${data.error || 'Unknown error'}`
+        );
+      }
+
+      const target = new URLSearchParams(window.location.search).get('redirectTo') || '/admin';
+      window.location.replace(target);
+    } catch (error) {
+      console.error('Error verifying MFA code:', error);
+    }
   };
 
   // Redirect to admin if no MFA token is present
@@ -130,31 +152,26 @@ const VerifyPage = () => {
             </Flex>
 
             <Box>
-              <Flex direction="column" alignItems="stretch" gap={6}>
-                <InputOTP maxLength={6}>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                  </InputOTPGroup>
-                  <InputOTPSeparator />
-                  <InputOTPGroup>
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
-                </InputOTP>
-                <Button
-                  fullWidth
-                  type="submit"
-                  size="L"
-                  variant="primary"
-                  style={{ height: '3.2rem' }}
-                  onClick={handleSubmit}
-                >
-                  Submit Code
-                </Button>
-              </Flex>
+              <form onSubmit={handleSubmit}>
+                <Flex direction="column" alignItems="stretch" gap={6}>
+                  <InputOTP maxLength={6} name="code" id="code">
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                    </InputOTPGroup>
+                    <InputOTPSeparator />
+                    <InputOTPGroup>
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                  <Button fullWidth size="L" variant="primary" style={{ height: '3.2rem' }}>
+                    Submit Code
+                  </Button>
+                </Flex>
+              </form>
             </Box>
           </Wrapper>
 
