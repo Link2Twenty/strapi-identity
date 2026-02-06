@@ -254,11 +254,11 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
               <Button variant="ghost" onClick={() => setUseRecoveryCode((prev) => !prev)}>
                 {useRecoveryCode
                   ? formatMessage({
-                      id: getTranslation('verify_page.use_verification_code'),
+                      id: getTranslation('general.use_verification_code'),
                       defaultMessage: 'Use verification code',
                     })
                   : formatMessage({
-                      id: getTranslation('verify_page.use_recovery_code'),
+                      id: getTranslation('general.use_recovery_code'),
                       defaultMessage: 'Use recovery code',
                     })}
               </Button>
