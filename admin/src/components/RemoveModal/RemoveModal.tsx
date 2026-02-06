@@ -3,6 +3,12 @@ import { useState } from 'react';
 import { Button, Flex, Modal, TextInput, Typography } from '@strapi/design-system';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '../InputOTP';
 
+// Hooks
+import { useIntl } from 'react-intl';
+
+// Helpers
+import { getTranslation } from '../../utils/getTranslation';
+
 // Types
 export interface RemoveModalProps {
   open: boolean;
@@ -11,6 +17,8 @@ export interface RemoveModalProps {
 }
 
 export default function RemoveModal({ open, onOpenChange, onSubmit }: RemoveModalProps) {
+  const { formatMessage } = useIntl();
+
   const [showRecovery, setShowRecovery] = useState(false);
 
   return (
@@ -18,13 +26,21 @@ export default function RemoveModal({ open, onOpenChange, onSubmit }: RemoveModa
       <Modal.Content>
         <form onSubmit={onSubmit}>
           <Modal.Header>
-            <Modal.Title>Disable Two-Factor Authentication</Modal.Title>
+            <Modal.Title>
+              {formatMessage({
+                id: getTranslation('profile.disable_title'),
+                defaultMessage: 'Disable Two-Factor Authentication',
+              })}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Flex direction="column" alignItems="center" gap={4} marginTop={4} marginBottom={4}>
               <Typography>
-                Please enter the 6-digit code from your authenticator app to disable Two-Factor
-                Authentication.
+                {formatMessage({
+                  id: getTranslation('profile.disable_instruction'),
+                  defaultMessage:
+                    'Enter the 6-digit code from your authenticator app to disable Two-Factor Authentication.',
+                })}
               </Typography>
               {showRecovery ? (
                 <TextInput name="otp" id="otp" />
@@ -48,15 +64,27 @@ export default function RemoveModal({ open, onOpenChange, onSubmit }: RemoveModa
                 type="button"
                 onClick={() => setShowRecovery((prev) => !prev)}
               >
-                {showRecovery ? 'Use Authenticator App' : 'Use Recovery Code'}
+                {showRecovery
+                  ? formatMessage({
+                      id: getTranslation('general.use_verification_code'),
+                      defaultMessage: 'Use verification code',
+                    })
+                  : formatMessage({
+                      id: getTranslation('general.use_recovery_code'),
+                      defaultMessage: 'Use recovery code',
+                    })}
               </Button>
             </Flex>
           </Modal.Body>
           <Modal.Footer>
             <Modal.Close>
-              <Button variant="tertiary">Cancel</Button>
+              <Button variant="tertiary">
+                {formatMessage({ id: 'app.components.Button.cancel', defaultMessage: 'Cancel' })}
+              </Button>
             </Modal.Close>
-            <Button type="submit">Confirm</Button>
+            <Button type="submit">
+              {formatMessage({ id: 'app.components.Button.confirm', defaultMessage: 'Confirm' })}
+            </Button>
           </Modal.Footer>
         </form>
       </Modal.Content>

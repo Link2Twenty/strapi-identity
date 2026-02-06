@@ -116,7 +116,7 @@ export default function ConfirmModal({
               <Button variant={passcodes ? '' : 'tertiary'}>
                 {passcodes
                   ? formatMessage({ id: 'global.close', defaultMessage: 'Close' })
-                  : formatMessage({ id: 'global.cancel', defaultMessage: 'Cancel' })}
+                  : formatMessage({ id: 'app.components.Button.cancel', defaultMessage: 'Cancel' })}
               </Button>
             </Modal.Close>
             {!passcodes && (
