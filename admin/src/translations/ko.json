@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "인증 앱 사용",
+  "general.use_recovery_code": "복구 코드 사용",
   "verify_page.title": "신원 확인",
   "verify_page.subtitle": "계속하려면 확인 코드를 입력하세요.",
   "verify_page.error": "유효하지 않은 코드입니다. 다시 시도해 주세요.",
   "verify_page.submit": "코드 제출",
-  "verify_page.use_verification_code": "확인 코드 사용",
-  "verify_page.use_recovery_code": "복구 코드 사용"
+  "profile.title": "2단계 인증",
+  "profile.subtitle": "계정에 추가 보안 계층을 추가하세요.",
+  "profile.toggle_label": "2단계 인증 활성화",
+  "profile.setup": "2단계 인증 설정",
+  "profile.recovery_codes": "다음 복구 코드를 안전한 곳에 저장하세요. 인증 앱에 대한 액세스 권한을 잃은 경우 각 코드는 계정에 액세스하는 데 한 번만 사용할 수 있습니다.",
+  "profile.recovery_codes_warning": "인증 앱과 복구 코드를 모두 분실한 경우 관리자에게 문의하여 계정에 대한 액세스 권한을 다시 얻어야 합니다.",
+  "profile.scan_qr": "아래 QR 코드를 스캔하려면 인증 앱이 필요합니다.",
+  "profile.enter_otp": "확인하려면 인증 앱에서 6자리 코드를 입력하세요.",
+  "profile.disable_title": "2단계 인증 비활성화",
+  "profile.disable_instruction": "2단계 인증을 비활성화하려면 인증 앱에서 6자리 코드를 입력하세요."
 }

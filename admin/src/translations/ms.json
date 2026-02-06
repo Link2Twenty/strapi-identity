@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Gunakan aplikasi pengesah",
+  "general.use_recovery_code": "Gunakan kod pemulihan",
   "verify_page.title": "Sahkan Identiti Anda",
   "verify_page.subtitle": "Masukkan kod pengesahan anda untuk meneruskan.",
   "verify_page.error": "Kod tidak sah. Sila cuba lagi.",
   "verify_page.submit": "Hantar Kod",
-  "verify_page.use_verification_code": "Gunakan kod pengesahan",
-  "verify_page.use_recovery_code": "Gunakan kod pemulihan"
+  "profile.title": "Pengesahan Dua Faktor",
+  "profile.subtitle": "Tambah lapisan keselamatan tambahan pada akaun anda.",
+  "profile.toggle_label": "Dayakan Pengesahan Dua Faktor",
+  "profile.setup": "Sediakan Pengesahan Dua Faktor",
+  "profile.recovery_codes": "Sila simpan kod pemulihan berikut di tempat yang selamat. Setiap kod hanya boleh digunakan sekali untuk mengakses akaun anda jika anda kehilangan akses kepada aplikasi pengesah anda.",
+  "profile.recovery_codes_warning": "Jika anda kehilangan kedua-dua aplikasi pengesah dan kod pemulihan anda, anda perlu menghubungi pentadbir untuk mendapatkan semula akses kepada akaun anda.",
+  "profile.scan_qr": "Anda memerlukan aplikasi pengesah untuk mengimbas kod QR di bawah.",
+  "profile.enter_otp": "Masukkan kod 6 digit daripada aplikasi pengesah anda untuk mengesahkan.",
+  "profile.disable_title": "Lumpuhkan Pengesahan Dua Faktor",
+  "profile.disable_instruction": "Masukkan kod 6 digit daripada aplikasi pengesah anda untuk melumpuhkan Pengesahan Dua Faktor."
 }

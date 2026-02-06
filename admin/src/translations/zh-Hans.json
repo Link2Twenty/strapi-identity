@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "使用验证器应用",
+  "general.use_recovery_code": "使用恢复代码",
   "verify_page.title": "验证您的身份",
   "verify_page.subtitle": "请输入您的验证码以继续。",
   "verify_page.error": "验证码无效。请重试。",
   "verify_page.submit": "提交验证码",
-  "verify_page.use_verification_code": "使用验证码",
-  "verify_page.use_recovery_code": "使用恢复代码"
+  "profile.title": "双因素认证",
+  "profile.subtitle": "为您的账户添加额外的安全保障。",
+  "profile.toggle_label": "启用双因素认证",
+  "profile.setup": "设置双因素认证",
+  "profile.recovery_codes": "请将以下恢复代码保存在安全的地方。如果您无法访问验证器应用，每个代码只能使用一次来访问您的账户。",
+  "profile.recovery_codes_warning": "如果您同时丢失了验证器应用和恢复代码，您将需要联系管理员以恢复对账户的访问权限。",
+  "profile.scan_qr": "您需要一个验证器应用来扫描下方的二维码。",
+  "profile.enter_otp": "输入验证器应用中的6位代码以确认。",
+  "profile.disable_title": "禁用双因素认证",
+  "profile.disable_instruction": "请输入验证器应用中的6位代码以禁用双因素认证。"
 }

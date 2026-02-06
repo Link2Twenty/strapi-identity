@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Použít ověřovací aplikaci",
+  "general.use_recovery_code": "Použít kód pro obnovení",
   "verify_page.title": "Ověřte svou totožnost",
   "verify_page.subtitle": "Pro pokračování zadejte ověřovací kód.",
   "verify_page.error": "Neplatný kód. Zkuste to prosím znovu.",
   "verify_page.submit": "Odeslat kód",
-  "verify_page.use_verification_code": "Použít ověřovací kód",
-  "verify_page.use_recovery_code": "Použít kód pro obnovení"
+  "profile.title": "Dvoufaktorové ověřování",
+  "profile.subtitle": "Přidejte ke svému účtu další vrstvu zabezpečení.",
+  "profile.toggle_label": "Povolit dvoufaktorové ověřování",
+  "profile.setup": "Nastavit dvoufaktorové ověřování",
+  "profile.recovery_codes": "Následující kódy pro obnovení si prosím uložte na bezpečné místo. Každý kód lze použít pouze jednou pro přístup k účtu, pokud ztratíte přístup k ověřovací aplikaci.",
+  "profile.recovery_codes_warning": "Pokud ztratíte ověřovací aplikaci i kódy pro obnovení, budete muset kontaktovat správce, abyste znovu získali přístup ke svému účtu.",
+  "profile.scan_qr": "K naskenování QR kódu níže budete potřebovat ověřovací aplikaci.",
+  "profile.enter_otp": "Pro potvrzení zadejte 6místný kód z vaší ověřovací aplikace.",
+  "profile.disable_title": "Zakázat dvoufaktorové ověřování",
+  "profile.disable_instruction": "Zadejte 6místný kód z vaší ověřovací aplikace pro zakázání dvoufaktorového ověřování."
 }

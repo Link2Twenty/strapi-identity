@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Użyj aplikacji uwierzytelniającej",
+  "general.use_recovery_code": "Użyj kodu odzyskiwania",
   "verify_page.title": "Zweryfikuj swoją tożsamość",
   "verify_page.subtitle": "Wprowadź kod weryfikacyjny, aby kontynuować.",
   "verify_page.error": "Nieprawidłowy kod. Spróbuj ponownie.",
   "verify_page.submit": "Prześlij kod",
-  "verify_page.use_verification_code": "Użyj kodu weryfikacyjnego",
-  "verify_page.use_recovery_code": "Użyj kodu odzyskiwania"
+  "profile.title": "Uwierzytelnianie dwuskładnikowe",
+  "profile.subtitle": "Dodaj dodatkową warstwę zabezpieczeń do swojego konta.",
+  "profile.toggle_label": "Włącz uwierzytelnianie dwuskładnikowe",
+  "profile.setup": "Skonfiguruj uwierzytelnianie dwuskładnikowe",
+  "profile.recovery_codes": "Zapisz poniższe kody odzyskiwania w bezpiecznym miejscu. Każdy kod może zostać użyty tylko raz w celu uzyskania dostępu do konta, jeśli utracisz dostęp do aplikacji uwierzytelniającej.",
+  "profile.recovery_codes_warning": "Jeśli utracisz zarówno aplikację uwierzytelniającą, jak i kody odzyskiwania, będziesz musiał skontaktować się z administratorem, aby odzyskać dostęp do konta.",
+  "profile.scan_qr": "Będziesz potrzebować aplikacji uwierzytelniającej, aby zeskanować poniższy kod QR.",
+  "profile.enter_otp": "Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej, aby potwierdzić.",
+  "profile.disable_title": "Wyłącz uwierzytelnianie dwuskładnikowe",
+  "profile.disable_instruction": "Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej, aby wyłączyć uwierzytelnianie dwuskładnikowe."
 }

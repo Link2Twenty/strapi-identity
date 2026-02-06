@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Bruk autentiseringsapp",
+  "general.use_recovery_code": "Bruk gjenopprettingskode",
   "verify_page.title": "Bekreft identiteten din",
   "verify_page.subtitle": "Skriv inn bekreftelseskoden for å fortsette.",
   "verify_page.error": "Ugyldig kode. Prøv igjen.",
   "verify_page.submit": "Send inn kode",
-  "verify_page.use_verification_code": "Bruk bekreftelseskode",
-  "verify_page.use_recovery_code": "Bruk gjenopprettingskode"
+  "profile.title": "Tofaktorautentisering",
+  "profile.subtitle": "Legg til et ekstra sikkerhetslag på kontoen din.",
+  "profile.toggle_label": "Aktiver tofaktorautentisering",
+  "profile.setup": "Konfigurer tofaktorautentisering",
+  "profile.recovery_codes": "Lagre følgende gjenopprettingskoder på et trygt sted. Hver kode kan bare brukes én gang for å få tilgang til kontoen din hvis du mister tilgangen til autentiseringsappen din.",
+  "profile.recovery_codes_warning": "Hvis du mister både autentiseringsappen og gjenopprettingskodene dine, må du kontakte en administrator for å få tilgang til kontoen din igjen.",
+  "profile.scan_qr": "Du trenger en autentiseringsapp for å skanne QR-koden nedenfor.",
+  "profile.enter_otp": "Skriv inn den 6-sifrede koden fra autentiseringsappen din for å bekrefte.",
+  "profile.disable_title": "Deaktiver tofaktorautentisering",
+  "profile.disable_instruction": "Skriv inn den 6-sifrede koden fra autentiseringsappen din for å deaktivere tofaktorautentisering."
 }

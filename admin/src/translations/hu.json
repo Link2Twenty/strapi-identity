@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Hitelesítő alkalmazás használata",
+  "general.use_recovery_code": "Helyreállítási kód használata",
   "verify_page.title": "Igazolja személyazonosságát",
   "verify_page.subtitle": "A folytatáshoz adja meg ellenőrző kódját.",
   "verify_page.error": "Érvénytelen kód. Kérjük, próbálja újra.",
   "verify_page.submit": "Kód elküldése",
-  "verify_page.use_verification_code": "Ellenőrző kód használata",
-  "verify_page.use_recovery_code": "Helyreállítási kód használata"
+  "profile.title": "Kétfaktoros hitelesítés",
+  "profile.subtitle": "Adjon hozzá egy további biztonsági réteget fiókjához.",
+  "profile.toggle_label": "Kétfaktoros hitelesítés engedélyezése",
+  "profile.setup": "Kétfaktoros hitelesítés beállítása",
+  "profile.recovery_codes": "Kérjük, mentse el a következő helyreállítási kódokat biztonságos helyre. Minden kód csak egyszer használható fel a fiókjához való hozzáféréshez, ha elveszíti hozzáférését a hitelesítő alkalmazásához.",
+  "profile.recovery_codes_warning": "Ha elveszíti mind a hitelesítő alkalmazást, mind a helyreállítási kódokat, fel kell vennie a kapcsolatot egy rendszergazdával, hogy visszaszerezze hozzáférését a fiókjához.",
+  "profile.scan_qr": "A lenti QR-kód beolvasásához hitelesítő alkalmazásra lesz szüksége.",
+  "profile.enter_otp": "A megerősítéshez adja meg a hitelesítő alkalmazás 6 jegyű kódját.",
+  "profile.disable_title": "Kétfaktoros hitelesítés letiltása",
+  "profile.disable_instruction": "Adja meg a 6 jegyű kódot a hitelesítő alkalmazásból a kétfaktoros hitelesítés letiltásához."
 }

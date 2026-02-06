@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Utilitza l'aplicació d'autenticació",
+  "general.use_recovery_code": "Utilitza el codi de recuperació",
   "verify_page.title": "Verifiqueu la vostra identitat",
   "verify_page.subtitle": "Introduïu el vostre codi de verificació per continuar.",
   "verify_page.error": "Codi invàlid. Si us plau, torneu-ho a provar.",
   "verify_page.submit": "Enviar codi",
-  "verify_page.use_verification_code": "Utilitza el codi de verificació",
-  "verify_page.use_recovery_code": "Utilitza el codi de recuperació"
+  "profile.title": "Autenticació de dos factors",
+  "profile.subtitle": "Afegiu una capa de seguretat addicional al vostre compte.",
+  "profile.toggle_label": "Habilita l'autenticació de dos factors",
+  "profile.setup": "Configura l'autenticació de dos factors",
+  "profile.recovery_codes": "Deseu els codis de recuperació següents en un lloc segur. Cada codi només es pot utilitzar una vegada per accedir al vostre compte si perdeu l'accés a l'aplicació d'autenticació.",
+  "profile.recovery_codes_warning": "Si perdeu l'aplicació d'autenticació i els codis de recuperació, haureu de contactar amb un administrador per recuperar l'accés al vostre compte.",
+  "profile.scan_qr": "Necessitareu una aplicació d'autenticació per escanejar el codi QR següent.",
+  "profile.enter_otp": "Introduïu el codi de 6 dígits de la vostra aplicació d'autenticació per confirmar.",
+  "profile.disable_title": "Deshabilita l'autenticació de dos factors",
+  "profile.disable_instruction": "Introduïu el codi de 6 dígits de la vostra aplicació d'autenticació per deshabilitar l'autenticació de dos factors."
 }

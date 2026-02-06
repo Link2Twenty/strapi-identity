@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "השתמש באפליקציית אימות",
+  "general.use_recovery_code": "השתמש בקוד שחזור",
   "verify_page.title": "אמת את זהותך",
   "verify_page.subtitle": "הזן את קוד האימות כדי להמשיך.",
   "verify_page.error": "קוד לא חוקי. אנא נסה שוב.",
   "verify_page.submit": "שלח קוד",
-  "verify_page.use_verification_code": "השתמש בקוד אימות",
-  "verify_page.use_recovery_code": "השתמש בקוד שחזור"
+  "profile.title": "אימות דו-שלבי",
+  "profile.subtitle": "הוסף שכבת אבטחה נוספת לחשבון שלך.",
+  "profile.toggle_label": "הפעל אימות דו-שלבי",
+  "profile.setup": "הגדר אימות דו-שלבי",
+  "profile.recovery_codes": "אנא שמור את קודי השחזור הבאים במקום בטוח. ניתן להשתמש בכל קוד רק פעם אחת כדי לגשת לחשבון שלך אם תאבד את הגישה לאפליקציית האימות שלך.",
+  "profile.recovery_codes_warning": "אם תאבד גם את אפליקציית האימות וגם את קודי השחזור שלך, תצטרך ליצור קשר עם מנהל המערכת כדי לקבל גישה מחדש לחשבון שלך.",
+  "profile.scan_qr": "תזדקק לאפליקציית אימות כדי לסרוק את קוד ה-QR למטה.",
+  "profile.enter_otp": "הזן את הקוד בן 6 הספרות מאפליקציית האימות שלך כדי לאשר.",
+  "profile.disable_title": "השבת אימות דו-שלבי",
+  "profile.disable_instruction": "הזן את הקוד בן 6 הספרות מאפליקציית האימות שלך כדי להשבית את האימות הדו-שלבי."
 }

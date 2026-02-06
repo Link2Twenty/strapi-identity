@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "استخدام تطبيق المصادقة",
+  "general.use_recovery_code": "استخدام رمز الاسترداد",
   "verify_page.title": "تحقق من هويتك",
   "verify_page.subtitle": "أدخل رمز التحقق للمتابعة.",
   "verify_page.error": "الرمز غير صالح. يرجى المحاولة مرة أخرى.",
   "verify_page.submit": "إرسال الرمز",
-  "verify_page.use_verification_code": "استخدام رمز التحقق",
-  "verify_page.use_recovery_code": "استخدام رمز الاسترداد"
+  "profile.title": "المصادقة الثنائية",
+  "profile.subtitle": "أضف طبقة أمان إضافية إلى حسابك.",
+  "profile.toggle_label": "تفعيل المصادقة الثنائية",
+  "profile.setup": "إعداد المصادقة الثنائية",
+  "profile.recovery_codes": "يرجى حفظ رموز الاسترداد التالية في مكان آمن. يمكن استخدام كل رمز مرة واحدة فقط للوصول إلى حسابك إذا فقدت الوصول إلى تطبيق المصادقة الخاص بك.",
+  "profile.recovery_codes_warning": "إذا فقدت كل من تطبيق المصادقة ورموز الاسترداد، فستحتاج إلى الاتصال بالمسؤول لاستعادة الوصول إلى حسابك.",
+  "profile.scan_qr": "ستحتاج إلى تطبيق مصادقة لمسح رمز الاستجابة السريعة أدناه.",
+  "profile.enter_otp": "أدخل الرمز المكون من 6 أرقام من تطبيق المصادقة للتأكيد.",
+  "profile.disable_title": "تعطيل المصادقة الثنائية",
+  "profile.disable_instruction": "أدخل الرمز المكون من 6 أرقام من تطبيق المصادقة لتعطيل المصادقة الثنائية."
 }

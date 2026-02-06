@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Doğrulayıcı uygulamayı kullan",
+  "general.use_recovery_code": "Kurtarma kodunu kullan",
   "verify_page.title": "Kimliğinizi Doğrulayın",
   "verify_page.subtitle": "Devam etmek için doğrulama kodunuzu girin.",
   "verify_page.error": "Geçersiz kod. Lütfen tekrar deneyin.",
   "verify_page.submit": "Kodu Gönder",
-  "verify_page.use_verification_code": "Doğrulama kodunu kullan",
-  "verify_page.use_recovery_code": "Kurtarma kodunu kullan"
+  "profile.title": "İki Faktörlü Kimlik Doğrulama",
+  "profile.subtitle": "Hesabınıza ek bir güvenlik katmanı ekleyin.",
+  "profile.toggle_label": "İki Faktörlü Kimlik Doğrulamayı Etkinleştir",
+  "profile.setup": "İki Faktörlü Kimlik Doğrulamayı Ayarla",
+  "profile.recovery_codes": "Lütfen aşağıdaki kurtarma kodlarını güvenli bir yerde saklayın. Kimlik doğrulayıcı uygulamanıza erişiminizi kaybederseniz, her kod hesabınıza erişmek için yalnızca bir kez kullanılabilir.",
+  "profile.recovery_codes_warning": "Hem kimlik doğrulayıcı uygulamanızı hem de kurtarma kodlarınızı kaybederseniz, hesabınıza yeniden erişim sağlamak için bir yöneticiyle iletişime geçmeniz gerekir.",
+  "profile.scan_qr": "Aşağıdaki QR kodunu taramak için bir kimlik doğrulayıcı uygulamasına ihtiyacınız olacak.",
+  "profile.enter_otp": "Onaylamak için kimlik doğrulayıcı uygulamanızdan 6 haneli kodu girin.",
+  "profile.disable_title": "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
+  "profile.disable_instruction": "İki Faktörlü Kimlik Doğrulamayı devre dışı bırakmak için kimlik doğrulayıcı uygulamanızdan 6 haneli kodu girin."
 }

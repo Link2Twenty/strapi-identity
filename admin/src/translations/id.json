@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Gunakan aplikasi autentikator",
+  "general.use_recovery_code": "Gunakan kode pemulihan",
   "verify_page.title": "Verifikasi Identitas Anda",
   "verify_page.subtitle": "Masukkan kode verifikasi Anda untuk melanjutkan.",
   "verify_page.error": "Kode tidak valid. Silakan coba lagi.",
   "verify_page.submit": "Kirim Kode",
-  "verify_page.use_verification_code": "Gunakan kode verifikasi",
-  "verify_page.use_recovery_code": "Gunakan kode pemulihan"
+  "profile.title": "Autentikasi Dua Faktor",
+  "profile.subtitle": "Tambahkan lapisan keamanan tambahan ke akun Anda.",
+  "profile.toggle_label": "Aktifkan Autentikasi Dua Faktor",
+  "profile.setup": "Siapkan Autentikasi Dua Faktor",
+  "profile.recovery_codes": "Harap simpan kode pemulihan berikut di tempat yang aman. Setiap kode hanya dapat digunakan sekali untuk mengakses akun Anda jika Anda kehilangan akses ke aplikasi autentikator Anda.",
+  "profile.recovery_codes_warning": "Jika Anda kehilangan aplikasi autentikator dan kode pemulihan Anda, Anda perlu menghubungi administrator untuk mendapatkan kembali akses ke akun Anda.",
+  "profile.scan_qr": "Anda memerlukan aplikasi autentikator untuk memindai kode QR di bawah ini.",
+  "profile.enter_otp": "Masukkan kode 6 digit dari aplikasi autentikator Anda untuk mengonfirmasi.",
+  "profile.disable_title": "Nonaktifkan Autentikasi Dua Faktor",
+  "profile.disable_instruction": "Masukkan kode 6 digit dari aplikasi autentikator Anda untuk menonaktifkan Autentikasi Dua Faktor."
 }

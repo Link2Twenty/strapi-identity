@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "認証アプリを使用",
+  "general.use_recovery_code": "リカバリーコードを使用",
   "verify_page.title": "本人確認",
   "verify_page.subtitle": "続行するには確認コードを入力してください。",
   "verify_page.error": "コードが無効です。もう一度お試しください。",
   "verify_page.submit": "コードを送信",
-  "verify_page.use_verification_code": "確認コードを使用",
-  "verify_page.use_recovery_code": "回復コードを使用"
+  "profile.title": "二要素認証",
+  "profile.subtitle": "アカウントに追加のセキュリティレイヤーを追加します。",
+  "profile.toggle_label": "二要素認証を有効にする",
+  "profile.setup": "二要素認証を設定する",
+  "profile.recovery_codes": "以下の回復コードを安全な場所に保存してください。各コードは、認証アプリへのアクセスを失った場合にアカウントにアクセスするために1回だけ使用できます。",
+  "profile.recovery_codes_warning": "認証アプリと回復コードの両方を失った場合は、管理者に連絡してアカウントへのアクセスを回復する必要があります。",
+  "profile.scan_qr": "下のQRコードをスキャンするには認証アプリが必要です。",
+  "profile.enter_otp": "確認するには、認証アプリから6桁のコードを入力してください。",
+  "profile.disable_title": "二要素認証を無効にする",
+  "profile.disable_instruction": "二要素認証を無効にするには、認証アプリから6桁のコードを入力してください。"
 }

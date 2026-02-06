@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Erabili autentifikazio aplikazioa",
+  "general.use_recovery_code": "Erabili berreskurapen kodea",
   "verify_page.title": "Egiaztatu zure identitatea",
   "verify_page.subtitle": "Sartu zure egiaztapen kodea jarraitzeko.",
   "verify_page.error": "Kode baliogabea. Mesedez, saiatu berriro.",
   "verify_page.submit": "Bidali kodea",
-  "verify_page.use_verification_code": "Erabili egiaztapen kodea",
-  "verify_page.use_recovery_code": "Erabili berreskurapen kodea"
+  "profile.title": "Bi faktoreko autentifikazioa",
+  "profile.subtitle": "Gehitu segurtasun geruza gehigarri bat zure kontuari.",
+  "profile.toggle_label": "Gaitu bi faktoreko autentifikazioa",
+  "profile.setup": "Konfiguratu bi faktoreko autentifikazioa",
+  "profile.recovery_codes": "Mesedez, gorde ondorengo berreskurapen-kodeak leku seguru batean. Kode bakoitza behin bakarrik erabil daiteke zure kontura sartzeko, zure autentifikazio-aplikaziorako sarbidea galtzen baduzu.",
+  "profile.recovery_codes_warning": "Zure autentifikazio-aplikazioa eta berreskurapen-kodeak galtzen badituzu, administratzaile batekin harremanetan jarri beharko duzu zure kontura sartzeko.",
+  "profile.scan_qr": "Autentifikazio-aplikazio bat beharko duzu beheko QR kodea eskaneatzeko.",
+  "profile.enter_otp": "Sartu 6 digituko kodea zure autentifikazio-aplikaziotik berresteko.",
+  "profile.disable_title": "Desgaitu bi faktoreko autentifikazioa",
+  "profile.disable_instruction": "Sartu 6 digituko kodea zure autentifikazio-aplikaziotik bi faktoreko autentifikazioa desgaitzeko."
 }

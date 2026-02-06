@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Utilizar aplicação autenticadora",
+  "general.use_recovery_code": "Utilizar código de recuperação",
   "verify_page.title": "Verifique a sua identidade",
   "verify_page.subtitle": "Introduza o seu código de verificação para continuar.",
   "verify_page.error": "Código inválido. Por favor, tente novamente.",
   "verify_page.submit": "Submeter código",
-  "verify_page.use_verification_code": "Utilizar código de verificação",
-  "verify_page.use_recovery_code": "Utilizar código de recuperação"
+  "profile.title": "Autenticação de Dois Fatores",
+  "profile.subtitle": "Adicione uma camada adicional de segurança à sua conta.",
+  "profile.toggle_label": "Ativar Autenticação de Dois Fatores",
+  "profile.setup": "Configurar Autenticação de Dois Fatores",
+  "profile.recovery_codes": "Guarde os seguintes códigos de recuperação num local seguro. Cada código só pode ser utilizado uma vez para aceder à sua conta se perder o acesso à sua aplicação de autenticação.",
+  "profile.recovery_codes_warning": "Se perder a sua aplicação de atribuição e os seus códigos de recuperação, terá de contactar um administrador para recuperar o acesso à sua conta.",
+  "profile.scan_qr": "Precisará de uma aplicação de autenticação para digitalizar o código QR abaixo.",
+  "profile.enter_otp": "Introduza o código de 6 dígitos da sua aplicação de autenticação para confirmar.",
+  "profile.disable_title": "Desativar Autenticação de Dois Fatores",
+  "profile.disable_instruction": "Introduza o código de 6 dígitos da sua aplicação de autenticação para desativar a Autenticação de Dois Fatores."
 }

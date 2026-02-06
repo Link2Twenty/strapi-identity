@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Använd autentiseringsapp",
+  "general.use_recovery_code": "Använd återställningskod",
   "verify_page.title": "Verifiera din identitet",
   "verify_page.subtitle": "Ange din verifieringskod för att fortsätta.",
   "verify_page.error": "Ogiltig kod. Försök igen.",
   "verify_page.submit": "Skicka kod",
-  "verify_page.use_verification_code": "Använd verifieringskod",
-  "verify_page.use_recovery_code": "Använd återställningskod"
+  "profile.title": "Tvåfaktorsautentisering",
+  "profile.subtitle": "Lägg till ett extra säkerhetslager till ditt konto.",
+  "profile.toggle_label": "Aktivera tvåfaktorsautentisering",
+  "profile.setup": "Konfigurera tvåfaktorsautentisering",
+  "profile.recovery_codes": "Spara följande återställningskoder på en säker plats. Varje kod kan endast användas en gång för att komma åt ditt konto om du förlorar åtkomsten till din autentiseringsapp.",
+  "profile.recovery_codes_warning": "Om du förlorar både din autentiseringsapp och dina återställningskoder måste du kontakta en administratör för att få åtkomst till ditt konto igen.",
+  "profile.scan_qr": "Du behöver en autentiseringsapp för att skanna QR-koden nedan.",
+  "profile.enter_otp": "Ange den 6-siffriga koden från din autentiseringsapp för att bekräfta.",
+  "profile.disable_title": "Inaktivera tvåfaktorsautentisering",
+  "profile.disable_instruction": "Ange den 6-siffriga koden från din autentiseringsapp för att inaktivera tvåfaktorsautentisering."
 }

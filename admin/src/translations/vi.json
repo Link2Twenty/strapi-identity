@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Sử dụng ứng dụng xác thực",
+  "general.use_recovery_code": "Sử dụng mã khôi phục",
   "verify_page.title": "Xác minh danh tính của bạn",
   "verify_page.subtitle": "Nhập mã xác minh để tiếp tục.",
   "verify_page.error": "Mã không hợp lệ. Vui lòng thử lại.",
   "verify_page.submit": "Gửi mã",
-  "verify_page.use_verification_code": "Sử dụng mã xác minh",
-  "verify_page.use_recovery_code": "Sử dụng mã khôi phục"
+  "profile.title": "Xác thực hai yếu tố",
+  "profile.subtitle": "Thêm một lớp bảo mật bổ sung cho tài khoản của bạn.",
+  "profile.toggle_label": "Bật xác thực hai yếu tố",
+  "profile.setup": "Thiết lập xác thực hai yếu tố",
+  "profile.recovery_codes": "Vui lòng lưu các mã khôi phục sau ở nơi an toàn. Mỗi mã chỉ có thể được sử dụng một lần để truy cập vào tài khoản của bạn nếu bạn mất quyền truy cập vào ứng dụng xác thực của mình.",
+  "profile.recovery_codes_warning": "Nếu bạn mất cả ứng dụng xác thực và mã khôi phục, bạn sẽ cần liên hệ với quản trị viên để lấy lại quyền truy cập vào tài khoản của mình.",
+  "profile.scan_qr": "Bạn sẽ cần một ứng dụng xác thực để quét mã QR bên dưới.",
+  "profile.enter_otp": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn để xác nhận.",
+  "profile.disable_title": "Tắt xác thực hai yếu tố",
+  "profile.disable_instruction": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn để tắt xác thực hai yếu tố."
 }

@@ -1,9 +1,19 @@
 {
   "plugin.name": "Better Auth",
+  "general.use_verification_code": "Gebruik authenticator-app",
+  "general.use_recovery_code": "Gebruik herstelcode",
   "verify_page.title": "Verifieer uw identiteit",
   "verify_page.subtitle": "Voer uw verificatiecode in om door te gaan.",
   "verify_page.error": "Ongeldige code. Probeer het opnieuw.",
   "verify_page.submit": "Code verzenden",
-  "verify_page.use_verification_code": "Gebruik verificatiecode",
-  "verify_page.use_recovery_code": "Gebruik herstelcode"
+  "profile.title": "Tweefactorauthenticatie",
+  "profile.subtitle": "Voeg een extra beveiligingslaag toe aan uw account.",
+  "profile.toggle_label": "Tweefactorauthenticatie inschakelen",
+  "profile.setup": "Tweefactorauthenticatie instellen",
+  "profile.recovery_codes": "Bewaar de volgende herstelcodes op een veilige plaats. Elke code kan slechts één keer worden gebruikt om toegang te krijgen tot uw account als u de toegang tot uw authenticator-app verliest.",
+  "profile.recovery_codes_warning": "Als u zowel uw authenticator-app als uw herstelcodes kwijtraakt, moet u contact opnemen met een beheerder om opnieuw toegang te krijgen tot uw account.",
+  "profile.scan_qr": "U hebt een authenticator-app nodig om de onderstaande QR-code te scannen.",
+  "profile.enter_otp": "Voer de 6-cijferige code van uw authenticator-app in om te bevestigen.",
+  "profile.disable_title": "Tweefactorauthenticatie uitschakelen",
+  "profile.disable_instruction": "Voer de 6-cijferige code van uw authenticator-app in om tweefactorauthenticatie uit te schakelen."
 }
