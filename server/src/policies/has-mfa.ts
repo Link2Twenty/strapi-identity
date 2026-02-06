@@ -15,10 +15,7 @@ const policy: Plugin.LoadedPlugin['policies'][string] = (policyContext, _, { str
   if (!mfaCookie) return false;
 
   try {
-    const payload = jwt.verify(mfaCookie || '', secret) as { userId: string };
-
-    console.log(payload);
-    // do something with the payload to make sure the user is valid
+    jwt.verify(mfaCookie || '', secret);
 
     return true;
   } catch (e) {
