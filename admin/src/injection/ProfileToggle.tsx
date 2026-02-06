@@ -13,7 +13,7 @@ import { getTranslation } from '../utils/getTranslation';
 // Hooks
 import { useIntl } from 'react-intl';
 
-export const ProfileToggle = () => {
+const ProfileToggle = () => {
   const { formatMessage } = useIntl();
 
   const [enabled, setEnabled] = useState<'full' | 'temp' | null>(null);
@@ -254,3 +254,5 @@ export const ProfileToggle = () => {
     </>
   );
 };
+
+export default ProfileToggle;

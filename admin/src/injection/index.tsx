@@ -1,10 +1,9 @@
 import { createRoot } from 'react-dom/client';
-import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { Suspense, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 
 // Components
 import { IntlProvider } from 'react-intl';
 import { DesignSystemProvider } from '@strapi/design-system';
-import { ProfileToggle } from './ProfileToggle';
 
 // Helpers
 import defaultsDeep from 'lodash/defaultsDeep';
@@ -19,6 +18,7 @@ export interface InjectPublicRouter extends Omit<StrapiApp['router'], 'router'> 
 }
 
 let root: Root | null = null;
+let registered: boolean = false;
 
 /**
  * Clear the SSO button from the login page
@@ -34,7 +34,7 @@ const clearRoot = () => {
  * Inject extra components into the Me page
  * @param router the Strapi admin app
  */
-export const InjectMe = async (strapi: StrapiApp): Promise<void> => {
+export const InitialInjection = async (strapi: StrapiApp): Promise<void> => {
   const router = strapi.router as unknown as InjectPublicRouter;
 
   // Wait for the router to be ready
@@ -43,19 +43,22 @@ export const InjectMe = async (strapi: StrapiApp): Promise<void> => {
   }
 
   // Subscribe to router changes to re-attach the button when navigating to the login page
-  router.router.subscribe((state) => attach(state, strapi));
+  router.router.subscribe((state) => attachRoutes(state, strapi));
+  registered = true;
 
   // Initial attach
-  attach(router.router.state, strapi);
+  attachRoutes(router.router.state, strapi);
+};
+
+const attachRoutes = (state: RouterState, strapi: StrapiApp) => {
+  Promise.all(InjectionRoutes.map((options) => attach(state, strapi, options)));
 };
 
 /**
  * Wait for the login form to be available in the DOM
  * @returns {Promise<Element>} the injection site element
  */
-const getInjectionSite = async (): Promise<Element> => {
-  const selector =
-    '#main-content form[method="put"] > :nth-child(2) > div > div > div:nth-child(2)';
+const getInjectionSite = async (selector: string): Promise<Element> => {
   let injectionSite = document.querySelector(selector);
 
   // Wait until the login form is available
@@ -72,28 +75,41 @@ const getInjectionSite = async (): Promise<Element> => {
  * Attach the SSO button to the login page
  * @param {RouterState} state the router state
  */
-const attach = async (state: RouterState, strapi: StrapiApp): Promise<void> => {
+const attach = async (
+  state: RouterState,
+  strapi: StrapiApp,
+  options: {
+    id: string;
+    route: string;
+    selector: string;
+    Component: () => Promise<{ default: React.ComponentType }>;
+  }
+): Promise<void> => {
   // Clean up previous injection if any
-  const existingContainer = document.querySelector('#me-injection-point');
+  const existingContainer = document.querySelector(`#${options.id}`);
 
   if (!existingContainer) clearRoot();
 
-  if (state.location.pathname !== '/admin/me') return;
+  if (state.location.pathname !== options.route) return;
 
-  const injectionSite = await getInjectionSite();
+  const injectionSite = await getInjectionSite(options.selector);
 
   // Create the container if it does not exist
   if (!root) {
     const container = document.createElement('div');
-    container.id = 'me-injection-point';
+    container.id = options.id;
     injectionSite.after(container);
     root = createRoot(container);
   }
 
+  const Component = await options.Component();
+
   // Render the SSO button
   root.render(
     <Providers store={strapi.store!} configurations={strapi.configurations}>
-      <ProfileToggle />
+      <Suspense fallback={null}>
+        <Component.default />
+      </Suspense>
     </Providers>
   );
 };
@@ -150,4 +166,48 @@ const Providers = ({ children, store, configurations }: ProvidersProps) => {
       </IntlProvider>
     </DesignSystemProvider>
   );
+};
+
+type InjectionRoute = {
+  id: string;
+  route: string;
+  selector: string;
+  Component: () => Promise<{
+    default: React.ComponentType;
+  }>;
+};
+
+const InjectionRoutes: InjectionRoute[] = [];
+
+type InjectRouteOptions = {
+  id?: string;
+  route: string;
+  selector: string;
+  Component: () => Promise<{
+    default: React.ComponentType;
+  }>;
+};
+/**
+ * Register an injection route to inject components into specific routes and DOM nodes in the Strapi admin
+ * @param options the injection options, including:
+ * @param options.id an optional id for the injection route (used for cleanup), if not provided a random id will be generated
+ * @param options.route the route to inject into (e.g. '/me')
+ * @param options.selector the DOM selector to find the injection site (e.g. '#main-content form[method="put"] > :nth-child(2) > div > div > div:nth-child(2)')
+ * @param options.Component the React component to inject
+ */
+export const registerInjectionRoute = (
+  { id, route, selector, Component }: InjectRouteOptions,
+  app: StrapiApp
+) => {
+  if (id && InjectionRoutes.some((r) => r.id === id)) {
+    console.warn(`Injection route with id ${id} already exists. Skipping registration.`);
+    return;
+  }
+
+  // if there is no id, we generate a random dom safe id
+  const generatedId = id || `injection-${Math.random().toString(36).substring(2, 9)}`;
+
+  InjectionRoutes.push({ id: generatedId, route, selector, Component });
+
+  if (!registered) InitialInjection(app);
 };
