@@ -13,4 +13,4 @@ Strapi plugin to add missing features to the strapi auth system
 - [ ] Enforced mode, users must have MFA or can't login
 - [ ] Custom issuer
 - [ ] Reset from admin
-- [ ] Multi-language support
+- [x] Multi-language support
