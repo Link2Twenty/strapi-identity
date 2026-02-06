@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "אמת את זהותך",
+  "verify_page.subtitle": "הזן את קוד האימות כדי להמשיך.",
+  "verify_page.error": "קוד לא חוקי. אנא נסה שוב.",
+  "verify_page.submit": "שלח קוד",
+  "verify_page.use_verification_code": "השתמש בקוד אימות",
+  "verify_page.use_recovery_code": "השתמש בקוד שחזור"
+}

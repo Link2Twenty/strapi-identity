@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Igazolja személyazonosságát",
+  "verify_page.subtitle": "A folytatáshoz adja meg ellenőrző kódját.",
+  "verify_page.error": "Érvénytelen kód. Kérjük, próbálja újra.",
+  "verify_page.submit": "Kód elküldése",
+  "verify_page.use_verification_code": "Ellenőrző kód használata",
+  "verify_page.use_recovery_code": "Helyreállítási kód használata"
+}

@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "ยืนยันตัวตนของคุณ",
+  "verify_page.subtitle": "ป้อนรหัสยืนยันเพื่อดำเนินการต่อ",
+  "verify_page.error": "รหัสไม่ถูกต้อง โปรดลองอีกครั้ง",
+  "verify_page.submit": "ส่งรหัส",
+  "verify_page.use_verification_code": "ใช้รหัสยืนยัน",
+  "verify_page.use_recovery_code": "ใช้รหัสกู้คืน"
+}

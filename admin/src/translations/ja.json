@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "本人確認",
+  "verify_page.subtitle": "続行するには確認コードを入力してください。",
+  "verify_page.error": "コードが無効です。もう一度お試しください。",
+  "verify_page.submit": "コードを送信",
+  "verify_page.use_verification_code": "確認コードを使用",
+  "verify_page.use_recovery_code": "回復コードを使用"
+}

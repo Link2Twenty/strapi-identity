@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Verifiqueu la vostra identitat",
+  "verify_page.subtitle": "Introduïu el vostre codi de verificació per continuar.",
+  "verify_page.error": "Codi invàlid. Si us plau, torneu-ho a provar.",
+  "verify_page.submit": "Enviar codi",
+  "verify_page.use_verification_code": "Utilitza el codi de verificació",
+  "verify_page.use_recovery_code": "Utilitza el codi de recuperació"
+}

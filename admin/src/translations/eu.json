@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Egiaztatu zure identitatea",
+  "verify_page.subtitle": "Sartu zure egiaztapen kodea jarraitzeko.",
+  "verify_page.error": "Kode baliogabea. Mesedez, saiatu berriro.",
+  "verify_page.submit": "Bidali kodea",
+  "verify_page.use_verification_code": "Erabili egiaztapen kodea",
+  "verify_page.use_recovery_code": "Erabili berreskurapen kodea"
+}

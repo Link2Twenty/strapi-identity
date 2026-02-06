@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "તમારી ઓળખ ચકાસો",
+  "verify_page.subtitle": "ચાલુ રાખવા માટે તમારો ચકાસણી કોડ દાખલ કરો.",
+  "verify_page.error": "અમાન્ય કોડ. કૃપા કરીને ફરી પ્રયાસ કરો.",
+  "verify_page.submit": "કોડ સબમિટ કરો",
+  "verify_page.use_verification_code": "ચકાસણી કોડનો ઉપયોગ કરો",
+  "verify_page.use_recovery_code": "પુનઃપ્રાપ્તિ કોડનો ઉપયોગ કરો"
+}

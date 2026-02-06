@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Ověřte svou totožnost",
+  "verify_page.subtitle": "Pro pokračování zadejte ověřovací kód.",
+  "verify_page.error": "Neplatný kód. Zkuste to prosím znovu.",
+  "verify_page.submit": "Odeslat kód",
+  "verify_page.use_verification_code": "Použít ověřovací kód",
+  "verify_page.use_recovery_code": "Použít kód pro obnovení"
+}

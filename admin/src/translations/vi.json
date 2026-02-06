@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Xác minh danh tính của bạn",
+  "verify_page.subtitle": "Nhập mã xác minh để tiếp tục.",
+  "verify_page.error": "Mã không hợp lệ. Vui lòng thử lại.",
+  "verify_page.submit": "Gửi mã",
+  "verify_page.use_verification_code": "Sử dụng mã xác minh",
+  "verify_page.use_recovery_code": "Sử dụng mã khôi phục"
+}

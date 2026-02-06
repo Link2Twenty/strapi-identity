@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "验证您的身份",
+  "verify_page.subtitle": "请输入您的验证码以继续。",
+  "verify_page.error": "验证码无效。请重试。",
+  "verify_page.submit": "提交验证码",
+  "verify_page.use_verification_code": "使用验证码",
+  "verify_page.use_recovery_code": "使用恢复代码"
+}

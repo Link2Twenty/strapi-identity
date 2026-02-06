@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Kimliğinizi Doğrulayın",
+  "verify_page.subtitle": "Devam etmek için doğrulama kodunuzu girin.",
+  "verify_page.error": "Geçersiz kod. Lütfen tekrar deneyin.",
+  "verify_page.submit": "Kodu Gönder",
+  "verify_page.use_verification_code": "Doğrulama kodunu kullan",
+  "verify_page.use_recovery_code": "Kurtarma kodunu kullan"
+}

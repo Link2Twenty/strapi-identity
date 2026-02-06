@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Verifique su identidad",
+  "verify_page.subtitle": "Introduzca su código de verificación para continuar.",
+  "verify_page.error": "Código inválido. Por favor, inténtelo de nuevo.",
+  "verify_page.submit": "Enviar código",
+  "verify_page.use_verification_code": "Usar código de verificación",
+  "verify_page.use_recovery_code": "Usar código de recuperación"
+}

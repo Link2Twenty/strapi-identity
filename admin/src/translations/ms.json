@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Sahkan Identiti Anda",
+  "verify_page.subtitle": "Masukkan kod pengesahan anda untuk meneruskan.",
+  "verify_page.error": "Kod tidak sah. Sila cuba lagi.",
+  "verify_page.submit": "Hantar Kod",
+  "verify_page.use_verification_code": "Gunakan kod pengesahan",
+  "verify_page.use_recovery_code": "Gunakan kod pemulihan"
+}

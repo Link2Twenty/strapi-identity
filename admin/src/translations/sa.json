@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "स्वपरिचयः सत्यापयतु",
+  "verify_page.subtitle": "अनुवर्तयितुं सत्यापनसङ्केतं प्रविशतु।",
+  "verify_page.error": "अमान्यः सङ्केतः। कृपया पुनः प्रयासं करोतु।",
+  "verify_page.submit": "सङ्केतं प्रेषयतु",
+  "verify_page.use_verification_code": "सत्यापनसङ्केतस्य उपयोगं करोतु",
+  "verify_page.use_recovery_code": "पुनर्प्राप्तिसङ्केतस्य उपयोगं करोतु"
+}

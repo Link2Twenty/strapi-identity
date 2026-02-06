@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "നിങ്ങളുടെ തിരിച്ചറിയൽ ഉറപ്പാക്കുക",
+  "verify_page.subtitle": "തുടരുന്നതിനായി നിങ്ങളുടെ വെരിഫിക്കേഷൻ കോഡ് നൽകുക.",
+  "verify_page.error": "തെറ്റായ കോഡ്. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
+  "verify_page.submit": "കോഡ് സമർപ്പിക്കുക",
+  "verify_page.use_verification_code": "വെരിഫിക്കേഷൻ കോഡ് ഉപയോഗിക്കുക",
+  "verify_page.use_recovery_code": "റിക്കവറി കോഡ് ഉപയോഗിക്കുക"
+}

@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "अपनी पहचान सत्यापित करें",
+  "verify_page.subtitle": "जारी रखने के लिए अपना सत्यापन कोड दर्ज करें।",
+  "verify_page.error": "अमान्य कोड। कृपया पुन: प्रयास करें।",
+  "verify_page.submit": "कोड जमा करें",
+  "verify_page.use_verification_code": "सत्यापन कोड का उपयोग करें",
+  "verify_page.use_recovery_code": "पुनर्प्राप्ति कोड का उपयोग करें"
+}

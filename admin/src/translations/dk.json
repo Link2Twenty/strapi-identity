@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Bekræft din identitet",
+  "verify_page.subtitle": "Indtast din bekræftelseskode for at fortsætte.",
+  "verify_page.error": "Ugyldig kode. Prøv venligst igen.",
+  "verify_page.submit": "Indsend kode",
+  "verify_page.use_verification_code": "Brug bekræftelseskode",
+  "verify_page.use_recovery_code": "Brug gendannelseskode"
+}

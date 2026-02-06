@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Verifiera din identitet",
+  "verify_page.subtitle": "Ange din verifieringskod för att fortsätta.",
+  "verify_page.error": "Ogiltig kod. Försök igen.",
+  "verify_page.submit": "Skicka kod",
+  "verify_page.use_verification_code": "Använd verifieringskod",
+  "verify_page.use_recovery_code": "Använd återställningskod"
+}

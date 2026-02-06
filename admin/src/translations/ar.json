@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "تحقق من هويتك",
+  "verify_page.subtitle": "أدخل رمز التحقق للمتابعة.",
+  "verify_page.error": "الرمز غير صالح. يرجى المحاولة مرة أخرى.",
+  "verify_page.submit": "إرسال الرمز",
+  "verify_page.use_verification_code": "استخدام رمز التحقق",
+  "verify_page.use_recovery_code": "استخدام رمز الاسترداد"
+}

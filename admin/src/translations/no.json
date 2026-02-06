@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Bekreft identiteten din",
+  "verify_page.subtitle": "Skriv inn bekreftelseskoden for å fortsette.",
+  "verify_page.error": "Ugyldig kode. Prøv igjen.",
+  "verify_page.submit": "Send inn kode",
+  "verify_page.use_verification_code": "Bruk bekreftelseskode",
+  "verify_page.use_recovery_code": "Bruk gjenopprettingskode"
+}

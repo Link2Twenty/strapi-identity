@@ -1,0 +1,9 @@
+{
+  "plugin.name": "Better Auth",
+  "verify_page.title": "Verifieer uw identiteit",
+  "verify_page.subtitle": "Voer uw verificatiecode in om door te gaan.",
+  "verify_page.error": "Ongeldige code. Probeer het opnieuw.",
+  "verify_page.submit": "Code verzenden",
+  "verify_page.use_verification_code": "Gebruik verificatiecode",
+  "verify_page.use_recovery_code": "Gebruik herstelcode"
+}
