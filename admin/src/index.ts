@@ -2,7 +2,7 @@ import { getTranslation } from './utils/getTranslation';
 import { PLUGIN_ID } from './pluginId';
 import { Initializer } from './components/Initializer';
 import { InjectVerify } from './public/VerifyPage';
-import { InjectMe } from './injection/Me';
+import { InjectMe } from './injection';
 
 // Types
 import type { StrapiApp } from '@strapi/strapi/admin';
