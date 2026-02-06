@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 
 // Components
 import { IntlProvider } from 'react-intl';
@@ -92,7 +92,7 @@ const attach = async (state: RouterState, strapi: StrapiApp): Promise<void> => {
 
   // Render the SSO button
   root.render(
-    <Providers store={strapi.store} configurations={strapi.configurations}>
+    <Providers store={strapi.store!} configurations={strapi.configurations}>
       <ProfileToggle />
     </Providers>
   );
@@ -100,7 +100,7 @@ const attach = async (state: RouterState, strapi: StrapiApp): Promise<void> => {
 
 type ProvidersProps = {
   children: React.ReactNode;
-  store: StrapiApp['store'];
+  store: NonNullable<StrapiApp['store']>;
   configurations: StrapiApp['configurations'];
 };
 
@@ -108,24 +108,40 @@ type ProvidersProps = {
  * Providers component to wrap the injected components with necessary context providers (e.g. DesignSystemProvider, IntlProvider)
  */
 const Providers = ({ children, store, configurations }: ProvidersProps) => {
-  const state = store?.getState();
-  const themeName = state?.admin_app.theme.currentTheme || 'light';
-  const locale = state?.admin_app.language.locale || 'en';
+  const state = useSyncExternalStore(store.subscribe, store.getState);
+
+  const themeName = state.admin_app.theme.currentTheme || 'light';
+  const locale = state.admin_app.language.locale || 'en';
   const translations: Record<string, Record<string, string>> = configurations.translations || {};
 
-  const appMessages = defaultsDeep(translations[locale], translations.en);
+  const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(
+    matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  );
+
+  // Listen to system theme changes
+  useEffect(() => {
+    const ac = new AbortController();
+    const mediaQuery = matchMedia('(prefers-color-scheme: dark)');
+
+    mediaQuery.addEventListener(
+      'change',
+      (e: MediaQueryListEvent) => {
+        setSystemTheme(e.matches ? 'dark' : 'light');
+      },
+      { signal: ac.signal }
+    );
+
+    return () => ac.abort();
+  }, []);
+
+  const appMessages = useMemo(
+    () => defaultsDeep(translations[locale], translations.en),
+    [locale, translations]
+  );
 
   const themeObject = useMemo(() => {
-    // Handle the 'system' logic manually
-    const finalThemeName =
-      themeName === 'system'
-        ? matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light'
-        : themeName;
-
-    return configurations.themes[finalThemeName as 'light' | 'dark'];
-  }, [themeName, configurations.themes]);
+    return configurations.themes[themeName === 'system' ? systemTheme : themeName];
+  }, [themeName, systemTheme, configurations.themes]);
 
   return (
     <DesignSystemProvider theme={themeObject} locale={locale}>
