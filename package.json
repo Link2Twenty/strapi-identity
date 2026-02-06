@@ -37,7 +37,7 @@
     "otpauth": "^9.5.0",
     "react-intl": "^8.1.3",
     "react-qr-code": "^2.0.18",
-    "strapi-admin-portal": "^0.0.2"
+    "strapi-admin-portal": "^0.0.3"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.4.0",
