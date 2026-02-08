@@ -15,5 +15,8 @@
   "profile.scan_qr": "You will need an authenticator app to scan the QR code below.",
   "profile.enter_otp": "Enter the 6-digit code from your authenticator app to confirm.",
   "profile.disable_title": "Disable Two-Factor Authentication",
-  "profile.disable_instruction": "Enter the 6-digit code from your authenticator app to disable Two-Factor Authentication."
+  "profile.disable_instruction": "Enter the 6-digit code from your authenticator app to disable Two-Factor Authentication.",
+  "settings.title": "Better Auth Settings",
+  "settings.description": "Settings for Better Auth plugin, allowing you to configure authentication options and security settings.",
+  "settings.enforced_mfa": "Enforced MFA"
 }

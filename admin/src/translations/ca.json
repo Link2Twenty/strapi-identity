@@ -15,5 +15,8 @@
   "profile.scan_qr": "Necessitareu una aplicació d'autenticació per escanejar el codi QR següent.",
   "profile.enter_otp": "Introduïu el codi de 6 dígits de la vostra aplicació d'autenticació per confirmar.",
   "profile.disable_title": "Deshabilita l'autenticació de dos factors",
-  "profile.disable_instruction": "Introduïu el codi de 6 dígits de la vostra aplicació d'autenticació per deshabilitar l'autenticació de dos factors."
+  "profile.disable_instruction": "Introduïu el codi de 6 dígits de la vostra aplicació d'autenticació per deshabilitar l'autenticació de dos factors.",
+  "settings.title": "Configuració de Better Auth",
+  "settings.description": "Configuració del connector Better Auth, que us permet configurar opcions d'autenticació i paràmetres de seguretat.",
+  "settings.enforced_mfa": "MFA forçat"
 }

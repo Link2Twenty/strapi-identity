@@ -22,11 +22,11 @@ export default function SettingsPage() {
       <Page.Main>
         <Layouts.Header
           title={formatMessage({
-            id: getTranslation('Settings.Name'),
+            id: getTranslation('settings.name'),
             defaultMessage: 'Better Auth',
           })}
           subtitle={formatMessage({
-            id: getTranslation('Settings.Description'),
+            id: getTranslation('settings.description'),
             defaultMessage:
               'Settings for Better Auth plugin, allowing you to configure authentication options and security settings.',
           })}
@@ -60,7 +60,7 @@ export default function SettingsPage() {
                 <Grid.Item col={6} xs={12} direction="column" alignItems="start">
                   <Typography variant="sigma" textColor="neutral600" tag="dt">
                     {formatMessage({
-                      id: getTranslation('Settings.EnforcedMFA'),
+                      id: getTranslation('settings.enforced_mfa'),
                       defaultMessage: 'Enforced MFA',
                     })}
                   </Typography>

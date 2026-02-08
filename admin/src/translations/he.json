@@ -15,5 +15,8 @@
   "profile.scan_qr": "תזדקק לאפליקציית אימות כדי לסרוק את קוד ה-QR למטה.",
   "profile.enter_otp": "הזן את הקוד בן 6 הספרות מאפליקציית האימות שלך כדי לאשר.",
   "profile.disable_title": "השבת אימות דו-שלבי",
-  "profile.disable_instruction": "הזן את הקוד בן 6 הספרות מאפליקציית האימות שלך כדי להשבית את האימות הדו-שלבי."
+  "profile.disable_instruction": "הזן את הקוד בן 6 הספרות מאפליקציית האימות שלך כדי להשבית את האימות הדו-שלבי.",
+  "settings.title": "הגדרות Better Auth",
+  "settings.description": "הגדרות עבור תוסף Better Auth, המאפשרות להגדיר אפשרויות אימות והגדרות אבטחה.",
+  "settings.enforced_mfa": "MFA שנכפה"
 }

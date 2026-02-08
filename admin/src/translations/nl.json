@@ -15,5 +15,8 @@
   "profile.scan_qr": "U hebt een authenticator-app nodig om de onderstaande QR-code te scannen.",
   "profile.enter_otp": "Voer de 6-cijferige code van uw authenticator-app in om te bevestigen.",
   "profile.disable_title": "Tweefactorauthenticatie uitschakelen",
-  "profile.disable_instruction": "Voer de 6-cijferige code van uw authenticator-app in om tweefactorauthenticatie uit te schakelen."
+  "profile.disable_instruction": "Voer de 6-cijferige code van uw authenticator-app in om tweefactorauthenticatie uit te schakelen.",
+  "settings.title": "Better Auth Instellingen",
+  "settings.description": "Instellingen voor de Better Auth-plug-in, waarmee u authenticatieopties en beveiligingsinstellingen kunt configureren.",
+  "settings.enforced_mfa": "Gedwongen MFA"
 }

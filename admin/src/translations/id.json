@@ -15,5 +15,8 @@
   "profile.scan_qr": "Anda memerlukan aplikasi autentikator untuk memindai kode QR di bawah ini.",
   "profile.enter_otp": "Masukkan kode 6 digit dari aplikasi autentikator Anda untuk mengonfirmasi.",
   "profile.disable_title": "Nonaktifkan Autentikasi Dua Faktor",
-  "profile.disable_instruction": "Masukkan kode 6 digit dari aplikasi autentikator Anda untuk menonaktifkan Autentikasi Dua Faktor."
+  "profile.disable_instruction": "Masukkan kode 6 digit dari aplikasi autentikator Anda untuk menonaktifkan Autentikasi Dua Faktor.",
+  "settings.title": "Pengaturan Better Auth",
+  "settings.description": "Pengaturan untuk plugin Better Auth, memungkinkan Anda mengonfigurasi opsi autentikasi dan pengaturan keamanan.",
+  "settings.enforced_mfa": "MFA Ditegakkan"
 }

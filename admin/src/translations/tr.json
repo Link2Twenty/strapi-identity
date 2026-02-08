@@ -15,5 +15,8 @@
   "profile.scan_qr": "Aşağıdaki QR kodunu taramak için bir kimlik doğrulayıcı uygulamasına ihtiyacınız olacak.",
   "profile.enter_otp": "Onaylamak için kimlik doğrulayıcı uygulamanızdan 6 haneli kodu girin.",
   "profile.disable_title": "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
-  "profile.disable_instruction": "İki Faktörlü Kimlik Doğrulamayı devre dışı bırakmak için kimlik doğrulayıcı uygulamanızdan 6 haneli kodu girin."
+  "profile.disable_instruction": "İki Faktörlü Kimlik Doğrulamayı devre dışı bırakmak için kimlik doğrulayıcı uygulamanızdan 6 haneli kodu girin.",
+  "settings.title": "Better Auth Ayarları",
+  "settings.description": "Kimlik doğrulama seçeneklerini ve güvenlik ayarlarını yapılandırmanıza olanak tanıyan Better Auth eklantisi için ayarlar.",
+  "settings.enforced_mfa": "Zorunlu MFA"
 }

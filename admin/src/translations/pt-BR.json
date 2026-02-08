@@ -15,5 +15,8 @@
   "profile.scan_qr": "Você precisará de um aplicativo autenticador para escanear o código QR abaixo.",
   "profile.enter_otp": "Digite o código de 6 dígitos do seu aplicativo autenticador para confirmar.",
   "profile.disable_title": "Desativar Autenticação de Dois Fatores",
-  "profile.disable_instruction": "Digite o código de 6 dígitos do seu aplicativo autenticador para desativar a Autenticação de Dois Fatores."
+  "profile.disable_instruction": "Digite o código de 6 dígitos do seu aplicativo autenticador para desativar a Autenticação de Dois Fatores.",
+  "settings.title": "Configurações do Better Auth",
+  "settings.description": "Configurações para o plugin Better Auth, permitindo configurar opções de autenticação e configurações de segurança.",
+  "settings.enforced_mfa": "MFA Forçado"
 }

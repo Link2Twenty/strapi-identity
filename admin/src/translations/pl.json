@@ -15,5 +15,8 @@
   "profile.scan_qr": "Będziesz potrzebować aplikacji uwierzytelniającej, aby zeskanować poniższy kod QR.",
   "profile.enter_otp": "Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej, aby potwierdzić.",
   "profile.disable_title": "Wyłącz uwierzytelnianie dwuskładnikowe",
-  "profile.disable_instruction": "Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej, aby wyłączyć uwierzytelnianie dwuskładnikowe."
+  "profile.disable_instruction": "Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej, aby wyłączyć uwierzytelnianie dwuskładnikowe.",
+  "settings.title": "Ustawienia Better Auth",
+  "settings.description": "Ustawienia wtyczki Better Auth, umożliwiające konfigurację opcji uwierzytelniania i ustawień bezpieczeństwa.",
+  "settings.enforced_mfa": "Wymuszone MFA"
 }

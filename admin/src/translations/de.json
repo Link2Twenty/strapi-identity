@@ -5,5 +5,8 @@
   "verify_page.error": "Ungültiger Code. Bitte versuchen Sie es erneut.",
   "verify_page.submit": "Code senden",
   "verify_page.use_verification_code": "Verwenden Sie den Bestätigungscode",
-  "verify_page.use_recovery_code": "Verwenden Sie den Wiederherstellungscode"
+  "verify_page.use_recovery_code": "Verwenden Sie den Wiederherstellungscode",
+  "settings.title": "Better Auth Einstellungen",
+  "settings.description": "Einstellungen für das Better Auth-Plugin, mit denen Sie Authentifizierungsoptionen und Sicherheitseinstellungen konfigurieren können.",
+  "settings.enforced_mfa": "Erzwungene MFA"
 }

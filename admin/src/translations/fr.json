@@ -5,5 +5,8 @@
   "verify_page.error": "Code invalide. Veuillez réessayer.",
   "verify_page.submit": "Soumettre le code",
   "verify_page.use_verification_code": "Utiliser le code de vérification",
-  "verify_page.use_recovery_code": "Utiliser le code de récupération"
+  "verify_page.use_recovery_code": "Utiliser le code de récupération",
+  "settings.title": "Paramètres Better Auth",
+  "settings.description": "Paramètres du plugin Better Auth, vous permettant de configurer les options d'authentification et les paramètres de sécurité.",
+  "settings.enforced_mfa": "MFA forcé"
 }

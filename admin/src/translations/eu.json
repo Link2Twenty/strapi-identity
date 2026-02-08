@@ -15,5 +15,8 @@
   "profile.scan_qr": "Autentifikazio-aplikazio bat beharko duzu beheko QR kodea eskaneatzeko.",
   "profile.enter_otp": "Sartu 6 digituko kodea zure autentifikazio-aplikaziotik berresteko.",
   "profile.disable_title": "Desgaitu bi faktoreko autentifikazioa",
-  "profile.disable_instruction": "Sartu 6 digituko kodea zure autentifikazio-aplikaziotik bi faktoreko autentifikazioa desgaitzeko."
+  "profile.disable_instruction": "Sartu 6 digituko kodea zure autentifikazio-aplikaziotik bi faktoreko autentifikazioa desgaitzeko.",
+  "settings.title": "Better Auth Ezarpenak",
+  "settings.description": "Better Auth pluginaren ezarpenak, autentifikazio aukerak eta segurtasun ezarpenak konfiguratzeko aukera ematen dizuna.",
+  "settings.enforced_mfa": "Behartutako MFA"
 }

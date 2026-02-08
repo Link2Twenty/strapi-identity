@@ -15,5 +15,8 @@
   "profile.scan_qr": "您需要一个验证器应用来扫描下方的二维码。",
   "profile.enter_otp": "输入验证器应用中的6位代码以确认。",
   "profile.disable_title": "禁用双因素认证",
-  "profile.disable_instruction": "请输入验证器应用中的6位代码以禁用双因素认证。"
+  "profile.disable_instruction": "请输入验证器应用中的6位代码以禁用双因素认证。",
+  "settings.title": "Better Auth 设置",
+  "settings.description": "Better Auth 插件设置，允许您配置身份验证选项和安全设置。",
+  "settings.enforced_mfa": "强制 MFA"
 }

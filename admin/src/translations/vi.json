@@ -15,5 +15,8 @@
   "profile.scan_qr": "Bạn sẽ cần một ứng dụng xác thực để quét mã QR bên dưới.",
   "profile.enter_otp": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn để xác nhận.",
   "profile.disable_title": "Tắt xác thực hai yếu tố",
-  "profile.disable_instruction": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn để tắt xác thực hai yếu tố."
+  "profile.disable_instruction": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn để tắt xác thực hai yếu tố.",
+  "settings.title": "Cài đặt Better Auth",
+  "settings.description": "Cài đặt cho plugin Better Auth, cho phép bạn định cấu hình các tùy chọn xác thực và cài đặt bảo mật.",
+  "settings.enforced_mfa": "MFA bắt buộc"
 }

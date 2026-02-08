@@ -15,5 +15,8 @@
   "profile.scan_qr": "下のQRコードをスキャンするには認証アプリが必要です。",
   "profile.enter_otp": "確認するには、認証アプリから6桁のコードを入力してください。",
   "profile.disable_title": "二要素認証を無効にする",
-  "profile.disable_instruction": "二要素認証を無効にするには、認証アプリから6桁のコードを入力してください。"
+  "profile.disable_instruction": "二要素認証を無効にするには、認証アプリから6桁のコードを入力してください。",
+  "settings.title": "Better Auth設定",
+  "settings.description": "Better Authプラグインの設定。認証オプションとセキュリティ設定を構成できます。",
+  "settings.enforced_mfa": "強制MFA"
 }

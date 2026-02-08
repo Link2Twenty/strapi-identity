@@ -15,5 +15,8 @@
   "profile.scan_qr": "您需要一個驗證器應用來掃描下方的二維碼。",
   "profile.enter_otp": "輸入驗證器應用中的6位代碼以確認。",
   "profile.disable_title": "禁用雙因素認證",
-  "profile.disable_instruction": "請輸入驗證器應用中的6位代碼以禁用雙因素認證。"
+  "profile.disable_instruction": "請輸入驗證器應用中的6位代碼以禁用雙因素認證。",
+  "settings.title": "Better Auth 設定",
+  "settings.description": "Better Auth 外掛程式設定，允許您配置驗證選項和安全設定。",
+  "settings.enforced_mfa": "強制 MFA"
 }

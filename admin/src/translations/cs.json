@@ -15,5 +15,8 @@
   "profile.scan_qr": "K naskenování QR kódu níže budete potřebovat ověřovací aplikaci.",
   "profile.enter_otp": "Pro potvrzení zadejte 6místný kód z vaší ověřovací aplikace.",
   "profile.disable_title": "Zakázat dvoufaktorové ověřování",
-  "profile.disable_instruction": "Zadejte 6místný kód z vaší ověřovací aplikace pro zakázání dvoufaktorového ověřování."
+  "profile.disable_instruction": "Zadejte 6místný kód z vaší ověřovací aplikace pro zakázání dvoufaktorového ověřování.",
+  "settings.title": "Nastavení Better Auth",
+  "settings.description": "Nastavení pluginu Better Auth umožňující konfigurovat možnosti ověřování a nastavení zabezpečení.",
+  "settings.enforced_mfa": "Vynucené MFA"
 }

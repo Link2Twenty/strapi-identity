@@ -15,5 +15,8 @@
   "profile.scan_qr": "Du behöver en autentiseringsapp för att skanna QR-koden nedan.",
   "profile.enter_otp": "Ange den 6-siffriga koden från din autentiseringsapp för att bekräfta.",
   "profile.disable_title": "Inaktivera tvåfaktorsautentisering",
-  "profile.disable_instruction": "Ange den 6-siffriga koden från din autentiseringsapp för att inaktivera tvåfaktorsautentisering."
+  "profile.disable_instruction": "Ange den 6-siffriga koden från din autentiseringsapp för att inaktivera tvåfaktorsautentisering.",
+  "settings.title": "Better Auth Inställningar",
+  "settings.description": "Inställningar för plugin-programmet Better Auth, så att du kan konfigurera autentiseringsalternativ och säkerhetsinställningar.",
+  "settings.enforced_mfa": "Tvingad MFA"
 }

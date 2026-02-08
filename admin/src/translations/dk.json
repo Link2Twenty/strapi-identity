@@ -15,5 +15,8 @@
   "profile.scan_qr": "Du skal bruge en autentificeringsapp til at scanne QR-koden nedenfor.",
   "profile.enter_otp": "Indtast den 6-cifrede kode fra din autentificeringsapp for at bekræfte.",
   "profile.disable_title": "Deaktiver tofaktorautentificering",
-  "profile.disable_instruction": "Indtast den 6-cifrede kode fra din godkendelsesapp for at deaktivere tofaktorautentificering."
+  "profile.disable_instruction": "Indtast den 6-cifrede kode fra din godkendelsesapp for at deaktivere tofaktorautentificering.",
+  "settings.title": "Better Auth Indstillinger",
+  "settings.description": "Indstillinger for Better Auth-pluginet, der giver dig mulighed for at konfigurere godkendelsesmuligheder og sikkerhedsindstillinger.",
+  "settings.enforced_mfa": "Tvungen MFA"
 }

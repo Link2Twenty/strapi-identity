@@ -15,5 +15,8 @@
   "profile.scan_qr": "아래 QR 코드를 스캔하려면 인증 앱이 필요합니다.",
   "profile.enter_otp": "확인하려면 인증 앱에서 6자리 코드를 입력하세요.",
   "profile.disable_title": "2단계 인증 비활성화",
-  "profile.disable_instruction": "2단계 인증을 비활성화하려면 인증 앱에서 6자리 코드를 입력하세요."
+  "profile.disable_instruction": "2단계 인증을 비활성화하려면 인증 앱에서 6자리 코드를 입력하세요.",
+  "settings.title": "Better Auth 설정",
+  "settings.description": "인증 옵션 및 보안 설정을 구성할 수 있는 Better Auth 플러그인 설정입니다.",
+  "settings.enforced_mfa": "강제 MFA"
 }

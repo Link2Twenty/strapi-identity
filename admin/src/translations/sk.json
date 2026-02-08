@@ -15,5 +15,8 @@
   "profile.scan_qr": "Na naskenovanie QR kódu nižšie budete potrebovať overovaciu aplikáciu.",
   "profile.enter_otp": "Na potvrdenie zadajte 6-miestny kód z vašej overovacej aplikácie.",
   "profile.disable_title": "Zakázať dvojfaktorové overovanie",
-  "profile.disable_instruction": "Zadajte 6-miestny kód z vašej overovacej aplikácie pre zakázanie dvojfaktorového overovania."
+  "profile.disable_instruction": "Zadajte 6-miestny kód z vašej overovacej aplikácie pre zakázanie dvojfaktorového overovania.",
+  "settings.title": "Nastavenia Better Auth",
+  "settings.description": "Nastavenia doplnku Better Auth, ktoré umožňujú konfigurovať možnosti overovania a nastavenia zabezpečenia.",
+  "settings.enforced_mfa": "Vynútené MFA"
 }

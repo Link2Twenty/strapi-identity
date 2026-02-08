@@ -15,5 +15,8 @@
   "profile.scan_qr": "Anda memerlukan aplikasi pengesah untuk mengimbas kod QR di bawah.",
   "profile.enter_otp": "Masukkan kod 6 digit daripada aplikasi pengesah anda untuk mengesahkan.",
   "profile.disable_title": "Lumpuhkan Pengesahan Dua Faktor",
-  "profile.disable_instruction": "Masukkan kod 6 digit daripada aplikasi pengesah anda untuk melumpuhkan Pengesahan Dua Faktor."
+  "profile.disable_instruction": "Masukkan kod 6 digit daripada aplikasi pengesah anda untuk melumpuhkan Pengesahan Dua Faktor.",
+  "settings.title": "Tetapan Better Auth",
+  "settings.description": "Tetapan untuk pemalam Better Auth, membolehkan anda mengkonfigurasi pilihan pengesahan dan tetapan keselamatan.",
+  "settings.enforced_mfa": "MFA Dipaksa"
 }
