@@ -62,7 +62,7 @@ const replaceLogin = (route: Core.Route, secret: string, cookieOptions: Record<s
 
     // check if userId has MFA enabled
     const exists = await strapi.documents('plugin::better-auth.mfa-token').findFirst({
-      filters: { admin_user: payload.userId, enabled: true },
+      filters: { admin_user: { id: payload.userId }, enabled: true },
     });
 
     if (!exists) return;

@@ -101,6 +101,11 @@ const controller = ({
 }: {
   strapi: Core.Strapi;
 }): Plugin.LoadedPlugin['controllers'][string] => ({
+  async getConfig(ctx) {
+    try {
+      const config = await strapi.service('plugin::better-auth.config').getConfig();
+    } catch (error) {}
+  },
   async verify(ctx) {
     const sessionManager = strapi.sessionManager;
     const secret = strapi.config.get<string>('admin.auth.secret');

@@ -39,9 +39,10 @@ const validateToken = (token: string, secret: string): boolean => {
  */
 const checkRecoveryCode = async (userId: string, code: string): Promise<boolean> => {
   const tokenDocument = strapi.documents('plugin::better-auth.mfa-token');
-  const record = await tokenDocument.findFirst({ filters: { admin_user: userId } });
+  const record = await tokenDocument.findFirst({ filters: { admin_user: { id: userId } } });
 
-  if (!record || !record.recovery_codes || record.recovery_codes.length === 0) return false;
+  if (!record || !Array.isArray(record.recovery_codes) || record.recovery_codes.length === 0)
+    return false;
 
   const comparisonResults = await Promise.all(
     record.recovery_codes.map((hash: string) => validateRecoveryCode(code, hash))
@@ -58,7 +59,7 @@ const checkRecoveryCode = async (userId: string, code: string): Promise<boolean>
       recovery_codes: record.recovery_codes.filter(
         (_: string, index: number) => index !== matchedIndex
       ),
-    } as any,
+    },
   });
 
   return true;
@@ -73,7 +74,7 @@ const checkRecoveryCode = async (userId: string, code: string): Promise<boolean>
 const validateLiveToken = async (userId: string, token: string): Promise<boolean> => {
   const tokenDocument = strapi.documents('plugin::better-auth.mfa-token');
 
-  const record = await tokenDocument.findFirst({ filters: { admin_user: userId } });
+  const record = await tokenDocument.findFirst({ filters: { admin_user: { id: userId } } });
 
   if (!record || !record.enabled) return false;
 
@@ -89,7 +90,7 @@ const validateLiveToken = async (userId: string, token: string): Promise<boolean
 export const validateTempToken = async (userId: string, token: string): Promise<boolean> => {
   const tempDocument = strapi.documents('plugin::better-auth.mfa-temp');
 
-  const record = await tempDocument.findFirst({ filters: { admin_user: userId } });
+  const record = await tempDocument.findFirst({ filters: { admin_user: { id: userId } } });
 
   if (!record) return false;
 
@@ -123,21 +124,21 @@ export const setupTemporarySecret = async (userId: string): Promise<Secret> => {
   const secret = new Secret({ size: 20 });
 
   const existingToken = await tokenDocument.findFirst({
-    filters: { admin_user: userId, enabled: true },
+    filters: { admin_user: { id: userId }, enabled: true },
   });
 
   if (existingToken) throw new Error('MFA is already enabled for this user');
 
-  const existing = await tempDocument.findFirst({ filters: { admin_user: userId } });
+  const existing = await tempDocument.findFirst({ filters: { admin_user: { id: userId } } });
 
   if (existing) {
     await tempDocument.update({
       documentId: existing.documentId,
-      data: { secret: secret.base32 } as any,
+      data: { secret: secret.base32 },
     });
   } else {
     await tempDocument.create({
-      data: { admin_user: userId, secret: secret.base32 } as any,
+      data: { admin_user: { id: userId }, secret: secret.base32 },
     });
   }
 
@@ -153,11 +154,11 @@ export const setupFullSecret = async (userId: string): Promise<string[]> => {
   const tokenDocument = strapi.documents('plugin::better-auth.mfa-token');
   const tempDocument = strapi.documents('plugin::better-auth.mfa-temp');
 
-  const tempField = await tempDocument.findFirst({ filters: { admin_user: userId } });
+  const tempField = await tempDocument.findFirst({ filters: { admin_user: { id: userId } } });
 
   if (!tempField) throw new Error('No MFA setup in progress');
 
-  const existing = await tokenDocument.findFirst({ filters: { admin_user: userId } });
+  const existing = await tokenDocument.findFirst({ filters: { admin_user: { id: userId } } });
 
   // generate 8 recovery codes
   const codes = Array.from({ length: 8 }).map(() => generateRecoveryCode(8));
@@ -168,16 +169,16 @@ export const setupFullSecret = async (userId: string): Promise<string[]> => {
   if (existing) {
     await tokenDocument.update({
       documentId: existing.documentId,
-      data: { secret: tempField.secret, enabled: true, recovery_codes } as any,
+      data: { secret: tempField.secret, enabled: true, recovery_codes },
     });
   } else {
     await tokenDocument.create({
       data: {
-        admin_user: userId,
+        admin_user: { id: userId },
         secret: tempField.secret,
         enabled: true,
         recovery_codes,
-      } as any,
+      },
     });
   }
 
@@ -198,13 +199,15 @@ export const disableSecret = async (userId: string, code: string): Promise<void>
 
   const tokenDocument = strapi.documents('plugin::better-auth.mfa-token');
 
-  const record = await tokenDocument.findFirst({ filters: { admin_user: userId } });
+  const record = await tokenDocument.findFirst({
+    filters: { admin_user: { id: userId }, enabled: true },
+  });
 
   if (!record) throw new Error('MFA is not enabled for this user');
 
   await tokenDocument.update({
     documentId: record.documentId,
-    data: { enabled: false } as any,
+    data: { enabled: false },
   });
 };
 
@@ -215,7 +218,7 @@ export const disableSecret = async (userId: string, code: string): Promise<void>
 export const disableTempSecret = async (userId: string): Promise<void> => {
   const tempDocument = strapi.documents('plugin::better-auth.mfa-temp');
 
-  const record = await tempDocument.findFirst({ filters: { admin_user: userId } });
+  const record = await tempDocument.findFirst({ filters: { admin_user: { id: userId } } });
 
   if (!record) throw new Error('No MFA setup in progress');
 
@@ -230,7 +233,9 @@ export const disableTempSecret = async (userId: string): Promise<void> => {
 export const isMFAEnabled = async (userId: string): Promise<'full' | null> => {
   const tokenDocument = strapi.documents('plugin::better-auth.mfa-token');
 
-  const record = await tokenDocument.findFirst({ filters: { admin_user: userId, enabled: true } });
+  const record = await tokenDocument.findFirst({
+    filters: { admin_user: { id: userId }, enabled: true },
+  });
 
   if (record) return 'full';
 
