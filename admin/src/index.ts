@@ -11,6 +11,7 @@ import type { Store } from '@strapi/admin/strapi-admin';
 
 const plugin: StrapiApp['appPlugins'][string] = {
   register(app) {
+    // Register the plugin in the Strapi admin
     app.registerPlugin({
       id: PLUGIN_ID,
       initializer: Initializer,
@@ -18,6 +19,7 @@ const plugin: StrapiApp['appPlugins'][string] = {
       name: PLUGIN_ID,
     });
 
+    // Register settings link
     app.addSettingsLink('global', {
       intlLabel: {
         id: getTranslation('plugin.name'),
@@ -26,11 +28,16 @@ const plugin: StrapiApp['appPlugins'][string] = {
       id: 'better-auth-settings',
       to: `/settings/${PLUGIN_ID}`,
       Component: async () => import('./settings/SettingsPage'),
-      permissions: [],
+      permissions: [
+        { action: 'plugin::better-auth.settings.read' },
+        { action: 'plugin::better-auth.settings.read' },
+      ],
     });
 
+    // Register middlewares
     app.addMiddlewares([mfaRedirect]);
 
+    // Register injections
     const injections = initialiseInjections(app);
 
     injections.registerRoute({

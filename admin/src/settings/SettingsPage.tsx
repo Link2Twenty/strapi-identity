@@ -23,7 +23,7 @@ export default function SettingsPage() {
   // Get the initial settings from the server when the component mounts
   useEffect(() => {}, []);
 
-  if (isLoading) {
+  if (isLoading && false) {
     return <Page.Loading />;
   }
 
@@ -76,7 +76,7 @@ export default function SettingsPage() {
                           'Enable or disable Two-Factor Authentication for all users.',
                       })}
                     >
-                      <Field.Label>
+                      <Field.Label action={'Geeky'}>
                         {formatMessage({
                           id: 'global.enabled',
                           defaultMessage: 'Enabled',

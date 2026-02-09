@@ -1,9 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { TOTP } from 'otpauth';
 
+// Types
 import type { Core } from '@strapi/strapi';
 import type { Plugin } from '@strapi/types';
 import type { Secret } from 'otpauth';
+
+type controller = Plugin.LoadedPlugin['controllers'][string];
 
 /**
  * Builds the cookie options for the refresh token, taking into account the plugin configuration and whether the request is secure
@@ -96,16 +99,7 @@ const buildCookieOptionsWithExpiry = (
   return { ...base, expires: chosen, maxAge: Math.max(0, chosen.getTime() - now) };
 };
 
-const controller = ({
-  strapi,
-}: {
-  strapi: Core.Strapi;
-}): Plugin.LoadedPlugin['controllers'][string] => ({
-  async getConfig(ctx) {
-    try {
-      const config = await strapi.service('plugin::better-auth.config').getConfig();
-    } catch (error) {}
-  },
+const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
   async verify(ctx) {
     const sessionManager = strapi.sessionManager;
     const secret = strapi.config.get<string>('admin.auth.secret');
@@ -261,4 +255,4 @@ const controller = ({
   },
 });
 
-export default controller as unknown as Plugin.LoadedPlugin['controllers'][string];
+export default controller as unknown as controller;

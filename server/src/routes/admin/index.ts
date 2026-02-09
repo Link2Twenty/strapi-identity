@@ -41,6 +41,30 @@ const route = (): Plugin.LoadedPlugin['routes']['admin'] => ({
       info: { apiName: 'checkStatus', pluginName: 'better-auth', type: 'content-api' },
       config: {},
     },
+    {
+      method: 'GET',
+      path: '/config',
+      handler: 'config.getConfig',
+      info: { apiName: 'getConfig', pluginName: 'better-auth', type: 'content-api' },
+      config: {
+        policies: ['admin::isAuthenticatedAdmin'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/config',
+      handler: 'config.updateConfig',
+      info: { apiName: 'updateConfig', pluginName: 'better-auth', type: 'content-api' },
+      config: {
+        policies: [
+          'admin::isAuthenticatedAdmin',
+          {
+            name: 'admin::hasPermissions',
+            config: { actions: ['plugin::better-auth.settings.update'] },
+          },
+        ],
+      },
+    },
   ],
 });
 
