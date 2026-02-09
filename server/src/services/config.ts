@@ -5,7 +5,7 @@
 export const getConfig = async () => {
   const configDocument = strapi.documents('plugin::better-auth.better-auth-config');
 
-  return configDocument.findFirst();
+  return configDocument.findFirst({ fields: ['enabled', 'enforce', 'issuer'] });
 };
 
 /**
@@ -21,11 +21,12 @@ export const updateConfig = async (
   const existingConfig = await configDocument.findFirst();
 
   if (!existingConfig) {
-    return configDocument.create({ data });
+    return configDocument.create({ data, fields: ['enabled', 'enforce', 'issuer'] });
   }
 
   return configDocument.update({
     documentId: existingConfig.documentId,
     data: { ...existingConfig, ...data },
+    fields: ['enabled', 'enforce', 'issuer'],
   });
 };
