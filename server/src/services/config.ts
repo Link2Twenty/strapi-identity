@@ -17,6 +17,6 @@ export const updateConfig = async (data: Partial<Config>) => {
 
   return configDocument.update({
     documentId: existingConfig.documentId,
-    data,
+    data: { ...existingConfig, ...data },
   });
 };

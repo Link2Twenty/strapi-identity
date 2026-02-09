@@ -56,6 +56,7 @@ const checkRecoveryCode = async (userId: string, code: string): Promise<boolean>
   await tokenDocument.update({
     documentId: record.documentId,
     data: {
+      ...record,
       recovery_codes: record.recovery_codes.filter(
         (_: string, index: number) => index !== matchedIndex
       ),
@@ -134,7 +135,7 @@ export const setupTemporarySecret = async (userId: string): Promise<Secret> => {
   if (existing) {
     await tempDocument.update({
       documentId: existing.documentId,
-      data: { secret: secret.base32 },
+      data: { ...existing, secret: secret.base32 },
     });
   } else {
     await tempDocument.create({
@@ -169,7 +170,7 @@ export const setupFullSecret = async (userId: string): Promise<string[]> => {
   if (existing) {
     await tokenDocument.update({
       documentId: existing.documentId,
-      data: { secret: tempField.secret, enabled: true, recovery_codes },
+      data: { ...existing, secret: tempField.secret, enabled: true, recovery_codes },
     });
   } else {
     await tokenDocument.create({
@@ -207,7 +208,7 @@ export const disableSecret = async (userId: string, code: string): Promise<void>
 
   await tokenDocument.update({
     documentId: record.documentId,
-    data: { enabled: false },
+    data: { ...record, enabled: false },
   });
 };
 
