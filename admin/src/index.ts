@@ -25,11 +25,7 @@ const plugin: StrapiApp['appPlugins'][string] = {
       },
       id: 'better-auth-settings',
       to: `/settings/${PLUGIN_ID}`,
-      Component: async () => {
-        const component = await import('./settings/SettingsPage');
-
-        return component;
-      },
+      Component: async () => import('./settings/SettingsPage'),
       permissions: [],
     });
 
