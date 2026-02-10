@@ -8,5 +8,16 @@
   "verify_page.use_recovery_code": "Utiliser le code de récupération",
   "settings.title": "Paramètres Strapi Identity",
   "settings.description": "Paramètres du plugin Strapi Identity, vous permettant de configurer les options d'authentification et les paramètres de sécurité.",
-  "settings.enforced_mfa": "MFA forcé"
+  "settings.enforced_mfa": "MFA forcé",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Activer ou désactiver l'authentification à deux facteurs pour tous les utilisateurs.",
+  "settings.enforce": "Forcer l'A2F",
+  "settings.enforce_hint": "Forcer l'authentification multifacteur pour tous les utilisateurs. Si activé, les utilisateurs devront configurer l'A2F lors de leur prochaine connexion.",
+  "settings.issuer": "Nom de l'émetteur",
+  "settings.issuer_hint": "Affiché dans l'application A2F",
+  "admin.title": "Authentification à deux facteurs",
+  "admin.subtitle": "Réinitialiser l'authentification à deux facteurs pour un utilisateur.",
+  "admin.warn-title": "Réinitialiser 2FA pour cet utilisateur ?",
+  "admin.warning": "La réinitialisation de l'authentification à deux facteurs permettra à l'utilisateur de la configurer à nouveau avec un nouvel appareil. Cette action est irréversible.",
+  "settings.warning": "Désactiver l'A2F affectera tous les utilisateurs. Veuillez vérifier les paramètres attentivement avant de sauvegarder."
 }

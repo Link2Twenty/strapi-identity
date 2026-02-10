@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Adja meg a 6 jegyű kódot a hitelesítő alkalmazásból a kétfaktoros hitelesítés letiltásához.",
   "settings.title": "Strapi Identity Beállítások",
   "settings.description": "A Strapi Identity bővízmény beállításai, amelyek lehetővé teszik a hitelesítési beállítások és a biztonsági beállítások konfigurálását.",
-  "settings.enforced_mfa": "Kényszerített MFA"
+  "settings.enforced_mfa": "Kényszerített MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Kétfaktoros hitelesítés engedélyezése vagy letiltása minden felhasználó számára.",
+  "settings.enforce": "MFA kényszerítése",
+  "settings.enforce_hint": "Többfaktoros hitelesítés kényszerítése minden felhasználó számára. Ha engedélyezve van, a felhasználóknak be kell állítaniuk az MFA-t a következő bejelentkezéskor.",
+  "settings.issuer": "Kibocsátó neve",
+  "settings.issuer_hint": "Megjelenik az MFA alkalmazásban",
+  "admin.title": "Kétfaktoros hitelesítés",
+  "admin.subtitle": "Kétfaktoros hitelesítés visszaállítása egy felhasználó számára.",
+  "admin.warn-title": "Visszaállítja a 2FA-t ennél a felhasználónál?",
+  "admin.warning": "A kétfaktoros hitelesítés visszaállítása lehetővé teszi a felhasználó számára, hogy új eszközzel állítsa be újra. Ez a művelet nem vonható vissza.",
+  "settings.warning": "Az MFA kikapcsolása minden felhasználót érint. Mentés előtt alaposan ellenőrizze a beállításokat."
 }

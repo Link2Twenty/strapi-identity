@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Masukkan kode 6 digit dari aplikasi autentikator Anda untuk menonaktifkan Autentikasi Dua Faktor.",
   "settings.title": "Pengaturan Strapi Identity",
   "settings.description": "Pengaturan untuk plugin Strapi Identity, memungkinkan Anda mengonfigurasi opsi autentikasi dan pengaturan keamanan.",
-  "settings.enforced_mfa": "MFA Ditegakkan"
+  "settings.enforced_mfa": "MFA Ditegakkan",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Aktifkan atau nonaktifkan Autentikasi Dua Faktor untuk semua pengguna.",
+  "settings.enforce": "Wajibkan MFA",
+  "settings.enforce_hint": "Wajibkan Autentikasi Multi-Faktor untuk semua pengguna. Jika diaktifkan, pengguna akan diminta untuk mengatur MFA pada login berikutnya.",
+  "settings.issuer": "Nama Penerbit",
+  "settings.issuer_hint": "Ditampilkan di aplikasi MFA",
+  "admin.title": "Autentikasi Dua Faktor",
+  "admin.subtitle": "Setel ulang Autentikasi Dua Faktor untuk pengguna.",
+  "admin.warn-title": "Setel ulang 2FA untuk pengguna ini?",
+  "admin.warning": "Menyetel ulang Autentikasi Dua Faktor akan memungkinkan pengguna untuk mengaturnya kembali dengan perangkat baru. Tindakan ini tidak dapat dibatalkan.",
+  "settings.warning": "Mematikan MFA akan memengaruhi semua pengguna. Harap tinjau pengaturan dengan cermat sebelum menyimpan."
 }

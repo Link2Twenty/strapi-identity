@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Digite o código de 6 dígitos do seu aplicativo autenticador para desativar a Autenticação de Dois Fatores.",
   "settings.title": "Configurações do Strapi Identity",
   "settings.description": "Configurações para o plugin Strapi Identity, permitindo configurar opções de autenticação e configurações de segurança.",
-  "settings.enforced_mfa": "MFA Forçado"
+  "settings.enforced_mfa": "MFA Forçado",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Ative ou desative a Autenticação de Dois Fatores para todos os usuários.",
+  "settings.enforce": "Forçar MFA",
+  "settings.enforce_hint": "Forçar Autenticação Multifator para todos os usuários. Se ativado, os usuários deverão configurar o MFA no próximo login.",
+  "settings.issuer": "Nome do Emissor",
+  "settings.issuer_hint": "Exibido no aplicativo MFA",
+  "admin.title": "Autenticação de Dois Fatores",
+  "admin.subtitle": "Redefinir a Autenticação de Dois Fatores para um usuário.",
+  "admin.warn-title": "Redefinir 2FA para este usuário?",
+  "admin.warning": "Redefinir a Autenticação de Dois Fatores permitirá que o usuário a configure novamente com um novo dispositivo. Esta ação não pode ser desfeita.",
+  "settings.warning": "Desativar o MFA afetará todos os usuários. Revise as configurações cuidadosamente antes de salvar."
 }

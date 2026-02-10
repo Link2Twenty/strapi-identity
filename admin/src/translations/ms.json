@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Masukkan kod 6 digit daripada aplikasi pengesah anda untuk melumpuhkan Pengesahan Dua Faktor.",
   "settings.title": "Tetapan Strapi Identity",
   "settings.description": "Tetapan untuk pemalam Strapi Identity, membolehkan anda mengkonfigurasi pilihan pengesahan dan tetapan keselamatan.",
-  "settings.enforced_mfa": "MFA Dipaksa"
+  "settings.enforced_mfa": "MFA Dipaksa",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Dayakan atau lumpuhkan Pengesahan Dua Faktor untuk semua pengguna.",
+  "settings.enforce": "Wajibkan MFA",
+  "settings.enforce_hint": "Wajibkan Pengesahan Pelbagai Faktor untuk semua pengguna. Jika didayakan, pengguna akan diminta untuk menyediakan MFA pada log masuk seterusnya.",
+  "settings.issuer": "Nama Pengeluar",
+  "settings.issuer_hint": "Dipaparkan dalam aplikasi MFA",
+  "admin.title": "Pengesahan Dua Faktor",
+  "admin.subtitle": "Tetapkan semula Pengesahan Dua Faktor untuk pengguna.",
+  "admin.warn-title": "Tetapkan semula 2FA untuk pengguna ini?",
+  "admin.warning": "Menetapkan semula Pengesahan Dua Faktor akan membolehkan pengguna menyediakannya semula dengan peranti baharu. Tindakan ini tidak boleh dibatalkan.",
+  "settings.warning": "Mematikan MFA akan menjejaskan semua pengguna. Sila semak tetapan dengan teliti sebelum menyimpan."
 }

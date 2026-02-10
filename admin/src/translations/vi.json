@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Nhập mã 6 chữ số từ ứng dụng xác thực của bạn để tắt xác thực hai yếu tố.",
   "settings.title": "Cài đặt Strapi Identity",
   "settings.description": "Cài đặt cho plugin Strapi Identity, cho phép bạn định cấu hình các tùy chọn xác thực và cài đặt bảo mật.",
-  "settings.enforced_mfa": "MFA bắt buộc"
+  "settings.enforced_mfa": "MFA bắt buộc",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Bật hoặc tắt Xác thực hai yếu tố cho tất cả người dùng.",
+  "settings.enforce": "Bắt buộc MFA",
+  "settings.enforce_hint": "Bắt buộc Xác thực đa yếu tố cho tất cả người dùng. Nếu được bật, người dùng sẽ được yêu cầu thiết lập MFA trong lần đăng nhập tiếp theo.",
+  "settings.issuer": "Tên nhà phát hành",
+  "settings.issuer_hint": "Hiển thị trong ứng dụng MFA",
+  "admin.title": "Xác thực hai yếu tố",
+  "admin.subtitle": "Đặt lại Xác thực hai yếu tố cho người dùng.",
+  "admin.warn-title": "Đặt lại 2FA cho người dùng này?",
+  "admin.warning": "Việc đặt lại Xác thực hai yếu tố sẽ cho phép người dùng thiết lập lại bằng thiết bị mới. Hành động này không thể hoàn tác.",
+  "settings.warning": "Việc tắt MFA sẽ ảnh hưởng đến tất cả người dùng. Vui lòng xem lại cài đặt cẩn thận trước khi lưu."
 }

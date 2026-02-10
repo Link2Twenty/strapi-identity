@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Sartu 6 digituko kodea zure autentifikazio-aplikaziotik bi faktoreko autentifikazioa desgaitzeko.",
   "settings.title": "Strapi Identity Ezarpenak",
   "settings.description": "Strapi Identity pluginaren ezarpenak, autentifikazio aukerak eta segurtasun ezarpenak konfiguratzeko aukera ematen dizuna.",
-  "settings.enforced_mfa": "Behartutako MFA"
+  "settings.enforced_mfa": "Behartutako MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Gaitu edo desgaitu bi faktoreko autentifikazioa erabiltzaile guztientzat.",
+  "settings.enforce": "Behartu MFA",
+  "settings.enforce_hint": "Behartu faktore anitzeko autentifikazioa erabiltzaile guztientzat. Gaituta badago, erabiltzaileek MFA konfiguratu beharko dute hurrengo saio-hasieran.",
+  "settings.issuer": "Jaulkitzailearen izena",
+  "settings.issuer_hint": "MFA aplikazioan bistaratzen da",
+  "admin.title": "Bi faktoreko autentifikazioa",
+  "admin.subtitle": "Berrezarri erabiltzaile baten bi faktoreko autentifikazioa.",
+  "admin.warn-title": "Berrezarri 2FA erabiltzaile honentzat?",
+  "admin.warning": "Bi faktoreko autentifikazioa berrezartzeak erabiltzaileari gailu berri batekin berriro konfiguratzea ahalbidetuko dio. Ekintza hau ezin da desegin.",
+  "settings.warning": "MFA desaktibatzeak erabiltzaile guztiei eragingo die. Mesedez, berrikusi ezarpenak arretaz gorde aurretik."
 }

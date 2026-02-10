@@ -18,5 +18,16 @@
   "profile.disable_instruction": "2단계 인증을 비활성화하려면 인증 앱에서 6자리 코드를 입력하세요.",
   "settings.title": "Strapi Identity 설정",
   "settings.description": "인증 옵션 및 보안 설정을 구성할 수 있는 Strapi Identity 플러그인 설정입니다.",
-  "settings.enforced_mfa": "강제 MFA"
+  "settings.enforced_mfa": "강제 MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "모든 사용자에 대해 2단계 인증을 활성화하거나 비활성화합니다.",
+  "settings.enforce": "MFA 강제",
+  "settings.enforce_hint": "모든 사용자에게 다단계 인증(MFA)을 강제합니다. 활성화하면 사용자는 다음 로그인 시 MFA를 설정해야 합니다.",
+  "settings.issuer": "발급자 이름",
+  "settings.issuer_hint": "MFA 앱에 표시됨",
+  "admin.title": "2단계 인증",
+  "admin.subtitle": "사용자의 2단계 인증을 초기화합니다.",
+  "admin.warn-title": "이 사용자의 2FA를 초기화하시겠습니까?",
+  "admin.warning": "2단계 인증을 초기화하면 사용자가 새 기기로 다시 설정할 수 있습니다. 이 작업은 되돌릴 수 없습니다.",
+  "settings.warning": "MFA를 끄면 모든 사용자에게 영향을 미칩니다. 저장하기 전에 설정을 주의 깊게 검토하십시오."
 }

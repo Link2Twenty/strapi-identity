@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Zadajte 6-miestny kód z vašej overovacej aplikácie pre zakázanie dvojfaktorového overovania.",
   "settings.title": "Nastavenia Strapi Identity",
   "settings.description": "Nastavenia doplnku Strapi Identity, ktoré umožňujú konfigurovať možnosti overovania a nastavenia zabezpečenia.",
-  "settings.enforced_mfa": "Vynútené MFA"
+  "settings.enforced_mfa": "Vynútené MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Povoliť alebo zakázať dvojfaktorové overenie pre všetkých používateľov.",
+  "settings.enforce": "Vynútiť MFA",
+  "settings.enforce_hint": "Vynútiť viacfaktorové overenie pre všetkých používateľov. Ak je povolené, používatelia budú musieť nastaviť MFA pri ďalšom prihlásení.",
+  "settings.issuer": "Názov vydavateľa",
+  "settings.issuer_hint": "Zobrazuje sa v aplikácii MFA",
+  "admin.title": "Dvojfaktorové overenie",
+  "admin.subtitle": "Resetovať dvojfaktorové overenie pre používateľa.",
+  "admin.warn-title": "Resetovať 2FA pre tohto používateľa?",
+  "admin.warning": "Resetovanie dvojfaktorového overenia umožní používateľovi nastaviť ho znova pomocou nového zariadenia. Túto akciu nemožno vrátiť späť.",
+  "settings.warning": "Vypnutie MFA ovplyvní všetkých používateľov. Pred uložením si prosím pozorne skontrolujte nastavenia."
 }

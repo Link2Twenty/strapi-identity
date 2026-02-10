@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Zadejte 6místný kód z vaší ověřovací aplikace pro zakázání dvoufaktorového ověřování.",
   "settings.title": "Nastavení Strapi Identity",
   "settings.description": "Nastavení pluginu Strapi Identity umožňující konfigurovat možnosti ověřování a nastavení zabezpečení.",
-  "settings.enforced_mfa": "Vynucené MFA"
+  "settings.enforced_mfa": "Vynucené MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Povolit nebo zakázat dvoufaktorové ověřování pro všechny uživatele.",
+  "settings.enforce": "Vynutit MFA",
+  "settings.enforce_hint": "Vynutit vícefaktorové ověřování pro všechny uživatele. Pokud je povoleno, uživatelé budou vyzváni k nastavení MFA při příštím přihlášení.",
+  "settings.issuer": "Název vydavatele",
+  "settings.issuer_hint": "Zobrazuje se v aplikaci MFA",
+  "admin.title": "Dvoufaktorové ověřování",
+  "admin.subtitle": "Resetovat dvoufaktorové ověřování pro uživatele.",
+  "admin.warn-title": "Resetovat 2FA pro tohoto uživatele?",
+  "admin.warning": "Resetování dvoufaktorového ověřování umožní uživateli nastavit jej znovu pomocí nového zařízení. Tuto akci nelze vrátit zpět.",
+  "settings.warning": "Vypnutí MFA ovlivní všechny uživatele. Před uložením prosím pečlivě zkontrolujte nastavení."
 }

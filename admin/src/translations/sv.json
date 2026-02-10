@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Ange den 6-siffriga koden från din autentiseringsapp för att inaktivera tvåfaktorsautentisering.",
   "settings.title": "Strapi Identity Inställningar",
   "settings.description": "Inställningar för plugin-programmet Strapi Identity, så att du kan konfigurera autentiseringsalternativ och säkerhetsinställningar.",
-  "settings.enforced_mfa": "Tvingad MFA"
+  "settings.enforced_mfa": "Tvingad MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Aktivera eller inaktivera tvåfaktorsautentisering för alla användare.",
+  "settings.enforce": "Tvinga MFA",
+  "settings.enforce_hint": "Tvinga flerfaktorsautentisering för alla användare. Om aktiverat måste användare konfigurera MFA vid nästa inloggning.",
+  "settings.issuer": "Utfärdarens namn",
+  "settings.issuer_hint": "Visas i MFA-appen",
+  "admin.title": "Tvåfaktorsautentisering",
+  "admin.subtitle": "Återställ tvåfaktorsautentisering för en användare.",
+  "admin.warn-title": "Återställ 2FA för denna användare?",
+  "admin.warning": "Återställning av tvåfaktorsautentisering gör att användaren kan konfigurera den igen med en ny enhet. Denna åtgärd kan inte ångras.",
+  "settings.warning": "Att stänga av MFA kommer att påverka alla användare. Granska inställningarna noggrant innan du sparar."
 }

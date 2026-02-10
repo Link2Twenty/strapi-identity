@@ -18,5 +18,16 @@
   "profile.disable_instruction": "أدخل الرمز المكون من 6 أرقام من تطبيق المصادقة لتعطيل المصادقة الثنائية.",
   "settings.title": "إعدادات Strapi Identity",
   "settings.description": "إعدادات المكون الإضافي Strapi Identity، مما يسمح لك بتكوين خيارات المصادقة وإعدادات الأمان.",
-  "settings.enforced_mfa": "MFA المفروضة"
+  "settings.enforced_mfa": "MFA المفروضة",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "تمكين أو تعطيل المصادقة الثنائية لجميع المستخدمين.",
+  "settings.enforce": "فرض المصادقة المتعددة العوامل (MFA)",
+  "settings.enforce_hint": "فرض المصادقة المتعددة العوامل لجميع المستخدمين. في حالة التمكين، سيُطلب من المستخدمين إعداد MFA عند تسجيل الدخول التالي.",
+  "settings.issuer": "اسم المُصدر",
+  "settings.issuer_hint": "يتم عرضه في تطبيق MFA",
+  "admin.title": "المصادقة الثنائية",
+  "admin.subtitle": "إعادة تعيين المصادقة الثنائية للمستخدم.",
+  "admin.warn-title": "إعادة تعيين 2FA لهذا المستخدم؟",
+  "admin.warning": "ستسمح إعادة تعيين المصادقة الثنائية للمستخدم بإعدادها مرة أخرى بواسطة جهاز جديد. هذا الإجراء لا يمكن التراجع عنه.",
+  "settings.warning": "سيؤثر إيقاف تشغيل MFA على جميع المستخدمين. يرجى مراجعة الإعدادات بعناية قبل الحفظ."
 }

@@ -18,5 +18,16 @@
   "profile.disable_instruction": "二要素認証を無効にするには、認証アプリから6桁のコードを入力してください。",
   "settings.title": "Strapi Identity設定",
   "settings.description": "Strapi Identityプラグインの設定。認証オプションとセキュリティ設定を構成できます。",
-  "settings.enforced_mfa": "強制MFA"
+  "settings.enforced_mfa": "強制MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "すべてのユーザーに対して二要素認証を有効または無効にします。",
+  "settings.enforce": "MFAを強制",
+  "settings.enforce_hint": "すべてのユーザーに対して多要素認証を強制します。有効にすると、ユーザーは次回のログイン時にMFAの設定が必要になります。",
+  "settings.issuer": "発行者名",
+  "settings.issuer_hint": "MFAアプリに表示されます",
+  "admin.title": "二要素認証",
+  "admin.subtitle": "ユーザーの二要素認証をリセットします。",
+  "admin.warn-title": "このユーザーの2FAをリセットしますか？",
+  "admin.warning": "二要素認証をリセットすると、ユーザーは新しいデバイスで再設定できるようになります。この操作は元に戻せません。",
+  "settings.warning": "MFAをオフにすると、すべてのユーザーに影響します。保存する前に設定を慎重に確認してください。"
 }

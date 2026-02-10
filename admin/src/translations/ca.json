@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Introduïu el codi de 6 dígits de la vostra aplicació d'autenticació per deshabilitar l'autenticació de dos factors.",
   "settings.title": "Configuració de Strapi Identity",
   "settings.description": "Configuració del connector Strapi Identity, que us permet configurar opcions d'autenticació i paràmetres de seguretat.",
-  "settings.enforced_mfa": "MFA forçat"
+  "settings.enforced_mfa": "MFA forçat",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Habilita o deshabilita l'autenticació de dos factors per a tots els usuaris.",
+  "settings.enforce": "Forçar MFA",
+  "settings.enforce_hint": "Forçar l'autenticació multifactor per a tots els usuaris. Si s'habilita, els usuaris hauran de configurar l'MFA en el seu següent inici de sessió.",
+  "settings.issuer": "Nom de l'emissor",
+  "settings.issuer_hint": "Es mostra a l'aplicació MFA",
+  "admin.title": "Autenticació de dos factors",
+  "admin.subtitle": "Restablir l'autenticació de dos factors per a un usuari.",
+  "admin.warn-title": "Restablir 2FA per a aquest usuari?",
+  "admin.warning": "Restablir l'autenticació de dos factors permetrà a l'usuari configurar-la de nou amb un dispositiu nou. Aquesta acció no es pot desfer.",
+  "settings.warning": "Desactivar l'MFA afectarà tots els usuaris. Revisa la configuració acuradament abans de desar."
 }

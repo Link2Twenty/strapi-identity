@@ -18,5 +18,16 @@
   "profile.disable_instruction": "הזן את הקוד בן 6 הספרות מאפליקציית האימות שלך כדי להשבית את האימות הדו-שלבי.",
   "settings.title": "הגדרות Strapi Identity",
   "settings.description": "הגדרות עבור תוסף Strapi Identity, המאפשרות להגדיר אפשרויות אימות והגדרות אבטחה.",
-  "settings.enforced_mfa": "MFA שנכפה"
+  "settings.enforced_mfa": "MFA שנכפה",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "הפעל או השבת אימות דו-שלבי עבור כל המשתמשים.",
+  "settings.enforce": "אכוף MFA",
+  "settings.enforce_hint": "אכוף אימות רב-גורמים (MFA) עבור כל המשתמשים. אם מופעל, משתמשים יידרשו להגדיר MFA בכניסה הבאה שלהם.",
+  "settings.issuer": "שם המנפיק",
+  "settings.issuer_hint": "מוצג באפליקציית ה-MFA",
+  "admin.title": "אימות דו-שלבי",
+  "admin.subtitle": "אפס את האימות הדו-שלבי עבור משתמש.",
+  "admin.warn-title": "לאפס 2FA עבור משתמש זה?",
+  "admin.warning": "איפוס האימות הדו-שלבי יאפשר למשתמש להגדיר אותו מחדש עם מכשיר חדש. לא ניתן לבטל פעולה זו.",
+  "settings.warning": "כיבוי MFA ישפיע על כל המשתמשים. אנא בדוק את ההגדרות בזהירות לפני השמירה."
 }

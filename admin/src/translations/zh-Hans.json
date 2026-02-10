@@ -18,5 +18,16 @@
   "profile.disable_instruction": "请输入验证器应用中的6位代码以禁用双因素认证。",
   "settings.title": "Strapi Identity 设置",
   "settings.description": "Strapi Identity 插件设置，允许您配置身份验证选项和安全设置。",
-  "settings.enforced_mfa": "强制 MFA"
+  "settings.enforced_mfa": "强制 MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "为所有用户启用或禁用双因素身份验证。",
+  "settings.enforce": "强制 MFA",
+  "settings.enforce_hint": "强制所有用户使用多因素身份验证。如果启用，用户将在下次登录时被要求设置 MFA。",
+  "settings.issuer": "发行者名称",
+  "settings.issuer_hint": "显示在 MFA 应用程序中",
+  "admin.title": "双因素身份验证",
+  "admin.subtitle": "重置用户的双因素身份验证。",
+  "admin.warn-title": "重置此用户的 2FA？",
+  "admin.warning": "重置双因素身份验证将允许用户使用新设备重新设置。此操作无法撤销。",
+  "settings.warning": "关闭 MFA 将影响所有用户。请在保存前仔细检查设置。"
 }

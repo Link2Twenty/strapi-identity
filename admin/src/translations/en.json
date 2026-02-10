@@ -19,5 +19,15 @@
   "settings.title": "Strapi Identity Settings",
   "settings.description": "Settings for Strapi Identity plugin, allowing you to configure authentication options and security settings.",
   "settings.enforced_mfa": "Enforced MFA",
-  "settings.warning": "Turning MFA off will affect all users. Please review the settings carefully before saving."
+  "settings.warning": "Turning MFA off will affect all users. Please review the settings carefully before saving.",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Enable or disable Two-Factor Authentication for all users.",
+  "settings.enforce": "Enforce MFA",
+  "settings.enforce_hint": "Enforce Multi-Factor Authentication for all users. If enabled, users will be required to set up MFA on their next login.",
+  "settings.issuer": "Issuer Name",
+  "settings.issuer_hint": "Displayed in the MFA app",
+  "admin.title": "Two-Factor Authentication",
+  "admin.subtitle": "Reset the Two-Factor Authentication for a user.",
+  "admin.warn-title": "Reset 2FA for this user?",
+  "admin.warning": "Resetting the Two-Factor Authentication will allow the user to set it up again with a new device. This action cannot be undone."
 }

@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Indtast den 6-cifrede kode fra din godkendelsesapp for at deaktivere tofaktorautentificering.",
   "settings.title": "Strapi Identity Indstillinger",
   "settings.description": "Indstillinger for Strapi Identity-pluginet, der giver dig mulighed for at konfigurere godkendelsesmuligheder og sikkerhedsindstillinger.",
-  "settings.enforced_mfa": "Tvungen MFA"
+  "settings.enforced_mfa": "Tvungen MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Aktiver eller deaktiver to-faktor-godkendelse for alle brugere.",
+  "settings.enforce": "Håndhæv MFA",
+  "settings.enforce_hint": "Håndhæv multi-faktor-godkendelse for alle brugere. Hvis aktiveret, skal brugere opsætte MFA ved næste login.",
+  "settings.issuer": "Udstederens navn",
+  "settings.issuer_hint": "Vises i MFA-appen",
+  "admin.title": "To-faktor-godkendelse",
+  "admin.subtitle": "Nulstil to-faktor-godkendelse for en bruger.",
+  "admin.warn-title": "Nulstil 2FA for denne bruger?",
+  "admin.warning": "Nulstilling af to-faktor-godkendelse giver brugeren mulighed for at opsætte det igen med en ny enhed. Denne handling kan ikke fortrydes.",
+  "settings.warning": "At slå MFA fra vil påvirke alle brugere. Gennemgå venligst indstillingerne omhyggeligt, før du gemmer."
 }

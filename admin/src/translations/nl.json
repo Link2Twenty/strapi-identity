@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Voer de 6-cijferige code van uw authenticator-app in om tweefactorauthenticatie uit te schakelen.",
   "settings.title": "Strapi Identity Instellingen",
   "settings.description": "Instellingen voor de Strapi Identity-plug-in, waarmee u authenticatieopties en beveiligingsinstellingen kunt configureren.",
-  "settings.enforced_mfa": "Gedwongen MFA"
+  "settings.enforced_mfa": "Gedwongen MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Schakel tweefactorauthenticatie in of uit voor alle gebruikers.",
+  "settings.enforce": "MFA afdwingen",
+  "settings.enforce_hint": "Dwing multifactorauthenticatie af voor alle gebruikers. Indien ingeschakeld, moeten gebruikers MFA instellen bij hun volgende login.",
+  "settings.issuer": "Naam uitgever",
+  "settings.issuer_hint": "Weergegeven in de MFA-app",
+  "admin.title": "Tweefactorauthenticatie",
+  "admin.subtitle": "Reset de tweefactorauthenticatie voor een gebruiker.",
+  "admin.warn-title": "2FA resetten voor deze gebruiker?",
+  "admin.warning": "Door de tweefactorauthenticatie te resetten, kan de gebruiker deze opnieuw instellen met een nieuw apparaat. Deze actie kan niet ongedaan worden gemaakt.",
+  "settings.warning": "MFA uitschakelen heeft gevolgen voor alle gebruikers. Controleer de instellingen zorgvuldig voordat u opslaat."
 }

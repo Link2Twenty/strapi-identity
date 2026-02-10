@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej, aby wyłączyć uwierzytelnianie dwuskładnikowe.",
   "settings.title": "Ustawienia Strapi Identity",
   "settings.description": "Ustawienia wtyczki Strapi Identity, umożliwiające konfigurację opcji uwierzytelniania i ustawień bezpieczeństwa.",
-  "settings.enforced_mfa": "Wymuszone MFA"
+  "settings.enforced_mfa": "Wymuszone MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Włącz lub wyłącz uwierzytelnianie dwuskładnikowe dla wszystkich użytkowników.",
+  "settings.enforce": "Wymuś MFA",
+  "settings.enforce_hint": "Wymuś uwierzytelnianie wieloskładnikowe dla wszystkich użytkowników. Jeśli włączone, użytkownicy będą musieli skonfigurować MFA przy następnym logowaniu.",
+  "settings.issuer": "Nazwa wydawcy",
+  "settings.issuer_hint": "Wyświetlane w aplikacji MFA",
+  "admin.title": "Uwierzytelnianie dwuskładnikowe",
+  "admin.subtitle": "Zresetuj uwierzytelnianie dwuskładnikowe dla użytkownika.",
+  "admin.warn-title": "Zresetować 2FA dla tego użytkownika?",
+  "admin.warning": "Zresetowanie uwierzytelniania dwuskładnikowego pozwoli użytkownikowi skonfigurować je ponownie na nowym urządzeniu. Tej operacji nie można cofnąć.",
+  "settings.warning": "Wyłączenie MFA wpłynie na wszystkich użytkowników. Proszę dokładnie sprawdzić ustawienia przed zapisaniem."
 }

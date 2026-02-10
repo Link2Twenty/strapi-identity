@@ -18,5 +18,16 @@
   "profile.disable_instruction": "İki Faktörlü Kimlik Doğrulamayı devre dışı bırakmak için kimlik doğrulayıcı uygulamanızdan 6 haneli kodu girin.",
   "settings.title": "Strapi Identity Ayarları",
   "settings.description": "Kimlik doğrulama seçeneklerini ve güvenlik ayarlarını yapılandırmanıza olanak tanıyan Strapi Identity eklantisi için ayarlar.",
-  "settings.enforced_mfa": "Zorunlu MFA"
+  "settings.enforced_mfa": "Zorunlu MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Tüm kullanıcılar için İki Faktörlü Kimlik Doğrulamayı etkinleştirin veya devre dışı bırakın.",
+  "settings.enforce": "MFA'yı Zorunlu Kıl",
+  "settings.enforce_hint": "Tüm kullanıcılar için Çok Faktörlü Kimlik Doğrulamayı zorunlu kılın. Etkinleştirilirse, kullanıcıların bir sonraki girişlerinde MFA'yı ayarlamaları istenecektir.",
+  "settings.issuer": "Veren Adı",
+  "settings.issuer_hint": "MFA uygulamasında görüntülenir",
+  "admin.title": "İki Faktörlü Kimlik Doğrulama",
+  "admin.subtitle": "Bir kullanıcı için İki Faktörlü Kimlik Doğrulamayı sıfırlayın.",
+  "admin.warn-title": "Bu kullanıcı için 2FA sıfırlansın mı?",
+  "admin.warning": "İki Faktörlü Kimlik Doğrulamayı sıfırlamak, kullanıcının yeni bir cihazla tekrar ayarlamasını sağlar. Bu işlem geri alınamaz.",
+  "settings.warning": "MFA'yı kapatmak tüm kullanıcıları etkileyecektir. Lütfen kaydetmeden önce ayarları dikkatlice inceleyin."
 }

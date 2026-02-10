@@ -18,5 +18,16 @@
   "profile.disable_instruction": "Skriv inn den 6-sifrede koden fra autentiseringsappen din for å deaktivere tofaktorautentisering.",
   "settings.title": "Strapi Identity Innstillinger",
   "settings.description": "Innstillinger for Strapi Identity-pluginet, som lar deg konfigurere autentiseringsalternativ og sikkerhetsinnstillinger.",
-  "settings.enforced_mfa": "Tvungen MFA"
+  "settings.enforced_mfa": "Tvungen MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Aktiver eller deaktiver tofaktorautentisering for alle brukere.",
+  "settings.enforce": "Tving MFA",
+  "settings.enforce_hint": "Tving multifaktorautentisering for alle brukere. Hvis aktivert, må brukere sette opp MFA ved neste pålogging.",
+  "settings.issuer": "Utstedernavn",
+  "settings.issuer_hint": "Vises i MFA-appen",
+  "admin.title": "Tofaktorautentisering",
+  "admin.subtitle": "Tilbakestill tofaktorautentisering for en bruker.",
+  "admin.warn-title": "Tilbakestill 2FA for denne brukeren?",
+  "admin.warning": "Tilbakestilling av tofaktorautentiseringen vil tillate brukeren å sette den opp igjen med en ny enhet. Denne handlingen kan ikke angres.",
+  "settings.warning": "Å slå av MFA vil påvirke alle brukere. Vennligst se gjennom innstillingene nøye før du lagrer."
 }

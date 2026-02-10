@@ -18,5 +18,16 @@
   "profile.disable_instruction": "請輸入驗證器應用中的6位代碼以禁用雙因素認證。",
   "settings.title": "Strapi Identity 設定",
   "settings.description": "Strapi Identity 外掛程式設定，允許您配置驗證選項和安全設定。",
-  "settings.enforced_mfa": "強制 MFA"
+  "settings.enforced_mfa": "強制 MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "為所有使用者啟用或停用雙因素驗證。",
+  "settings.enforce": "強制 MFA",
+  "settings.enforce_hint": "強制所有使用者使用多因素驗證。若啟用，使用者將在下次登入時被要求設定 MFA。",
+  "settings.issuer": "發行者名稱",
+  "settings.issuer_hint": "顯示在 MFA 應用程式中",
+  "admin.title": "雙因素驗證",
+  "admin.subtitle": "重設使用者的雙因素驗證。",
+  "admin.warn-title": "重設此使用者的 2FA？",
+  "admin.warning": "重設雙因素驗證將允許使用者使用新裝置重新設定。此動作無法復原。",
+  "settings.warning": "關閉 MFA 將影響所有使用者。請在儲存前仔細檢查設定。"
 }

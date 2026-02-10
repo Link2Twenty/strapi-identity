@@ -8,5 +8,16 @@
   "verify_page.use_recovery_code": "Verwenden Sie den Wiederherstellungscode",
   "settings.title": "Strapi Identity Einstellungen",
   "settings.description": "Einstellungen für das Strapi Identity-Plugin, mit denen Sie Authentifizierungsoptionen und Sicherheitseinstellungen konfigurieren können.",
-  "settings.enforced_mfa": "Erzwungene MFA"
+  "settings.enforced_mfa": "Erzwungene MFA",
+  "settings.name": "Strapi Identity",
+  "settings.enabled_hint": "Zwei-Faktor-Authentifizierung für alle Benutzer aktivieren oder deaktivieren.",
+  "settings.enforce": "MFA erzwingen",
+  "settings.enforce_hint": "Multi-Faktor-Authentifizierung für alle Benutzer erzwingen. Wenn aktiviert, müssen Benutzer MFA bei der nächsten Anmeldung einrichten.",
+  "settings.issuer": "Name des Ausstellers",
+  "settings.issuer_hint": "Wird in der MFA-App angezeigt",
+  "admin.title": "Zwei-Faktor-Authentifizierung",
+  "admin.subtitle": "Zwei-Faktor-Authentifizierung für einen Benutzer zurücksetzen.",
+  "admin.warn-title": "2FA für diesen Benutzer zurücksetzen?",
+  "admin.warning": "Das Zurücksetzen der Zwei-Faktor-Authentifizierung ermöglicht es dem Benutzer, diese mit einem neuen Gerät erneut einzurichten. Diese Aktion kann nicht rückgängig gemacht werden.",
+  "settings.warning": "Das Deaktivieren von MFA betrifft alle Benutzer. Bitte überprüfen Sie die Einstellungen sorgfältig vor dem Speichern."
 }
