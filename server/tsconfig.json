@@ -1,10 +1,6 @@
 {
   "extends": "@strapi/typescript-utils/tsconfigs/server",
-  "include": [
-    "./src",
-    "../../../../types/generated/contentTypes.d.ts",
-    "../../../../types/generated/components.d.ts"
-  ],
+  "include": ["./src", "../../../../types/"],
   "compilerOptions": {
     "rootDir": "../",
     "baseUrl": "."
