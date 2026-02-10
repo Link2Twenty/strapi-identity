@@ -176,17 +176,20 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
     const user = ctx.state.user;
 
     const body: { enable: boolean } = ctx.request.body;
-    const service = strapi.service('plugin::better-auth.secret');
+    const secretService = strapi.service('plugin::better-auth.secret');
+    const configService = strapi.service('plugin::better-auth.config');
 
     try {
       if (body.enable) {
-        const secret: Secret = await service.setupTemporarySecret(user.id);
-        const totp = new TOTP({ issuer: 'Strapi', label: user.email, secret });
+        const mfaConfig: { issuer: string } = await configService.getConfig();
+
+        const secret: Secret = await secretService.setupTemporarySecret(user.id);
+        const totp = new TOTP({ issuer: mfaConfig.issuer || 'Strapi', label: user.email, secret });
 
         ctx.status = 200;
         ctx.body = { data: { uri: totp.toString(), secret: secret.base32 }, error: null };
       } else {
-        await service.disableTempSecret(user.id);
+        await secretService.disableTempSecret(user.id);
 
         ctx.status = 200;
         ctx.body = { data: { message: 'MFA disabled' }, error: null };
@@ -202,10 +205,10 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
     const user = ctx.state.user;
 
     const body: { code: string } = ctx.request.body;
-    const service = strapi.service('plugin::better-auth.secret');
+    const secretService = strapi.service('plugin::better-auth.secret');
 
     try {
-      const isValid = await service.validateTempToken(user.id, body.code);
+      const isValid = await secretService.validateTempToken(user.id, body.code);
 
       if (!isValid) {
         ctx.status = 400;
@@ -213,7 +216,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
         return;
       }
 
-      const codes = await service.setupFullSecret(user.id);
+      const codes = await secretService.setupFullSecret(user.id);
 
       ctx.status = 200;
       ctx.body = { data: { recoveryCodes: codes }, error: null };
@@ -224,10 +227,10 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
   },
   async checkStatus(ctx) {
     const user = ctx.state.user;
-    const service = strapi.service('plugin::better-auth.secret');
+    const secretService = strapi.service('plugin::better-auth.secret');
 
     try {
-      const isEnabled = await service.isMFAEnabled(user.id);
+      const isEnabled = await secretService.isMFAEnabled(user.id);
 
       ctx.status = 200;
       ctx.body = { data: { status: isEnabled }, error: null };
@@ -239,10 +242,10 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
   async disable(ctx) {
     const user = ctx.state.user;
     const body: { code: string } = ctx.request.body;
-    const service = strapi.service('plugin::better-auth.secret');
+    const secretService = strapi.service('plugin::better-auth.secret');
 
     try {
-      await service.disableSecret(user.id, body.code);
+      await secretService.disableSecret(user.id, body.code);
 
       ctx.status = 200;
       ctx.body = { data: { message: 'MFA disabled' }, error: null };
