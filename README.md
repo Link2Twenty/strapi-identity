@@ -86,6 +86,16 @@ Go to **Settings** -> **Administration Panel** -> **Roles** to configure who can
 3. Enter the code from your authenticator app.
 4. Upon success, you will be redirected to the dashboard.
 
+### Admin Reset (Super Admin)
+
+Administrators with the `settings.update` permission can reset MFA for other users:
+
+1. Navigate to **Settings** -> **Administration Panel** -> **Users**.
+2. Click the **Edit** (pencil) icon for the user you wish to manage.
+3. Locate the **Two-Factor Authentication** section in the user form.
+4. If MFA is enabled for that user, click the **Reset** button.
+   - This will disable 2FA for the user, allowing them to log in with just their password and set up MFA again.
+
 ## Roadmap & Status
 
 Below is the implementation status of planned features.
@@ -97,6 +107,6 @@ Below is the implementation status of planned features.
 - [x] **MFA Page Matches Theme**: Consistent UI/UX.
 - [x] **Custom Issuer**: Configurable app label.
 - [x] **Multi-language Support**: i18n ready.
+- [x] **Admin Reset**: Allow super-admins to reset MFA for other users who lost access.
 - [ ] **Email Passcode**: Alternative MFA method via Email.
 - [ ] **Enforced Mode**: Mandatory MFA for specific roles or all users.
-- [ ] **Admin Reset**: Allow super-admins to reset MFA for other users who lost access.
