@@ -51,6 +51,10 @@ export const updateConfig = async (
       .then((created) => _config(created));
   }
 
+  if (existingConfig.enabled && !data.enabled) {
+    await disableMFAForAllUsers();
+  }
+
   return configDocument
     .update({
       documentId: existingConfig.documentId,
@@ -58,4 +62,29 @@ export const updateConfig = async (
       fields: ['enabled', 'enforce', 'issuer'],
     })
     .then((updated) => _config(updated));
+};
+
+/**
+ * Disables MFA for all users by deleting all existing MFA tokens and temporary secrets
+ * This is used when the admin turns off MFA in the settings, ensuring that all users are affected by this change
+ */
+const disableMFAForAllUsers = async () => {
+  const tokenDocument = strapi.documents('plugin::better-auth.mfa-token');
+  const tempDocument = strapi.documents('plugin::better-auth.mfa-temp');
+
+  try {
+    // Fetch all existing tokens and temporary secrets
+    const [tokens, temps] = await Promise.all([
+      tokenDocument.findMany({}),
+      tempDocument.findMany({}),
+    ]);
+
+    // Delete all tokens and temporary secrets in parallel
+    await Promise.all([
+      ...tokens.map((token) => tokenDocument.delete({ documentId: token.documentId })),
+      ...temps.map((temp) => tempDocument.delete({ documentId: temp.documentId })),
+    ]);
+  } catch (err) {
+    console.log('Error disabling MFA for all users:', err);
+  }
 };
