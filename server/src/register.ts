@@ -53,9 +53,17 @@ const replaceLogin = (route: Core.Route, secret: string, cookieOptions: Record<s
 
     await next();
 
+    // If login was unsuccessful, do nothing
     const token: string = ctx.body?.data?.token;
 
     if (!token) return;
+
+    // If we're not enabling MFA, do nothing
+    const config: { enabled: boolean; enforce: boolean; issuer: string } = await strapi
+      .service('plugin::better-auth.config')
+      .getConfig();
+
+    if (!config.enabled) return;
 
     // decode jwt
     const payload = jwt.verify(token, secret) as { userId: string };
