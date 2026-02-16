@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [
     "strapi",
     "plugin",
@@ -40,7 +40,7 @@
     "input-otp": "^1.4.2",
     "otpauth": "^9.5.0",
     "qrcode.react": "^4.2.0",
-    "strapi-admin-portal": "^0.1.0"
+    "strapi-admin-portal": "^0.2.0"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.4.0",
