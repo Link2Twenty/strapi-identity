@@ -1,5 +1,5 @@
 {
-  "version": "0.0.3",
+  "version": "0.1.0",
   "keywords": [
     "strapi",
     "plugin",
@@ -40,20 +40,15 @@
     "input-otp": "^1.4.2",
     "otpauth": "^9.5.0",
     "qrcode.react": "^4.2.0",
-    "strapi-admin-portal": "^0.0.3"
+    "strapi-admin-portal": "^0.1.0"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^5.4.0",
-    "@strapi/strapi": "^5.35.0",
     "@strapi/typescript-utils": "^5.35.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "prettier": "^3.8.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.30.3",
-    "styled-components": "^6.3.8",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
