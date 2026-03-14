@@ -120,7 +120,7 @@ function InputOTPSlot({
   ...props
 }: React.ComponentProps<'div'> & { index: number }) {
   const inputOTPContext = React.useContext(OTPInputContext);
-  const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? ({} as any);
+  const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
 
   return (
     <StyledSlot data-slot="input-otp-slot" data-active={isActive} className={className} {...props}>

@@ -20,15 +20,6 @@ const config = ({ strapi }: { strapi: Core.Strapi }): controller => ({
   },
   async getConfig(ctx) {
     try {
-      const emailService = strapi.service('plugin::strapi-identity.email');
-      const { email } = ctx.state.user;
-
-      emailService?.send(email);
-    } catch (error) {
-      console.log('Error sending test email:', error);
-    }
-
-    try {
       const config = await strapi.service('plugin::strapi-identity.config').getConfig();
 
       ctx.status = 200;

@@ -75,9 +75,14 @@ const checkRecoveryCode = async (userId: string, code: string): Promise<boolean>
 const validateLiveToken = async (userId: string, token: string): Promise<boolean> => {
   const tokenDocument = strapi.documents('plugin::strapi-identity.mfa-token');
 
-  const record = await tokenDocument.findFirst({ filters: { admin_user: { id: userId } } });
+  const record = await tokenDocument.findFirst({
+    filters: { admin_user: { id: userId }, enabled: true },
+  });
 
-  if (!record || !record.enabled) return false;
+  if (!record) return false;
+
+  // Email OTP type does not use TOTP validation
+  if (record.type === 'email') return false;
 
   return validateToken(token, record.secret);
 };
@@ -170,12 +175,13 @@ export const setupFullSecret = async (userId: string): Promise<string[]> => {
   if (existing) {
     await tokenDocument.update({
       documentId: existing.documentId,
-      data: { ...existing, secret: tempField.secret, enabled: true, recovery_codes },
+      data: { ...existing, type: 'totp', secret: tempField.secret, enabled: true, recovery_codes },
     });
   } else {
     await tokenDocument.create({
       data: {
         admin_user: { id: userId },
+        type: 'totp',
         secret: tempField.secret,
         enabled: true,
         recovery_codes,
@@ -188,16 +194,148 @@ export const setupFullSecret = async (userId: string): Promise<string[]> => {
   return codes;
 };
 
+const EMAIL_OTP_EXPIRY_MINUTES = 10;
+const EMAIL_OTP_MAX_ATTEMPTS = 5;
+
 /**
- * Disables MFA for a user after validating the provided TOTP token or recovery code
+ * Generates a secure numeric OTP of the specified length, using rejection sampling to avoid bias
+ */
+const generateNumericOTP = (length: number): string => {
+  const digits = '0123456789';
+  const max = 256 - (256 % digits.length);
+  const randomValues = new Uint8Array(length * 2);
+  let result = '';
+
+  while (result.length < length) {
+    crypto.getRandomValues(randomValues);
+    for (let i = 0; i < randomValues.length && result.length < length; i++) {
+      if (randomValues[i] >= max) continue;
+      result += digits[randomValues[i] % digits.length];
+    }
+  }
+
+  return result;
+};
+
+/**
+ * Generates a 6-digit email OTP for a user, stores it hashed with expiry, and returns the plaintext code
+ * @param userId id of the user to generate an OTP for
+ * @param purpose the purpose of the OTP: 'login', 'setup', or 'disable'
+ * @returns {Promise<string>} the plaintext OTP
+ */
+export const generateEmailOTP = async (
+  userId: string,
+  purpose: 'login' | 'setup' | 'disable' = 'login'
+): Promise<string> => {
+  const otpDocument = strapi.documents('plugin::strapi-identity.email-otp');
+
+  const otp = generateNumericOTP(6);
+  const code_hash = await bcrypt.hash(otp, 10);
+  const expires_at = new Date(Date.now() + EMAIL_OTP_EXPIRY_MINUTES * 60 * 1000).toISOString();
+
+  // Delete any existing OTP for this user+purpose before creating a new one
+  const existing = await otpDocument.findFirst({
+    filters: { admin_user: { id: userId }, purpose },
+  });
+  if (existing) await otpDocument.delete({ documentId: existing.documentId });
+
+  await otpDocument.create({
+    data: { admin_user: { id: userId }, code_hash, expires_at, purpose, attempts: 0 },
+  });
+
+  return otp;
+};
+
+/**
+ * Validates an email OTP for a given user and purpose.
+ * Increments attempt count, rejects on expiry or too many attempts, removes the record on success.
+ * @param userId id of the user to validate against
+ * @param code plaintext OTP to validate
+ * @param purpose the purpose of the OTP
+ * @returns {Promise<boolean>} whether the code is valid
+ */
+export const validateEmailOTP = async (
+  userId: string,
+  code: string,
+  purpose: 'login' | 'setup' | 'disable' = 'login'
+): Promise<boolean> => {
+  const otpDocument = strapi.documents('plugin::strapi-identity.email-otp');
+
+  const record = await otpDocument.findFirst({ filters: { admin_user: { id: userId }, purpose } });
+
+  if (!record) return false;
+
+  if (new Date(record.expires_at as string) < new Date()) {
+    await otpDocument.delete({ documentId: record.documentId });
+    return false;
+  }
+
+  const attempts = (record.attempts as number) || 0;
+  if (attempts >= EMAIL_OTP_MAX_ATTEMPTS) {
+    await otpDocument.delete({ documentId: record.documentId });
+    return false;
+  }
+
+  await otpDocument.update({
+    documentId: record.documentId,
+    data: { ...record, attempts: attempts + 1 },
+  });
+
+  const isValid = await bcrypt.compare(code, record.code_hash as string);
+
+  if (isValid) await otpDocument.delete({ documentId: record.documentId });
+
+  return isValid;
+};
+
+/**
+ * Enables email OTP MFA for a user, creating or updating their mfa-token record
+ * @param userId id of the user to enable email MFA for
+ */
+export const enableEmailMFA = async (userId: string): Promise<void> => {
+  const tokenDocument = strapi.documents('plugin::strapi-identity.mfa-token');
+
+  const existing = await tokenDocument.findFirst({ filters: { admin_user: { id: userId } } });
+
+  if (existing) {
+    await tokenDocument.update({
+      documentId: existing.documentId,
+      data: { ...existing, type: 'email', enabled: true, secret: '' },
+    });
+  } else {
+    await tokenDocument.create({
+      data: { admin_user: { id: userId }, type: 'email', enabled: true, secret: '' },
+    });
+  }
+};
+
+/**
+ * Returns the MFA status and method type for a given user
+ * @param userId id of the user to check
+ * @returns the status and type of MFA, or null if not enabled
+ */
+export const getMFAInfo = async (
+  userId: string
+): Promise<{ status: 'full'; type: 'totp' | 'email' } | null> => {
+  const tokenDocument = strapi.documents('plugin::strapi-identity.mfa-token');
+
+  const record = await tokenDocument.findFirst({
+    filters: { admin_user: { id: userId }, enabled: true },
+  });
+
+  if (!record) return null;
+
+  return { status: 'full', type: record.type as 'totp' | 'email' };
+};
+
+/**
+ * Disables MFA for a user after validating the provided code.
+ * For TOTP, validates against TOTP token or recovery code.
+ * For email OTP, validates against a previously generated disable OTP.
  * @param userId id of the user to disable MFA for
- * @param code a valid TOTP token or recovery code for the user
+ * @param code a valid TOTP token, recovery code, or email OTP
  */
 export const disableSecret = async (userId: string, code: string): Promise<void> => {
-  const validToken = await validateTokenOrRecoveryCode(userId, code);
-
-  if (!validToken) throw new Error('Invalid token or recovery code');
-
   const tokenDocument = strapi.documents('plugin::strapi-identity.mfa-token');
 
   const record = await tokenDocument.findFirst({
@@ -205,6 +343,15 @@ export const disableSecret = async (userId: string, code: string): Promise<void>
   });
 
   if (!record) throw new Error('MFA is not enabled for this user');
+
+  let valid: boolean;
+  if (record.type === 'email') {
+    valid = await validateEmailOTP(userId, code, 'disable');
+  } else {
+    valid = await validateTokenOrRecoveryCode(userId, code);
+  }
+
+  if (!valid) throw new Error('Invalid token or recovery code');
 
   await tokenDocument.update({
     documentId: record.documentId,

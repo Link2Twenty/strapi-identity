@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "email-otps",
+  "info": {
+    "singularName": "email-otp",
+    "pluralName": "email-otps",
+    "displayName": "Email OTP"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "admin_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    },
+    "code_hash": {
+      "type": "string",
+      "required": true,
+      "private": true
+    },
+    "expires_at": {
+      "type": "string",
+      "required": true
+    },
+    "attempts": {
+      "type": "integer",
+      "default": 0
+    },
+    "purpose": {
+      "type": "enumeration",
+      "enum": ["login", "setup", "disable"],
+      "default": "login"
+    }
+  }
+}

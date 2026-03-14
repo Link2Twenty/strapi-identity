@@ -116,9 +116,20 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
     const body: { code: string } = ctx.request.body;
 
     try {
-      const valid = await strapi
-        .service('plugin::strapi-identity.secret')
-        .validateTokenOrRecoveryCode(payload.userId, body.code);
+      const mfaRecord = await strapi
+        .documents('plugin::strapi-identity.mfa-token')
+        .findFirst({ filters: { admin_user: { id: payload.userId }, enabled: true } });
+
+      let valid: boolean;
+      if (mfaRecord?.type === 'email') {
+        valid = await strapi
+          .service('plugin::strapi-identity.secret')
+          .validateEmailOTP(payload.userId, body.code, 'login');
+      } else {
+        valid = await strapi
+          .service('plugin::strapi-identity.secret')
+          .validateTokenOrRecoveryCode(payload.userId, body.code);
+      }
 
       if (!valid) {
         ctx.status = 400;
@@ -222,10 +233,10 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
     const secretService = strapi.service('plugin::strapi-identity.secret');
 
     try {
-      const isEnabled = await secretService.isMFAEnabled(user.id);
+      const info = await secretService.getMFAInfo(user.id);
 
       ctx.status = 200;
-      ctx.body = { data: { status: isEnabled }, error: null };
+      ctx.body = { data: { status: info?.status || null, type: info?.type || null }, error: null };
     } catch (error) {
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to check MFA status' };
@@ -246,6 +257,128 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to disable MFA' };
+    }
+  },
+  async enableEmail(ctx) {
+    const user = ctx.state.user;
+    const secretService = strapi.service('plugin::strapi-identity.secret');
+    const emailService = strapi.service('plugin::strapi-identity.email');
+    const configService = strapi.service('plugin::strapi-identity.config');
+
+    try {
+      const config = await configService.getConfig();
+      if (!config.email_enabled) {
+        ctx.status = 400;
+        ctx.body = { data: null, error: 'Email OTP is not configured' };
+        return;
+      }
+
+      const existing = await strapi
+        .documents('plugin::strapi-identity.mfa-token')
+        .findFirst({ filters: { admin_user: { id: user.id }, enabled: true } });
+
+      if (existing) {
+        ctx.status = 400;
+        ctx.body = { data: null, error: 'MFA is already enabled. Disable it first.' };
+        return;
+      }
+
+      const otp = await secretService.generateEmailOTP(user.id, 'setup');
+      await emailService.send(user.email, otp);
+
+      ctx.status = 200;
+      ctx.body = { data: { message: 'Verification email sent' }, error: null };
+    } catch (error) {
+      console.log('Error initiating email MFA setup:', error);
+      ctx.status = 500;
+      ctx.body = { data: null, error: 'Failed to initiate email MFA setup' };
+    }
+  },
+  async setupEmail(ctx) {
+    const user = ctx.state.user;
+    const body: { code: string } = ctx.request.body;
+    const secretService = strapi.service('plugin::strapi-identity.secret');
+
+    try {
+      const valid = await secretService.validateEmailOTP(user.id, body.code, 'setup');
+      if (!valid) {
+        ctx.status = 400;
+        ctx.body = { data: null, error: 'Invalid or expired verification code' };
+        return;
+      }
+
+      await secretService.enableEmailMFA(user.id);
+
+      ctx.status = 200;
+      ctx.body = { data: { message: 'Email OTP enabled' }, error: null };
+    } catch (error) {
+      console.log('Error completing email MFA setup:', error);
+      ctx.status = 500;
+      ctx.body = { data: null, error: 'Failed to enable email MFA' };
+    }
+  },
+  async requestDisableEmailOTP(ctx) {
+    const user = ctx.state.user;
+    const secretService = strapi.service('plugin::strapi-identity.secret');
+    const emailService = strapi.service('plugin::strapi-identity.email');
+
+    try {
+      const info = await secretService.getMFAInfo(user.id);
+      if (!info || info.type !== 'email') {
+        ctx.status = 400;
+        ctx.body = { data: null, error: 'Email OTP is not enabled' };
+        return;
+      }
+
+      const otp = await secretService.generateEmailOTP(user.id, 'disable');
+      await emailService.send(user.email, otp);
+
+      ctx.status = 200;
+      ctx.body = { data: { message: 'Verification email sent' }, error: null };
+    } catch (error) {
+      console.log('Error sending disable email OTP:', error);
+      ctx.status = 500;
+      ctx.body = { data: null, error: 'Failed to send verification email' };
+    }
+  },
+  async resendVerifyOTP(ctx) {
+    const secret = strapi.config.get<string>('admin.auth.secret');
+    const token = ctx.cookies.get('strapi_admin_mfa');
+
+    try {
+      const payload = jwt.verify(token, secret) as {
+        userId: string;
+        mfaType?: string;
+      };
+
+      if (payload.mfaType !== 'email') {
+        ctx.status = 400;
+        ctx.body = { data: null, error: 'Resend is only available for email OTP' };
+        return;
+      }
+
+      const adminUser = await strapi.db
+        .query('admin::user')
+        .findOne({ where: { id: Number(payload.userId) }, select: ['email'] });
+
+      if (!adminUser?.email) {
+        ctx.status = 400;
+        ctx.body = { data: null, error: 'No email address found for this user' };
+        return;
+      }
+
+      const secretService = strapi.service('plugin::strapi-identity.secret');
+      const emailService = strapi.service('plugin::strapi-identity.email');
+
+      const otp = await secretService.generateEmailOTP(payload.userId, 'login');
+      await emailService.send(adminUser.email, otp);
+
+      ctx.status = 200;
+      ctx.body = { data: { message: 'Verification email resent' }, error: null };
+    } catch (error) {
+      console.log('Error resending login email OTP:', error);
+      ctx.status = 500;
+      ctx.body = { data: null, error: 'Failed to resend verification email' };
     }
   },
 });

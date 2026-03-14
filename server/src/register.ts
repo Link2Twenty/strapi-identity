@@ -70,9 +70,34 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
 
     if (!exists) return;
 
+    // If the user has email OTP enabled, generate and send the OTP now
+    if (exists.type === 'email') {
+      try {
+        const adminUser = await strapi.db
+          .query('admin::user')
+          .findOne({ where: { id: Number(payload.userId) }, select: ['email'] });
+
+        if (adminUser?.email) {
+          const otp = await strapi
+            .service('plugin::strapi-identity.secret')
+            .generateEmailOTP(payload.userId, 'login');
+
+          await strapi.service('plugin::strapi-identity.email').send(adminUser.email, otp);
+        }
+      } catch (err) {
+        console.log('Error sending login email OTP:', err);
+      }
+    }
+
     ctx.res.removeHeader('set-cookie');
 
-    const newPayload = { userId: payload.userId, deviceId, rememberMe, type: 'mfa' };
+    const newPayload = {
+      userId: payload.userId,
+      deviceId,
+      rememberMe,
+      type: 'mfa',
+      mfaType: exists.type,
+    };
     const newToken = jwt.sign(newPayload, secret, { expiresIn: '5m' });
     const expires = new Date(Date.now() + 5 * 60 * 1000);
 

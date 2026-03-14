@@ -1,14 +1,14 @@
 const defaultConfig = {
+  email_enabled: false,
   enabled: false,
   enforce: false,
-  issuer: '',
-  email_enabled: false,
   from_email: '',
   from_name: '',
+  issuer: '',
+  message: '',
   response_email: '',
   subject: '',
   text: '',
-  message: '',
 };
 
 /**
@@ -16,7 +16,9 @@ const defaultConfig = {
  * @param options partial configuration options to override defaults
  * @returns a complete configuration object with all required fields
  */
-const _config = (options: Partial<typeof defaultConfig>): typeof defaultConfig => {
+const _config = (
+  options: Partial<typeof defaultConfig> & Record<string, any>
+): typeof defaultConfig => {
   return Object.assign({}, defaultConfig, options);
 };
 
@@ -59,9 +61,44 @@ export const updateConfig = async (data: Partial<typeof defaultConfig>) => {
 
   if (existingConfig.enabled && !data.enabled) await disableMFAForAllUsers();
 
+  if (existingConfig.email_enabled && data.email_enabled === false)
+    await disableEmailMFAForAllUsers();
+
   return configDocument
     .update({ documentId: existingConfig.documentId, data: { ...existingConfig, ...data }, fields })
     .then((updated) => _config(updated));
+};
+
+/**
+ * Disables Email MFA for all users who have email as their MFA type
+ * This is called when the admin turns off Email MFA in the settings
+ */
+const disableEmailMFAForAllUsers = async () => {
+  const tokenDocument = strapi.documents('plugin::strapi-identity.mfa-token');
+  const otpDocument = strapi.documents('plugin::strapi-identity.email-otp');
+
+  try {
+    const emailTokens = await tokenDocument.findMany({
+      filters: { type: 'email', enabled: true },
+    });
+
+    await Promise.all([
+      ...emailTokens.map((token) =>
+        tokenDocument.update({
+          documentId: token.documentId,
+          data: { ...token, enabled: false },
+        })
+      ),
+      // Clean up any pending email OTPs
+      otpDocument
+        .findMany({})
+        .then((otps) =>
+          Promise.all(otps.map((otp) => otpDocument.delete({ documentId: otp.documentId })))
+        ),
+    ]);
+  } catch (err) {
+    console.log('Error disabling email MFA for all users:', err);
+  }
 };
 
 /**

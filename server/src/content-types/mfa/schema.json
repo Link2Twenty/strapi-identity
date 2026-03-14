@@ -29,12 +29,11 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": ["totp", "hotp"],
+      "enum": ["totp", "hotp", "email"],
       "default": "totp"
     },
     "secret": {
       "type": "string",
-      "required": true,
       "private": true
     },
     "counter": {

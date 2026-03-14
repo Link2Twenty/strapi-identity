@@ -128,6 +128,7 @@ export default function SettingsPage() {
   const { toggleNotification } = useNotification();
 
   const [showWarning, setShowWarning] = useState(false);
+  const [showEmailWarning, setShowEmailWarning] = useState(false);
 
   const [canSave, setCanSave] = useState(false);
   const [isSaving, setSaving] = useState(false);
@@ -160,6 +161,12 @@ export default function SettingsPage() {
 
     if (initialConfig?.enabled && !values.enabled && !confirmed) {
       setShowWarning(true);
+      setSaving(false);
+      return;
+    }
+
+    if (initialConfig?.email_enabled && !values.email_enabled && !confirmed) {
+      setShowEmailWarning(true);
       setSaving(false);
       return;
     }
@@ -537,6 +544,28 @@ export default function SettingsPage() {
           </Flex>
         </form>
       </Page.Main>
+      <WarningAlert
+        open={showEmailWarning}
+        onCancel={() => setShowEmailWarning(false)}
+        onConfirm={() => {
+          setShowEmailWarning(false);
+          formRef.current && handleSubmit({ currentTarget: formRef.current }, true);
+        }}
+      >
+        <Typography variant="omega" textAlign="center">
+          {formatMessage({
+            id: getTranslation('settings.email_warning'),
+            defaultMessage:
+              'Turning off Email MFA will disable Email OTP for all users who have it enabled.',
+          })}
+        </Typography>
+        <Typography textAlign="center" fontWeight="semiBold">
+          {formatMessage({
+            id: getTranslation('app.confirm.body'),
+            defaultMessage: 'Are you sure?',
+          })}
+        </Typography>
+      </WarningAlert>
       <WarningAlert
         open={showWarning}
         onCancel={() => setShowWarning(false)}

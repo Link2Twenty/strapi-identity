@@ -110,6 +110,9 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
 
   const [error, setError] = useState<string | null>(null);
   const [useRecoveryCode, setUseRecoveryCode] = useState(false);
+  const [mfaType, setMfaType] = useState<'totp' | 'email' | null>(null);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -145,7 +148,7 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
     }
   };
 
-  // Redirect to admin if no MFA token is present
+  // Redirect to admin if no MFA token is present; decode mfaType from the cookie JWT
   useEffect(() => {
     const mfaToken = document.cookie.split('; ').reduce<string | null>((acc, cookie) => {
       const [name, value] = cookie.split('=');
@@ -153,8 +156,49 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
       return name === 'strapi_admin_mfa' ? value.trim() : acc;
     }, null);
 
-    if (auth?.token || !mfaToken) window.location.replace('/admin');
+    if (auth?.token || !mfaToken) {
+      window.location.replace('/admin');
+      return;
+    }
+
+    // Decode JWT payload (no verification — just reading public claims for UI purposes)
+    try {
+      const payloadBase64 = mfaToken.split('.')[1];
+      const decoded = JSON.parse(atob(payloadBase64));
+      setMfaType(decoded.mfaType || null);
+    } catch {
+      // Malformed token — let the server reject it on submit
+    }
   }, [auth?.token]);
+
+  const handleResend = async () => {
+    setResendLoading(true);
+    setResendSuccess(false);
+    setError(null);
+
+    try {
+      const response = await fetch('/strapi-identity/verify/resend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to resend code');
+      }
+
+      setResendSuccess(true);
+    } catch (err) {
+      setError(
+        formatMessage({
+          id: getTranslation('verify_page.resend_error'),
+          defaultMessage: 'Failed to resend the code. Please try again.',
+        })
+      );
+    } finally {
+      setResendLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -199,10 +243,15 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
                   textAlign="center"
                   display="block"
                 >
-                  {formatMessage({
-                    id: getTranslation('verify_page.subtitle'),
-                    defaultMessage: 'Enter your verification code to continue.',
-                  })}
+                  {mfaType === 'email'
+                    ? formatMessage({
+                        id: getTranslation('verify_page.subtitle_email'),
+                        defaultMessage: 'Enter the code we sent to your email address.',
+                      })
+                    : formatMessage({
+                        id: getTranslation('verify_page.subtitle'),
+                        defaultMessage: 'Enter your verification code to continue.',
+                      })}
                 </Typography>
               </Box>
             </Flex>
@@ -251,17 +300,36 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
 
           <Flex justifyContent="center">
             <Box paddingTop={4}>
-              <Button variant="ghost" onClick={() => setUseRecoveryCode((prev) => !prev)}>
-                {useRecoveryCode
-                  ? formatMessage({
-                      id: getTranslation('general.use_verification_code'),
-                      defaultMessage: 'Use verification code',
-                    })
-                  : formatMessage({
-                      id: getTranslation('general.use_recovery_code'),
-                      defaultMessage: 'Use recovery code',
-                    })}
-              </Button>
+              {mfaType === 'email' ? (
+                <Button
+                  variant="ghost"
+                  onClick={handleResend}
+                  loading={resendLoading}
+                  disabled={resendLoading}
+                >
+                  {resendSuccess
+                    ? formatMessage({
+                        id: getTranslation('verify_page.resend_success'),
+                        defaultMessage: 'Code sent!',
+                      })
+                    : formatMessage({
+                        id: getTranslation('verify_page.resend'),
+                        defaultMessage: 'Resend code',
+                      })}
+                </Button>
+              ) : (
+                <Button variant="ghost" onClick={() => setUseRecoveryCode((prev) => !prev)}>
+                  {useRecoveryCode
+                    ? formatMessage({
+                        id: getTranslation('general.use_verification_code'),
+                        defaultMessage: 'Use verification code',
+                      })
+                    : formatMessage({
+                        id: getTranslation('general.use_recovery_code'),
+                        defaultMessage: 'Use recovery code',
+                      })}
+                </Button>
+              )}
             </Box>
           </Flex>
         </Main>

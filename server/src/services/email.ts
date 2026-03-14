@@ -1,6 +1,6 @@
 import type strapiEmail from '@strapi/email/dist/server/src';
 
-export const send = async (to: string) => {
+export const send = async (to: string, otp: string) => {
   const emailService: ReturnType<typeof strapiEmail.services.email> = strapi
     .plugin('email')
     .service('email');
@@ -19,9 +19,9 @@ export const send = async (to: string) => {
       to,
       from: config.from_email || strapi.config.get('plugin::email.defaultFrom'),
       subject: config.subject,
-      text: replaceTemplateVariables<{ OTP: string }>(config.text, { OTP: '123456' }),
+      text: replaceTemplateVariables<{ OTP: string }>(config.text, { OTP: otp }),
       html: replaceTemplateVariables<{ OTP: string; YEAR: string }>(config.message, {
-        OTP: '123456',
+        OTP: otp,
         YEAR: new Date().getFullYear().toString(),
       }),
     })
