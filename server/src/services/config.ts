@@ -1,15 +1,27 @@
+const defaultConfig = {
+  enabled: false,
+  enforce: false,
+  issuer: '',
+  email_enabled: false,
+  from_email: '',
+  from_name: '',
+  response_email: '',
+  subject: '',
+  text: '',
+  message: '',
+};
+
 /**
  * Internal function to create a complete configuration object by merging provided options with default values
  * @param options partial configuration options to override defaults
  * @returns a complete configuration object with all required fields
  */
-const _config = (options: Record<string, unknown> | null) => {
-  return {
-    enabled: options?.enabled || false,
-    enforce: options?.enforce || false,
-    issuer: options?.issuer || '',
-  };
+const _config = (options: Partial<typeof defaultConfig>): typeof defaultConfig => {
+  return Object.assign({}, defaultConfig, options);
 };
+
+// Extract the keys of the default configuration to use when querying the database, ensuring we only retrieve relevant fields
+const fields = Object.keys(defaultConfig) as (keyof typeof defaultConfig)[];
 
 /**
  * Service for managing the Strapi Identity plugin configuration
@@ -28,9 +40,7 @@ export const isEnabled = async () => {
 export const getConfig = async () => {
   const configDocument = strapi.documents('plugin::strapi-identity.strapi-identity-config');
 
-  return configDocument
-    .findFirst({ fields: ['enabled', 'enforce', 'issuer'] })
-    .then((config) => _config(config));
+  return configDocument.findFirst({ fields }).then((config) => _config(config));
 };
 
 /**
@@ -38,29 +48,19 @@ export const getConfig = async () => {
  * @param data partial configuration data to update
  * @returns  the updated configuration
  */
-export const updateConfig = async (
-  data: Partial<{ enabled: boolean; enforce: boolean; issuer: string }>
-) => {
+export const updateConfig = async (data: Partial<typeof defaultConfig>) => {
   const configDocument = strapi.documents('plugin::strapi-identity.strapi-identity-config');
 
   const existingConfig = await configDocument.findFirst();
 
   if (!existingConfig) {
-    return configDocument
-      .create({ data, fields: ['enabled', 'enforce', 'issuer'] })
-      .then((created) => _config(created));
+    return configDocument.create({ data, fields }).then((created) => _config(created));
   }
 
-  if (existingConfig.enabled && !data.enabled) {
-    await disableMFAForAllUsers();
-  }
+  if (existingConfig.enabled && !data.enabled) await disableMFAForAllUsers();
 
   return configDocument
-    .update({
-      documentId: existingConfig.documentId,
-      data: { ...existingConfig, ...data },
-      fields: ['enabled', 'enforce', 'issuer'],
-    })
+    .update({ documentId: existingConfig.documentId, data: { ...existingConfig, ...data }, fields })
     .then((updated) => _config(updated));
 };
 

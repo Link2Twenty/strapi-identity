@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Behartu faktore anitzeko autentifikazioa erabiltzaile guztientzat. Gaituta badago, erabiltzaileek MFA konfiguratu beharko dute hurrengo saio-hasieran.",
   "settings.issuer": "Jaulkitzailearen izena",
   "settings.issuer_hint": "MFA aplikazioan bistaratzen da",
+  "settings.accessibility_message": "Irisgarritasun mezua",
   "admin.title": "Bi faktoreko autentifikazioa",
   "admin.subtitle": "Berrezarri erabiltzaile baten bi faktoreko autentifikazioa.",
   "admin.warn-title": "Berrezarri 2FA erabiltzaile honentzat?",

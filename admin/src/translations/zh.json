@@ -25,6 +25,7 @@
   "settings.enforce_hint": "強制所有使用者使用多因素驗證。若啟用，使用者將在下次登入時被要求設定 MFA。",
   "settings.issuer": "發行者名稱",
   "settings.issuer_hint": "顯示在 MFA 應用程式中",
+  "settings.accessibility_message": "無障礙訊息",
   "admin.title": "雙因素驗證",
   "admin.subtitle": "重設使用者的雙因素驗證。",
   "admin.warn-title": "重設此使用者的 2FA？",

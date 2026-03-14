@@ -25,6 +25,7 @@
   "settings.enforce_hint": "אכוף אימות רב-גורמים (MFA) עבור כל המשתמשים. אם מופעל, משתמשים יידרשו להגדיר MFA בכניסה הבאה שלהם.",
   "settings.issuer": "שם המנפיק",
   "settings.issuer_hint": "מוצג באפליקציית ה-MFA",
+  "settings.accessibility_message": "הודעת נגישות",
   "admin.title": "אימות דו-שלבי",
   "admin.subtitle": "אפס את האימות הדו-שלבי עבור משתמש.",
   "admin.warn-title": "לאפס 2FA עבור משתמש זה?",

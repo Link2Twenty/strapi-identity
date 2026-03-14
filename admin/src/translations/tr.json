@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Tüm kullanıcılar için Çok Faktörlü Kimlik Doğrulamayı zorunlu kılın. Etkinleştirilirse, kullanıcıların bir sonraki girişlerinde MFA'yı ayarlamaları istenecektir.",
   "settings.issuer": "Veren Adı",
   "settings.issuer_hint": "MFA uygulamasında görüntülenir",
+  "settings.accessibility_message": "Erişilebilirlik Mesajı",
   "admin.title": "İki Faktörlü Kimlik Doğrulama",
   "admin.subtitle": "Bir kullanıcı için İki Faktörlü Kimlik Doğrulamayı sıfırlayın.",
   "admin.warn-title": "Bu kullanıcı için 2FA sıfırlansın mı?",

@@ -25,6 +25,7 @@
   "settings.enforce_hint": "فرض المصادقة المتعددة العوامل لجميع المستخدمين. في حالة التمكين، سيُطلب من المستخدمين إعداد MFA عند تسجيل الدخول التالي.",
   "settings.issuer": "اسم المُصدر",
   "settings.issuer_hint": "يتم عرضه في تطبيق MFA",
+  "settings.accessibility_message": "رسالة إمكانية الوصول",
   "admin.title": "المصادقة الثنائية",
   "admin.subtitle": "إعادة تعيين المصادقة الثنائية للمستخدم.",
   "admin.warn-title": "إعادة تعيين 2FA لهذا المستخدم؟",

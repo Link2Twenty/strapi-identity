@@ -25,6 +25,7 @@
   "settings.enforce_hint": "모든 사용자에게 다단계 인증(MFA)을 강제합니다. 활성화하면 사용자는 다음 로그인 시 MFA를 설정해야 합니다.",
   "settings.issuer": "발급자 이름",
   "settings.issuer_hint": "MFA 앱에 표시됨",
+  "settings.accessibility_message": "접근성 메시지",
   "admin.title": "2단계 인증",
   "admin.subtitle": "사용자의 2단계 인증을 초기화합니다.",
   "admin.warn-title": "이 사용자의 2FA를 초기화하시겠습니까?",

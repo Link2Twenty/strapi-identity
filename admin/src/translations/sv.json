@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Tvinga flerfaktorsautentisering för alla användare. Om aktiverat måste användare konfigurera MFA vid nästa inloggning.",
   "settings.issuer": "Utfärdarens namn",
   "settings.issuer_hint": "Visas i MFA-appen",
+  "settings.accessibility_message": "Tillgänglighetsmeddelande",
   "admin.title": "Tvåfaktorsautentisering",
   "admin.subtitle": "Återställ tvåfaktorsautentisering för en användare.",
   "admin.warn-title": "Återställ 2FA för denna användare?",

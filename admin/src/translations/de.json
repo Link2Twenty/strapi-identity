@@ -15,6 +15,7 @@
   "settings.enforce_hint": "Multi-Faktor-Authentifizierung für alle Benutzer erzwingen. Wenn aktiviert, müssen Benutzer MFA bei der nächsten Anmeldung einrichten.",
   "settings.issuer": "Name des Ausstellers",
   "settings.issuer_hint": "Wird in der MFA-App angezeigt",
+  "settings.accessibility_message": "Barrierefreiheitsnachricht",
   "admin.title": "Zwei-Faktor-Authentifizierung",
   "admin.subtitle": "Zwei-Faktor-Authentifizierung für einen Benutzer zurücksetzen.",
   "admin.warn-title": "2FA für diesen Benutzer zurücksetzen?",

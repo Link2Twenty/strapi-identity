@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Wymuś uwierzytelnianie wieloskładnikowe dla wszystkich użytkowników. Jeśli włączone, użytkownicy będą musieli skonfigurować MFA przy następnym logowaniu.",
   "settings.issuer": "Nazwa wydawcy",
   "settings.issuer_hint": "Wyświetlane w aplikacji MFA",
+  "settings.accessibility_message": "Wiadomość o dostępności",
   "admin.title": "Uwierzytelnianie dwuskładnikowe",
   "admin.subtitle": "Zresetuj uwierzytelnianie dwuskładnikowe dla użytkownika.",
   "admin.warn-title": "Zresetować 2FA dla tego użytkownika?",

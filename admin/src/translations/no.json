@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Tving multifaktorautentisering for alle brukere. Hvis aktivert, må brukere sette opp MFA ved neste pålogging.",
   "settings.issuer": "Utstedernavn",
   "settings.issuer_hint": "Vises i MFA-appen",
+  "settings.accessibility_message": "TilgjengelighetsMelding",
   "admin.title": "Tofaktorautentisering",
   "admin.subtitle": "Tilbakestill tofaktorautentisering for en bruker.",
   "admin.warn-title": "Tilbakestill 2FA for denne brukeren?",

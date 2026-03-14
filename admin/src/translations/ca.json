@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Forçar l'autenticació multifactor per a tots els usuaris. Si s'habilita, els usuaris hauran de configurar l'MFA en el seu següent inici de sessió.",
   "settings.issuer": "Nom de l'emissor",
   "settings.issuer_hint": "Es mostra a l'aplicació MFA",
+  "settings.accessibility_message": "Missatge d'accessibilitat",
   "admin.title": "Autenticació de dos factors",
   "admin.subtitle": "Restablir l'autenticació de dos factors per a un usuari.",
   "admin.warn-title": "Restablir 2FA per a aquest usuari?",

@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Imponi l'autenticazione a più fattori per tutti gli utenti. Se abilitato, agli utenti verrà richiesto di configurare l'MFA al prossimo accesso.",
   "settings.issuer": "Nome emittente",
   "settings.issuer_hint": "Visualizzato nell'app MFA",
+  "settings.accessibility_message": "Messaggio di accessibilità",
   "admin.title": "Autenticazione a due fattori",
   "admin.subtitle": "Reimposta l'autenticazione a due fattori per un utente.",
   "admin.warn-title": "Reimpostare la 2FA per questo utente?",

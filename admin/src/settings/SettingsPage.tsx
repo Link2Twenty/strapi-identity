@@ -3,7 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 // Components
 import WarningAlert from '../components/WarningAlert';
 import { Layouts, Page, useNotification } from '@strapi/strapi/admin';
-import { Button, Field, Flex, Grid, TextInput, Toggle, Typography } from '@strapi/design-system';
+import {
+  Button,
+  Field,
+  Flex,
+  Grid,
+  Textarea,
+  TextInput,
+  Toggle,
+  Typography,
+} from '@strapi/design-system';
 import { Check } from '@strapi/icons';
 
 // Helpers
@@ -14,10 +23,83 @@ import { getToken } from '../utils/tokenHelpers';
 // Hooks
 import { useIntl } from 'react-intl';
 // Types
-type config = { enabled: boolean; enforce: boolean; issuer: string };
+type config = {
+  enabled: boolean;
+  enforce: boolean;
+  issuer: string;
+  email_enabled: boolean;
+  from_email: string;
+  from_name: string;
+  response_email: string;
+  subject: string;
+  text: string;
+  message: string;
+  [key: string]: boolean | string; // Add index signature
+};
 
 // Constants
-const defaultConfig: config = { enabled: false, enforce: false, issuer: '' };
+const defaultConfig = {
+  enabled: false,
+  enforce: false,
+  issuer: 'Strapi',
+  email_enabled: false,
+  from_email: '',
+  from_name: '',
+  response_email: '',
+  subject: 'Your One-Time Password',
+  text: 'Your one-time password is: <%= OTP %>',
+  message: `<div style="margin: 0; padding: 0;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#f9f9f9">
+        <tr>
+            <td align="center" style="padding: 40px 10px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" bgcolor="#ffffff" style="border: 1px solid #dddddd;">
+                    <tr>
+                        <td align="center" style="padding: 40px 40px 20px 40px;">
+                            <font face="Arial, sans-serif" size="5" color="#333333">
+                                <strong>Verify Your Account</strong>
+                            </font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 0 40px 20px 40px;">
+                            <font face="Arial, sans-serif" size="3" color="#555555" style="line-height: 24px;">
+                                Please use the following one-time password to complete your registration. This code will expire in 10 minutes.
+                            </font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 20px 40px;">
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center" bgcolor="#f4f4f4" style="padding: 20px 30px; font-family: Courier, monospace; font-size: 36px; color: #2d3436;">
+                                        <strong><%= OTP %></strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 20px 40px 40px 40px;">
+                            <font face="Arial, sans-serif" size="2" color="#888888">
+                                If you did not request this code, please ignore this email.
+                            </font>
+                        </td>
+                    </tr>
+                </table>
+                <table border="0" cellpadding="0" cellspacing="0" width="600">
+                    <tr>
+                        <td align="center" style="padding: 20px;">
+                            <font face="Arial, sans-serif" size="1" color="#aaaaaa">
+                                &copy; <%= YEAR %> Your Company Name
+                            </font>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>`,
+} as const;
 
 /**
  * Utility function to extract config values from form data
@@ -27,8 +109,11 @@ const defaultConfig: config = { enabled: false, enforce: false, issuer: '' };
 const getConfigFromForm = (formData: FormData) => {
   return Array.from(formData.entries()).reduce<config>(
     (acc, [key, value]) => {
-      if (key === 'enabled' || key === 'enforce') acc[key] = value === 'on';
-      else if (key === 'issuer') acc[key] = String(value);
+      if (key === 'enabled' || key === 'enforce' || key === 'email_enabled') {
+        acc[key] = value === 'on';
+      } else {
+        acc[key] = String(value);
+      }
 
       return acc;
     },
@@ -51,6 +136,7 @@ export default function SettingsPage() {
   const [initialConfig, setInitialConfig] = useState<config | null>(null);
 
   const [enabled, setEnabled] = useState(false);
+  const [emailEnabled, setEmailEnabled] = useState(false);
   const [enforce, setEnforce] = useState(false);
 
   /**
@@ -69,6 +155,8 @@ export default function SettingsPage() {
 
     const formData = new FormData(event.currentTarget);
     const values = getConfigFromForm(formData);
+
+    console.log(formData, values);
 
     if (initialConfig?.enabled && !values.enabled && !confirmed) {
       setShowWarning(true);
@@ -133,7 +221,7 @@ export default function SettingsPage() {
     (async () => {
       try {
         const response = await fetch('/strapi-identity/config', {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
           signal: ac.signal,
         });
 
@@ -146,6 +234,7 @@ export default function SettingsPage() {
 
         setInitialConfig(data);
         setEnabled(data.enabled);
+        setEmailEnabled(data.email_enabled);
         setEnforce(data.enforce);
       } catch (error) {
         console.error('Error fetching config:', error);
@@ -192,118 +281,260 @@ export default function SettingsPage() {
               </Button>
             }
           />
-          <Layouts.Content>
-            <Flex direction="column" alignItems="stretch" gap={6}>
-              <Flex
-                direction="column"
-                alignItems="stretch"
-                gap={4}
-                hasRadius
-                background="neutral0"
-                shadow="tableShadow"
-                paddingTop={6}
-                paddingBottom={6}
-                paddingRight={7}
-                paddingLeft={7}
-              >
-                <Flex direction="column" alignItems="stretch" gap={1}>
-                  <Typography variant="delta" tag="h2">
-                    {formatMessage({
-                      id: getTranslation('profile.title'),
-                      defaultMessage: 'Two-Factor Authentication',
-                    })}
-                  </Typography>
+          <Flex direction="column" gap={6}>
+            <Layouts.Content>
+              <Flex direction="column" alignItems="stretch" gap={6}>
+                <Flex
+                  direction="column"
+                  alignItems="stretch"
+                  gap={4}
+                  hasRadius
+                  background="neutral0"
+                  shadow="tableShadow"
+                  paddingTop={6}
+                  paddingBottom={6}
+                  paddingRight={7}
+                  paddingLeft={7}
+                >
+                  <Flex direction="column" alignItems="stretch" gap={1}>
+                    <Typography variant="delta" tag="h2">
+                      {formatMessage({
+                        id: getTranslation('profile.title'),
+                        defaultMessage: 'Two-Factor Authentication',
+                      })}
+                    </Typography>
+                  </Flex>
+                  <Grid.Root gap={5} tag="dl">
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root
+                        hint={formatMessage({
+                          id: getTranslation('settings.enabled_hint'),
+                          defaultMessage:
+                            'Enable or disable Two-Factor Authentication for all users.',
+                        })}
+                      >
+                        <Field.Label>
+                          {formatMessage({ id: 'global.enabled', defaultMessage: 'Enabled' })}
+                        </Field.Label>
+                        <Toggle
+                          name="enabled"
+                          checked={enabled}
+                          onChange={({ target }) => setEnabled(target.checked)}
+                          offLabel={formatMessage({
+                            id: 'app.components.ToggleCheckbox.off-label',
+                            defaultMessage: 'False',
+                          })}
+                          onLabel={formatMessage({
+                            id: 'app.components.ToggleCheckbox.on-label',
+                            defaultMessage: 'True',
+                          })}
+                        />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root
+                        hint={formatMessage({
+                          id: getTranslation('settings.enforce_hint'),
+                          defaultMessage:
+                            'Enforce Multi-Factor Authentication for all users. If enabled, users will be required to set up MFA on their next login.',
+                        })}
+                      >
+                        <Field.Label>
+                          {formatMessage({
+                            id: getTranslation('settings.enforce'),
+                            defaultMessage: 'Enforce MFA',
+                          })}
+                        </Field.Label>
+                        <Toggle
+                          name="enforce"
+                          disabled
+                          checked={enforce}
+                          onChange={({ target }) => setEnforce(target.checked)}
+                          offLabel={formatMessage({
+                            id: 'app.components.ToggleCheckbox.off-label',
+                            defaultMessage: 'False',
+                          })}
+                          onLabel={formatMessage({
+                            id: 'app.components.ToggleCheckbox.on-label',
+                            defaultMessage: 'True',
+                          })}
+                        />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root
+                        hint={formatMessage({
+                          id: getTranslation('settings.issuer_hint'),
+                          defaultMessage: 'Displayed in the MFA app',
+                        })}
+                      >
+                        <Field.Label>
+                          {formatMessage({
+                            id: getTranslation('settings.issuer'),
+                            defaultMessage: 'Issuer Name',
+                          })}
+                        </Field.Label>
+                        <TextInput
+                          name="issuer"
+                          defaultValue={initialConfig?.issuer}
+                          placeholder={formatMessage({
+                            id: getTranslation('settings.issuer'),
+                            defaultMessage: 'Issuer Name',
+                          })}
+                        />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                  </Grid.Root>
                 </Flex>
-                <Grid.Root gap={5} tag="dl">
-                  <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
-                    <Field.Root
-                      hint={formatMessage({
-                        id: getTranslation('settings.enabled_hint'),
-                        defaultMessage:
-                          'Enable or disable Two-Factor Authentication for all users.',
+                <Flex
+                  direction="column"
+                  alignItems="stretch"
+                  gap={4}
+                  hasRadius
+                  background="neutral0"
+                  shadow="tableShadow"
+                  paddingTop={6}
+                  paddingBottom={6}
+                  paddingRight={7}
+                  paddingLeft={7}
+                >
+                  <Flex direction="column" alignItems="stretch" gap={1}>
+                    <Typography variant="delta" tag="h2">
+                      {formatMessage({
+                        id: getTranslation('settings.email_title'),
+                        defaultMessage: 'Email Settings',
                       })}
-                    >
-                      <Field.Label>
-                        {formatMessage({ id: 'global.enabled', defaultMessage: 'Enabled' })}
-                      </Field.Label>
-                      <Toggle
-                        name="enabled"
-                        checked={enabled}
-                        onChange={({ target }) => setEnabled(target.checked)}
-                        offLabel={formatMessage({
-                          id: 'app.components.ToggleCheckbox.off-label',
-                          defaultMessage: 'False',
+                    </Typography>
+                  </Flex>
+                  <Grid.Root gap={5} tag="dl">
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root
+                        hint={formatMessage({
+                          id: getTranslation('settings.email_enabled_hint'),
+                          defaultMessage: 'Enable or disable Email MFA.',
                         })}
-                        onLabel={formatMessage({
-                          id: 'app.components.ToggleCheckbox.on-label',
-                          defaultMessage: 'True',
-                        })}
-                      />
-                      <Field.Hint />
-                      <Field.Error />
-                    </Field.Root>
-                  </Grid.Item>
-                  <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
-                    <Field.Root
-                      hint={formatMessage({
-                        id: getTranslation('settings.enforce_hint'),
-                        defaultMessage:
-                          'Enforce Multi-Factor Authentication for all users. If enabled, users will be required to set up MFA on their next login.',
-                      })}
-                    >
-                      <Field.Label>
-                        {formatMessage({
-                          id: getTranslation('settings.enforce'),
-                          defaultMessage: 'Enforce MFA',
-                        })}
-                      </Field.Label>
-                      <Toggle
-                        name="enforce"
-                        disabled
-                        checked={enforce}
-                        onChange={({ target }) => setEnforce(target.checked)}
-                        offLabel={formatMessage({
-                          id: 'app.components.ToggleCheckbox.off-label',
-                          defaultMessage: 'False',
-                        })}
-                        onLabel={formatMessage({
-                          id: 'app.components.ToggleCheckbox.on-label',
-                          defaultMessage: 'True',
-                        })}
-                      />
-                      <Field.Hint />
-                      <Field.Error />
-                    </Field.Root>
-                  </Grid.Item>
-                  <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
-                    <Field.Root
-                      hint={formatMessage({
-                        id: getTranslation('settings.issuer_hint'),
-                        defaultMessage: 'Displayed in the MFA app',
-                      })}
-                    >
-                      <Field.Label>
-                        {formatMessage({
-                          id: getTranslation('settings.issuer'),
-                          defaultMessage: 'Issuer Name',
-                        })}
-                      </Field.Label>
-                      <TextInput
-                        name="issuer"
-                        defaultValue={initialConfig?.issuer}
-                        placeholder={formatMessage({
-                          id: getTranslation('settings.issuer'),
-                          defaultMessage: 'Issuer Name',
-                        })}
-                      />
-                      <Field.Hint />
-                      <Field.Error />
-                    </Field.Root>
-                  </Grid.Item>
-                </Grid.Root>
+                      >
+                        <Field.Label>
+                          {formatMessage({ id: 'global.enabled', defaultMessage: 'Enabled' })}
+                        </Field.Label>
+                        <Toggle
+                          name="email_enabled"
+                          checked={emailEnabled}
+                          onChange={({ target }) => setEmailEnabled(target.checked)}
+                          offLabel={formatMessage({
+                            id: 'app.components.ToggleCheckbox.off-label',
+                            defaultMessage: 'False',
+                          })}
+                          onLabel={formatMessage({
+                            id: 'app.components.ToggleCheckbox.on-label',
+                            defaultMessage: 'True',
+                          })}
+                        />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                  </Grid.Root>
+                  <Grid.Root gap={5} tag="dl">
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root>
+                        <Field.Label>
+                          {formatMessage({
+                            id: 'PopUpForm.Email.options.from.name.label',
+                            defaultMessage: 'Shipper name',
+                          })}
+                        </Field.Label>
+                        <TextInput name="from_name" defaultValue={initialConfig?.from_name || ''} />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root>
+                        <Field.Label>
+                          {formatMessage({
+                            id: 'PopUpForm.Email.options.from.email.label',
+                            defaultMessage: 'Shipper email',
+                          })}
+                        </Field.Label>
+                        <TextInput
+                          name="from_email"
+                          defaultValue={initialConfig?.from_email || ''}
+                        />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root>
+                        <Field.Label>
+                          {formatMessage({
+                            id: 'PopUpForm.Email.options.response_email.label',
+                            defaultMessage: 'Response email',
+                          })}
+                        </Field.Label>
+                        <TextInput
+                          name="response_email"
+                          defaultValue={initialConfig?.response_email || ''}
+                        />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                    <Grid.Item col={6} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root>
+                        <Field.Label>
+                          {formatMessage({
+                            id: 'PopUpForm.Email.options.object.label',
+                            defaultMessage: 'Subject',
+                          })}
+                        </Field.Label>
+                        <TextInput name="subject" defaultValue={initialConfig?.subject || ''} />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                    <Grid.Item col={12} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root>
+                        <Field.Label>
+                          {formatMessage({
+                            id: 'settings.accessibility_message',
+                            defaultMessage: 'Accessibility Message',
+                          })}
+                        </Field.Label>
+                        <TextInput name="text" defaultValue={initialConfig?.text || ''} />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                    <Grid.Item col={12} xs={12} direction="column" alignItems="stretch">
+                      <Field.Root>
+                        <Field.Label>
+                          {formatMessage({
+                            id: getTranslation('PopUpForm.Email.options.message.label'),
+                            defaultMessage: 'Message',
+                          })}
+                        </Field.Label>
+                        <Textarea
+                          name="message"
+                          defaultValue={initialConfig?.message || ''}
+                          rows={15}
+                        />
+                        <Field.Hint />
+                        <Field.Error />
+                      </Field.Root>
+                    </Grid.Item>
+                  </Grid.Root>
+                </Flex>
               </Flex>
-            </Flex>
-          </Layouts.Content>
+            </Layouts.Content>
+          </Flex>
         </form>
       </Page.Main>
       <WarningAlert

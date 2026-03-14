@@ -30,6 +30,40 @@
       "type": "string",
       "required": false,
       "default": "Strapi"
+    },
+    "email_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "from_email": {
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    "from_name": {
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    "response_email": {
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    "subject": {
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    "text": {
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    "message": {
+      "type": "text",
+      "required": false,
+      "default": ""
     }
   }
 }

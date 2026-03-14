@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Dwing multifactorauthenticatie af voor alle gebruikers. Indien ingeschakeld, moeten gebruikers MFA instellen bij hun volgende login.",
   "settings.issuer": "Naam uitgever",
   "settings.issuer_hint": "Weergegeven in de MFA-app",
+  "settings.accessibility_message": "Toegankelijkheidsbericht",
   "admin.title": "Tweefactorauthenticatie",
   "admin.subtitle": "Reset de tweefactorauthenticatie voor een gebruiker.",
   "admin.warn-title": "2FA resetten voor deze gebruiker?",

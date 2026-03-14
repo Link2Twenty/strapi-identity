@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Többfaktoros hitelesítés kényszerítése minden felhasználó számára. Ha engedélyezve van, a felhasználóknak be kell állítaniuk az MFA-t a következő bejelentkezéskor.",
   "settings.issuer": "Kibocsátó neve",
   "settings.issuer_hint": "Megjelenik az MFA alkalmazásban",
+  "settings.accessibility_message": "Akadálymentesítési üzenet",
   "admin.title": "Kétfaktoros hitelesítés",
   "admin.subtitle": "Kétfaktoros hitelesítés visszaállítása egy felhasználó számára.",
   "admin.warn-title": "Visszaállítja a 2FA-t ennél a felhasználónál?",

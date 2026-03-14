@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Vynutit vícefaktorové ověřování pro všechny uživatele. Pokud je povoleno, uživatelé budou vyzváni k nastavení MFA při příštím přihlášení.",
   "settings.issuer": "Název vydavatele",
   "settings.issuer_hint": "Zobrazuje se v aplikaci MFA",
+  "settings.accessibility_message": "Zpráva o přístupnosti",
   "admin.title": "Dvoufaktorové ověřování",
   "admin.subtitle": "Resetovat dvoufaktorové ověřování pro uživatele.",
   "admin.warn-title": "Resetovat 2FA pro tohoto uživatele?",

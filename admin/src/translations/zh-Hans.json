@@ -25,6 +25,7 @@
   "settings.enforce_hint": "强制所有用户使用多因素身份验证。如果启用，用户将在下次登录时被要求设置 MFA。",
   "settings.issuer": "发行者名称",
   "settings.issuer_hint": "显示在 MFA 应用程序中",
+  "settings.accessibility_message": "无障碍消息",
   "admin.title": "双因素身份验证",
   "admin.subtitle": "重置用户的双因素身份验证。",
   "admin.warn-title": "重置此用户的 2FA？",

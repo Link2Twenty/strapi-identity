@@ -4,18 +4,18 @@ import type { Plugin } from '@strapi/types';
 import type { Core } from '@strapi/strapi';
 
 const register: Plugin.LoadedPlugin['register'] = ({ strapi }) => {
-  const adminPlugin = strapi.admin;
-  const secret = strapi.config.get<string>('admin.auth.secret');
+  const { admin, config, server } = strapi;
+  const secret = config.get<string>('admin.auth.secret');
 
-  const domain = strapi.config.get<string | undefined>('admin.auth.domain');
+  const domain = config.get<string | undefined>('admin.auth.domain');
 
-  const loginRoute = adminPlugin.routes.admin.routes.find(
+  const loginRoute = admin.routes.admin.routes.find(
     ({ method, path }) => method === 'POST' && path === '/login'
   );
 
   if (loginRoute) replaceLogin(loginRoute, secret, domain);
 
-  strapi.server.use(async (ctx, next) => {
+  server.use(async (ctx, next) => {
     const mfaCookie = ctx.cookies.get('strapi_admin_mfa');
 
     // If they have the MFA cookie and try to hit the root admin or dashboard

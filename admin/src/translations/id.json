@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Wajibkan Autentikasi Multi-Faktor untuk semua pengguna. Jika diaktifkan, pengguna akan diminta untuk mengatur MFA pada login berikutnya.",
   "settings.issuer": "Nama Penerbit",
   "settings.issuer_hint": "Ditampilkan di aplikasi MFA",
+  "settings.accessibility_message": "Pesan aksesibilitas",
   "admin.title": "Autentikasi Dua Faktor",
   "admin.subtitle": "Setel ulang Autentikasi Dua Faktor untuk pengguna.",
   "admin.warn-title": "Setel ulang 2FA untuk pengguna ini?",

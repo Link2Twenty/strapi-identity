@@ -25,6 +25,7 @@
   "settings.enforce_hint": "Forçar Autenticação Multifator para todos os usuários. Se ativado, os usuários deverão configurar o MFA no próximo login.",
   "settings.issuer": "Nome do Emissor",
   "settings.issuer_hint": "Exibido no aplicativo MFA",
+  "settings.accessibility_message": "Mensagem de acessibilidade",
   "admin.title": "Autenticação de Dois Fatores",
   "admin.subtitle": "Redefinir a Autenticação de Dois Fatores para um usuário.",
   "admin.warn-title": "Redefinir 2FA para este usuário?",

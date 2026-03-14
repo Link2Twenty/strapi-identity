@@ -16,6 +16,15 @@
     }
   },
   {
+    "method": "GET",
+    "path": "/config/email",
+    "handler": "config.getEmailStatus",
+    "info": { "apiName": "getEmailStatus", "pluginName": "strapi-identity", "type": "content-api" },
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
     "method": "PUT",
     "path": "/config",
     "handler": "config.updateConfig",
