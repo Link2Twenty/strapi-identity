@@ -1,9 +1,8 @@
 import type strapiEmail from '@strapi/email/dist/server/src';
+type StrapiEmailService = ReturnType<typeof strapiEmail.services.email>;
 
 export const send = async (to: string, otp: string) => {
-  const emailService: ReturnType<typeof strapiEmail.services.email> = strapi
-    .plugin('email')
-    .service('email');
+  const emailService: StrapiEmailService = strapi.plugin('email').service('email');
 
   if (!emailService) return;
 
@@ -14,20 +13,31 @@ export const send = async (to: string, otp: string) => {
 
   if (!config.email_enabled) return;
 
-  return emailService
-    .send({
-      to,
-      from: config.from_email || strapi.config.get('plugin::email.defaultFrom'),
-      subject: config.subject,
-      text: replaceTemplateVariables<{ OTP: string }>(config.text, { OTP: otp }),
-      html: replaceTemplateVariables<{ OTP: string; YEAR: string }>(config.message, {
-        OTP: otp,
-        YEAR: new Date().getFullYear().toString(),
-      }),
-    })
-    .catch((error) => {
-      console.log('Error sending email:', error);
-    });
+  const sendConfig: Parameters<StrapiEmailService['send']>[0] = {
+    to,
+    subject: config.subject,
+    text: replaceTemplateVariables<{ OTP: string }>(config.text, { OTP: otp }),
+    html: replaceTemplateVariables<{ OTP: string; YEAR: string }>(config.message, {
+      OTP: otp,
+      YEAR: new Date().getFullYear().toString(),
+    }),
+  };
+
+  // If the from email is set, use it. Otherwise, rely on the email provider's default.
+  if (config.from_email) {
+    sendConfig.from = config.from_name
+      ? `${config.from_name} <${config.from_email}>`
+      : config.from_email;
+  }
+
+  // If the response email is set, use it as the replyTo address.
+  if (config.response_email && config.response_email !== config.from_email) {
+    sendConfig.replyTo = config.response_email;
+  }
+
+  return emailService.send(sendConfig).catch((error) => {
+    console.log('Error sending email:', error);
+  });
 };
 
 /**
