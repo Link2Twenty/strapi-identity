@@ -313,7 +313,7 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
                         defaultMessage: 'Code sent!',
                       })
                     : formatMessage({
-                        id: getTranslation('verify_page.resend'),
+                        id: getTranslation('email_otp.resend_code'),
                         defaultMessage: 'Resend code',
                       })}
                 </Button>
