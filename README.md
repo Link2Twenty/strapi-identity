@@ -7,6 +7,7 @@ Detailed Multi-Factor Authentication (MFA) plugin for Strapi v5+. Secure your St
 - **MFA Login Interception**: Seamlessly integrates with the default Strapi login flow.
 - **TOTP Compatibility**: Works with all major authenticator apps (Google Authenticator, Authy, 1Password, etc.).
 - **Recovery Codes**: Generates secure recovery codes for emergency access.
+- **Email Passcode**: Option to receive a one-time passcode via email as an alternative MFA method.
 - **Native UI Integration**:
   - Matches Strapi's design system.
   - Profile integration for easy setup.
@@ -114,5 +115,5 @@ Below is the implementation status of planned features.
 - [x] **Custom Issuer**: Configurable app label.
 - [x] **Multi-language Support**: i18n ready.
 - [x] **Admin Reset**: Allow super-admins to reset MFA for other users who lost access.
-- [ ] **Email Passcode**: Alternative MFA method via Email.
+- [x] **Email Passcode**: Alternative MFA method via Email.
 - [ ] **Enforced Mode**: Mandatory MFA for specific roles or all users.
