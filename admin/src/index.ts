@@ -26,12 +26,9 @@ const plugin: StrapiApp['appPlugins'][string] = {
         defaultMessage: 'Strapi Identity Settings',
       },
       id: 'strapi-identity-settings',
-      to: `/settings/${PLUGIN_ID}`,
-      Component: async () => import('./settings/SettingsPage'),
-      permissions: [
-        { action: 'plugin::strapi-identity.settings.read' },
-        { action: 'plugin::strapi-identity.settings.read' },
-      ],
+      to: `/${PLUGIN_ID}`,
+      Component: () => import('./settings/SettingsPage'),
+      permissions: [{ action: 'plugin::strapi-identity.settings.update' }],
     });
 
     // Register middlewares
@@ -44,14 +41,15 @@ const plugin: StrapiApp['appPlugins'][string] = {
       id: 'profile-toggle',
       route: '/admin/me',
       selector: '#main-content form[method="put"] > :nth-child(2) > div > div > div:nth-child(2)',
-      Component: async () => import('./injection/ProfileToggle'),
+      Component: () => import('./injection/ProfileToggle'),
     });
 
     injections.registerRoute({
       id: 'admin-reset',
       route: '/admin/settings/users/:id',
       selector: '#main-content form[method="put"] > :nth-child(2) > div > div:nth-child(2)',
-      Component: async () =>
+      permissions: [{ action: 'plugin::strapi-identity.settings.update' }],
+      Component: () =>
         import('./injection/AdminReset') as Promise<{
           default: React.ComponentType<unknown>;
         }>,

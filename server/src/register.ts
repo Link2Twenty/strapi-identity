@@ -5,10 +5,9 @@ import type { Core } from '@strapi/strapi';
 
 const register: Plugin.LoadedPlugin['register'] = ({ strapi }) => {
   const { admin, config, server } = strapi;
+
   const secret = config.get<string>('admin.auth.secret');
-
   const domain = config.get<string | undefined>('admin.auth.domain');
-
   const loginRoute = admin.routes.admin.routes.find(
     ({ method, path }) => method === 'POST' && path === '/login'
   );
