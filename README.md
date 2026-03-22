@@ -8,6 +8,7 @@ Detailed Multi-Factor Authentication (MFA) plugin for Strapi v5+. Secure your St
 - **TOTP Compatibility**: Works with all major authenticator apps (Google Authenticator, Authy, 1Password, etc.).
 - **Recovery Codes**: Generates secure recovery codes for emergency access.
 - **Email Passcode**: Option to receive a one-time passcode via email as an alternative MFA method.
+- **Enforced mode**: Prevent a user from accessing the CMS until 2FA is setup on their account.
 - **Native UI Integration**:
   - Matches Strapi's design system.
   - Profile integration for easy setup.
@@ -62,7 +63,7 @@ Access the global settings via the admin panel:
 | Option      | Description                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------ |
 | **Enabled** | Master switch to enable or disable the MFA interception logic globally.                    |
-| **Enforce** | _(Coming Soon)_ Force all users to set up MFA before accessing the dashboard.              |
+| **Enforce** | Force all users to set up MFA before accessing the dashboard.                              |
 | **Issuer**  | The name that appears in the authenticator app (e.g., "My Project"). Defaults to "Strapi". |
 
 ### Permissions
@@ -116,4 +117,4 @@ Below is the implementation status of planned features.
 - [x] **Multi-language Support**: i18n ready.
 - [x] **Admin Reset**: Allow super-admins to reset MFA for other users who lost access.
 - [x] **Email Passcode**: Alternative MFA method via Email.
-- [ ] **Enforced Mode**: Mandatory MFA for specific roles or all users.
+- [x] **Enforced Mode**: Mandatory MFA for all users.
