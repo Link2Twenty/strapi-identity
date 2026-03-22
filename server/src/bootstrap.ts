@@ -62,7 +62,7 @@ const defaultConfig = {
 </div>`,
 };
 
-const bootstrap: Plugin.LoadedPlugin['bootstrap'] = async () => {
+const bootstrap: Plugin.LoadedPlugin['bootstrap'] = async ({ strapi }) => {
   const config = strapi.documents('plugin::strapi-identity.strapi-identity-config');
   const existingConfig = await config.count({});
 

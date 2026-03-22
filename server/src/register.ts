@@ -6,6 +6,8 @@ import type { Core } from '@strapi/strapi';
 const register: Plugin.LoadedPlugin['register'] = ({ strapi }) => {
   const { admin, config, server } = strapi;
 
+  registerMiddlewares(server);
+
   const secret = config.get<string>('admin.auth.secret');
   const domain = config.get<string | undefined>('admin.auth.domain');
   const loginRoute = admin.routes.admin.routes.find(
@@ -13,24 +15,6 @@ const register: Plugin.LoadedPlugin['register'] = ({ strapi }) => {
   );
 
   if (loginRoute) replaceLogin(loginRoute, secret, domain);
-
-  server.use(async (ctx, next) => {
-    const mfaCookie = ctx.cookies.get('strapi_admin_mfa');
-
-    // If they have the MFA cookie and try to hit the root admin or dashboard
-    if (mfaCookie && ctx.path.startsWith('/admin/auth')) {
-      ctx.cookies.set('jwtToken', null, { expires: new Date(0) });
-      ctx.redirect('/admin/strapi-identity/verify');
-      return;
-    }
-
-    if (!mfaCookie && ctx.path === '/admin/strapi-identity/verify') {
-      ctx.redirect('/admin');
-      return;
-    }
-
-    await next();
-  });
 };
 
 /**
@@ -103,6 +87,102 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
     const opt = { domain, httpOnly: false, overwrite: true, secure: ctx.request.secure, expires };
     ctx.cookies.set('strapi_admin_mfa', newToken, opt);
     ctx.body.data = { data: {}, error: null };
+  });
+};
+
+/**
+ * Register middlewares for handling MFA cookie and redirects
+ * @param server The Strapi server instance
+ */
+const registerMiddlewares = (server: Core.Strapi['server']) => {
+  const configService = strapi.service('plugin::strapi-identity.config');
+
+  server.use(async (ctx, next) => {
+    const mfaCookie = ctx.cookies.get('strapi_admin_mfa');
+
+    // If they have the MFA cookie and try to hit the root admin or dashboard
+    if (mfaCookie && ctx.path.startsWith('/admin/auth')) {
+      ctx.cookies.set('jwtToken', null, { expires: new Date(0) });
+      ctx.redirect('/admin/strapi-identity/verify');
+      return;
+    }
+
+    if (!mfaCookie && ctx.path === '/admin/strapi-identity/verify') {
+      ctx.redirect('/admin');
+      return;
+    }
+
+    await next();
+  });
+
+  server.use(async (ctx, next) => {
+    const cookie = ctx.cookies.get('jwtToken');
+
+    // If we're not signed in, do nothing
+    if (!cookie) {
+      await next();
+      return;
+    }
+
+    const config = await configService.getConfig();
+
+    // If MFA is not enabled or enforced, do nothing
+    if (!config.enabled || !config.enforce) {
+      await next();
+      return;
+    }
+
+    const userEnabled = await configService.checkUserByJWT(cookie);
+
+    // User already has MFA — let them through
+    if (userEnabled) {
+      // If they're trying to access the enforced page, redirect them to the main admin page
+      if (ctx.path === '/admin/strapi-identity/enforced') {
+        ctx.redirect('/admin');
+        return;
+      }
+
+      await next();
+      return;
+    }
+
+    // User is logged in, enforce is on, and MFA is not set up.
+    // Allow only the paths required to load the enforced page and set up MFA.
+    const allowedPaths = [
+      '/admin/strapi-identity/enforced',
+      '/admin/init',
+      '/admin/users/me',
+      '/strapi-identity/status',
+      '/strapi-identity/config',
+      '/strapi-identity/config/enabled',
+      '/strapi-identity/enable',
+      '/strapi-identity/setup',
+      '/strapi-identity/enable-email',
+      '/strapi-identity/setup-email',
+    ];
+
+    const isAllowed =
+      allowedPaths.includes(ctx.path) ||
+      // Static assets (JS, CSS, images, fonts, sourcemaps)
+      /\.(mjs|js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|map)(\?.*)?$/.test(ctx.path) ||
+      ctx.path.startsWith('/admin/@');
+
+    if (!isAllowed) console.log(ctx.path);
+
+    if (!isAllowed) {
+      // HTML navigation → redirect to the enforced page
+      if (ctx.accepts('html') && ctx.path.startsWith('/admin')) {
+        ctx.redirect('/admin/strapi-identity/enforced');
+        return;
+      }
+
+      // API / JSON requests → block with 403
+      ctx.status = 403;
+      ctx.body = { error: { status: 403, message: 'MFA setup required.' } };
+      return;
+    }
+
+    await next();
   });
 };
 

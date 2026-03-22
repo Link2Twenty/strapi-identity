@@ -2,6 +2,7 @@ import { getTranslation } from './utils/getTranslation';
 import { PLUGIN_ID } from './pluginId';
 import { Initializer } from './components/Initializer';
 import { InjectVerify } from './public/VerifyPage';
+import { InjectEnforced } from './pages/EnforcedPage';
 import { initialiseInjections } from 'strapi-admin-portal';
 
 // Types
@@ -56,6 +57,7 @@ const plugin: StrapiApp['appPlugins'][string] = {
     });
 
     InjectVerify(app);
+    InjectEnforced(app);
   },
 
   registerTrads({ locales }) {

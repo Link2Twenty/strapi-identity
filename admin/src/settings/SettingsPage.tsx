@@ -157,8 +157,6 @@ export default function SettingsPage() {
     const formData = new FormData(event.currentTarget);
     const values = getConfigFromForm(formData);
 
-    console.log(formData, values);
-
     if (initialConfig?.enabled && !values.enabled && !confirmed) {
       setShowWarning(true);
       setSaving(false);
@@ -356,7 +354,6 @@ export default function SettingsPage() {
                         </Field.Label>
                         <Toggle
                           name="enforce"
-                          disabled
                           checked={enforce}
                           onChange={({ target }) => setEnforce(target.checked)}
                           offLabel={formatMessage({

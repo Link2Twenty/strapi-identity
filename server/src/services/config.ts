@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 const defaultConfig = {
   email_enabled: false,
   enabled: false,
@@ -123,5 +125,37 @@ const disableMFAForAllUsers = async () => {
     ]);
   } catch (err) {
     console.log('Error disabling MFA for all users:', err);
+  }
+};
+
+/**
+ * Checks if a user has MFA enabled by verifying the provided JWT token and checking for an associated MFA token in the database
+ * @param jwtToken the JWT token to verify and extract the user ID from
+ * @returns true if the user has MFA enabled, false otherwise
+ */
+export const checkUserByJWT = async (jwtToken: string) => {
+  const config = await getConfig();
+  const secret = strapi.config.get<string>('admin.auth.secret');
+
+  if (!config.enabled) return false;
+
+  let userId: string | undefined;
+  try {
+    const decoded = jwt.verify(jwtToken, secret) as { id?: string; userId?: string };
+    userId = decoded.userId || decoded.id;
+  } catch {
+    return false;
+  }
+
+  if (!userId) return false;
+
+  try {
+    const mfaExists = await strapi.documents('plugin::strapi-identity.mfa-token').count({
+      filters: { admin_user: { id: userId }, enabled: true },
+    });
+
+    return mfaExists > 0;
+  } catch {
+    return false;
   }
 };
