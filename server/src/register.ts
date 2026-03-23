@@ -165,7 +165,8 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
       allowedPaths.includes(ctx.path) ||
       // Static assets (JS, CSS, images, fonts, sourcemaps)
       /\.(mjs|js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|map)(\?.*)?$/.test(ctx.path) ||
-      ctx.path.startsWith('/admin/@');
+      ctx.path.startsWith('/admin/@') ||
+      ctx.path.startsWith('/admin/src/');
 
     if (!isAllowed) console.log(ctx.path);
 
