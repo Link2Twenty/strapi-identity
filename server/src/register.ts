@@ -84,7 +84,10 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
     const newToken = jwt.sign(newPayload, secret, { expiresIn: '5m' });
     const expires = new Date(Date.now() + 5 * 60 * 1000);
 
-    const opt = { domain, httpOnly: false, overwrite: true, secure: ctx.request.secure, expires };
+    const secure: boolean =
+      strapi.config.get('admin.auth.cookie.secure') ?? process.env.NODE_ENV === 'production';
+
+    const opt = { domain, httpOnly: false, overwrite: true, secure, expires };
     ctx.cookies.set('strapi_admin_mfa', newToken, opt);
     ctx.body.data = { data: {}, error: null };
   });

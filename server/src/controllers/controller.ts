@@ -143,13 +143,16 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
         type: payload.rememberMe ? 'refresh' : 'session',
       });
 
+      const secure: boolean =
+        strapi.config.get('admin.auth.cookie.secure') ?? process.env.NODE_ENV === 'production';
+
       ctx.cookies.set(
         'strapi_admin_refresh',
         refreshToken,
         buildCookieOptionsWithExpiry(
           payload.rememberMe ? 'refresh' : 'session',
           absoluteExpiresAt,
-          ctx.request.secure
+          secure
         )
       );
 
@@ -158,7 +161,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
 
       const domain: string | undefined = strapi.config.get('admin.auth.domain');
 
-      const opt = { httpOnly: false, secure: ctx.request.secure, overwrite: true, domain };
+      const opt = { httpOnly: false, secure, overwrite: true, domain };
       ctx.cookies.set('jwtToken', accessToken, opt);
 
       ctx.cookies.set('strapi_admin_mfa', null, { expires: new Date(0) });
