@@ -12,7 +12,7 @@ const config = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: enabled, error: null };
     } catch (error) {
-      console.log('Error checking if Strapi Identity is enabled:', error);
+      strapi.log.error('Error checking if Strapi Identity is enabled');
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Server Error' };
@@ -25,20 +25,7 @@ const config = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: config, error: null };
     } catch (error) {
-      console.log('Error getting config:', error);
-
-      ctx.status = 500;
-      ctx.body = { data: null, error: 'Server Error' };
-    }
-  },
-  async getEmailStatus(ctx) {
-    try {
-      const emailService: EmailConfig = strapi.config.get('plugin::email');
-
-      ctx.status = 200;
-      ctx.body = { data: emailService, error: null };
-    } catch (error) {
-      console.log('Error getting email status:', error);
+      strapi.log.error('Error getting config');
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Server Error' };
@@ -55,7 +42,7 @@ const config = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: updatedConfig, error: null };
     } catch (error) {
-      console.log('Error updating config:', error);
+      strapi.log.error('Error updating config');
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Server Error' };
@@ -64,11 +51,3 @@ const config = ({ strapi }: { strapi: Core.Strapi }): controller => ({
 });
 
 export default config as unknown as controller;
-
-export interface EmailConfig extends Record<string, unknown> {
-  provider: string;
-  providerOptions?: object;
-  settings?: {
-    defaultFrom?: string;
-  };
-}

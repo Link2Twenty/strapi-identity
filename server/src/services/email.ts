@@ -36,7 +36,7 @@ export const send = async (to: string, otp: string) => {
   }
 
   return emailService.send(sendConfig).catch((error) => {
-    console.log('Error sending email:', error);
+    strapi.log.error('Error sending email');
   });
 };
 

@@ -99,7 +99,7 @@ const disableEmailMFAForAllUsers = async () => {
         ),
     ]);
   } catch (err) {
-    console.log('Error disabling email MFA for all users:', err);
+    strapi.log.error('Error disabling email MFA for all users');
   }
 };
 
@@ -124,7 +124,7 @@ const disableMFAForAllUsers = async () => {
       ...temps.map((temp) => tempDocument.delete({ documentId: temp.documentId })),
     ]);
   } catch (err) {
-    console.log('Error disabling MFA for all users:', err);
+    strapi.log.error('Error disabling MFA for all users');
   }
 };
 

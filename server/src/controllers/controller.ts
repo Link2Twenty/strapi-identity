@@ -186,7 +186,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
         error: null,
       };
     } catch (error) {
-      console.log('Error verifying MFA code:', error);
+      strapi.log.error('Error verifying MFA code');
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Server Error' };
@@ -215,7 +215,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
         ctx.body = { data: { message: 'MFA disabled' }, error: null };
       }
     } catch (error) {
-      console.log('Error enabling/disabling MFA:', error);
+      strapi.log.error('Error enabling/disabling MFA');
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to update MFA' };
@@ -270,7 +270,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: { message: 'MFA disabled' }, error: null };
     } catch (error) {
-      console.log('Error disabling MFA:', error);
+      strapi.log.error('Error disabling MFA');
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to disable MFA' };
@@ -306,7 +306,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: { message: 'Verification email sent' }, error: null };
     } catch (error) {
-      console.log('Error initiating email MFA setup:', error);
+      strapi.log.error('Error initiating email MFA setup');
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to initiate email MFA setup' };
     }
@@ -329,7 +329,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: { message: 'Email OTP enabled' }, error: null };
     } catch (error) {
-      console.log('Error completing email MFA setup:', error);
+      strapi.log.error('Error completing email MFA setup');
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to enable email MFA' };
     }
@@ -353,7 +353,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: { message: 'Verification email sent' }, error: null };
     } catch (error) {
-      console.log('Error sending disable email OTP:', error);
+      strapi.log.error('Error sending disable email OTP');
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to send verification email' };
     }
@@ -393,7 +393,7 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: { message: 'Verification email resent' }, error: null };
     } catch (error) {
-      console.log('Error resending login email OTP:', error);
+      strapi.log.error('Error resending login email OTP');
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to resend verification email' };
     }

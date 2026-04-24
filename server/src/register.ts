@@ -68,7 +68,7 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
           await strapi.service('plugin::strapi-identity.email').send(adminUser.email, otp);
         }
       } catch (err) {
-        console.log('Error sending login email OTP:', err);
+        strapi.log.error('Error sending login email OTP');
       }
     }
 
@@ -169,8 +169,6 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
       /\.(mjs|js|css|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot|map)(\?.*)?$/.test(ctx.path) ||
       ctx.path.startsWith('/admin/@') ||
       ctx.path.startsWith('/admin/src/');
-
-    if (!isAllowed) console.log(ctx.path);
 
     if (!isAllowed) {
       // HTML navigation → redirect to the enforced page
