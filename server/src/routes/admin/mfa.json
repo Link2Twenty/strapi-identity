@@ -16,7 +16,8 @@
     "info": { "apiName": "verify", "pluginName": "strapi-identity", "type": "content-api" },
     "config": {
       "auth": false,
-      "policies": ["has-mfa"]
+      "policies": ["has-mfa"],
+      "middlewares": ["plugin::strapi-identity.verify-rate-limit"]
     }
   },
   {
@@ -51,10 +52,15 @@
     "method": "POST",
     "path": "/verify/resend",
     "handler": "controller.resendVerifyOTP",
-    "info": { "apiName": "resendVerifyOTP", "pluginName": "strapi-identity", "type": "content-api" },
+    "info": {
+      "apiName": "resendVerifyOTP",
+      "pluginName": "strapi-identity",
+      "type": "content-api"
+    },
     "config": {
       "auth": false,
-      "policies": ["has-mfa"]
+      "policies": ["has-mfa"],
+      "middlewares": ["plugin::strapi-identity.verify-rate-limit"]
     }
   },
   {
@@ -75,7 +81,11 @@
     "method": "POST",
     "path": "/disable-email/request",
     "handler": "controller.requestDisableEmailOTP",
-    "info": { "apiName": "requestDisableEmailOTP", "pluginName": "strapi-identity", "type": "content-api" },
+    "info": {
+      "apiName": "requestDisableEmailOTP",
+      "pluginName": "strapi-identity",
+      "type": "content-api"
+    },
     "config": {}
   }
 ]
