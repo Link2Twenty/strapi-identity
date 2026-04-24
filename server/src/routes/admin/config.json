@@ -5,7 +5,13 @@
     "handler": "config.isEnabled",
     "info": { "apiName": "isEnabled", "pluginName": "strapi-identity", "type": "content-api" },
     "config": {
-      "policies": ["admin::isAuthenticatedAdmin"]
+      "policies": [
+        "admin::isAuthenticatedAdmin",
+        {
+          "name": "admin::hasPermissions",
+          "config": { "actions": ["plugin::strapi-identity.settings.read"] }
+        }
+      ]
     }
   },
   {
@@ -14,16 +20,13 @@
     "handler": "config.getConfig",
     "info": { "apiName": "getConfig", "pluginName": "strapi-identity", "type": "content-api" },
     "config": {
-      "policies": ["admin::isAuthenticatedAdmin"]
-    }
-  },
-  {
-    "method": "GET",
-    "path": "/config/email",
-    "handler": "config.getEmailStatus",
-    "info": { "apiName": "getEmailStatus", "pluginName": "strapi-identity", "type": "content-api" },
-    "config": {
-      "policies": ["admin::isAuthenticatedAdmin"]
+      "policies": [
+        "admin::isAuthenticatedAdmin",
+        {
+          "name": "admin::hasPermissions",
+          "config": { "actions": ["plugin::strapi-identity.settings.read"] }
+        }
+      ]
     }
   },
   {
