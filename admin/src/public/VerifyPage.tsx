@@ -135,7 +135,8 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
         );
       }
 
-      const target = new URLSearchParams(window.location.search).get('redirectTo') || '/admin';
+      const rawTarget = new URLSearchParams(window.location.search).get('redirectTo') || '/admin';
+      const target = rawTarget.startsWith('/') ? rawTarget : '/admin';
       window.location.replace(target);
     } catch (error) {
       setError(
@@ -148,27 +149,34 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
     }
   };
 
-  // Redirect to admin if no MFA token is present; decode mfaType from the cookie JWT
+  // Redirect to admin if no MFA session is active; fetch mfaType from the server
   useEffect(() => {
-    const mfaToken = document.cookie.split('; ').reduce<string | null>((acc, cookie) => {
-      const [name, value] = cookie.split('=');
-
-      return name === 'strapi_admin_mfa' ? value.trim() : acc;
-    }, null);
-
-    if (auth?.token || !mfaToken) {
+    if (auth?.token) {
       window.location.replace('/admin');
       return;
     }
 
-    // Decode JWT payload (no verification — just reading public claims for UI purposes)
-    try {
-      const payloadBase64 = mfaToken.split('.')[1];
-      const decoded = JSON.parse(atob(payloadBase64));
-      setMfaType(decoded.mfaType || null);
-    } catch {
-      // Malformed token — let the server reject it on submit
-    }
+    const ac = new AbortController();
+
+    (async () => {
+      try {
+        const response = await fetch('/strapi-identity/verify/info', { signal: ac.signal });
+
+        if (!response.ok) {
+          // No valid MFA cookie — go back to login
+          window.location.replace('/admin');
+          return;
+        }
+
+        const data = await response.json();
+        setMfaType(data.data?.mfaType || null);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        window.location.replace('/admin');
+      }
+    })();
+
+    return () => ac.abort();
   }, [auth?.token]);
 
   const handleResend = async () => {

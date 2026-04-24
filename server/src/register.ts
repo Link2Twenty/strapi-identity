@@ -87,7 +87,7 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
     const secure: boolean =
       strapi.config.get('admin.auth.cookie.secure') ?? process.env.NODE_ENV === 'production';
 
-    const opt = { domain, httpOnly: false, overwrite: true, secure, expires };
+    const opt = { domain, httpOnly: true, overwrite: true, secure, expires };
     ctx.cookies.set('strapi_admin_mfa', newToken, opt);
     ctx.body.data = { data: {}, error: null };
   });
@@ -157,7 +157,6 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
       '/admin/users/me',
       '/strapi-identity/status',
       '/strapi-identity/config',
-      '/strapi-identity/config/enabled',
       '/strapi-identity/enable',
       '/strapi-identity/setup',
       '/strapi-identity/enable-email',

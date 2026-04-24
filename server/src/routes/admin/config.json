@@ -4,7 +4,9 @@
     "path": "/config/enabled",
     "handler": "config.isEnabled",
     "info": { "apiName": "isEnabled", "pluginName": "strapi-identity", "type": "content-api" },
-    "config": {}
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
   },
   {
     "method": "GET",

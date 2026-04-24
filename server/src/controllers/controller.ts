@@ -100,6 +100,20 @@ const buildCookieOptionsWithExpiry = (
 };
 
 const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
+  async verifyInfo(ctx) {
+    const secret = strapi.config.get<string>('admin.auth.secret');
+    const token = ctx.cookies.get('strapi_admin_mfa');
+
+    try {
+      const payload = jwt.verify(token, secret) as { mfaType?: string };
+
+      ctx.status = 200;
+      ctx.body = { data: { mfaType: payload.mfaType || null }, error: null };
+    } catch {
+      ctx.status = 401;
+      ctx.body = { data: null, error: 'Invalid or expired MFA session' };
+    }
+  },
   async verify(ctx) {
     const sessionManager = strapi.sessionManager;
     const secret = strapi.config.get<string>('admin.auth.secret');

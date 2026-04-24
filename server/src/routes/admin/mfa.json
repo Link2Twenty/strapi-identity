@@ -1,5 +1,15 @@
 [
   {
+    "method": "GET",
+    "path": "/verify/info",
+    "handler": "controller.verifyInfo",
+    "info": { "apiName": "verifyInfo", "pluginName": "strapi-identity", "type": "content-api" },
+    "config": {
+      "auth": false,
+      "policies": ["has-mfa"]
+    }
+  },
+  {
     "method": "POST",
     "path": "/verify",
     "handler": "controller.verify",
