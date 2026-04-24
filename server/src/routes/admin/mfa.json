@@ -17,7 +17,7 @@
     "config": {
       "auth": false,
       "policies": ["has-mfa"],
-      "middlewares": []
+      "middlewares": ["admin::rateLimit"]
     }
   },
   {
