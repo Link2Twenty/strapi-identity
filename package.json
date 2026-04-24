@@ -43,12 +43,12 @@
     "strapi-admin-portal": "^0.3.0"
   },
   "devDependencies": {
-    "@strapi/sdk-plugin": "^6.0.1",
-    "@strapi/typescript-utils": "^5.40.0",
+    "@strapi/sdk-plugin": "^6.1.0",
+    "@strapi/typescript-utils": "^5.43.0",
     "@types/bcryptjs": "^2.4.6",
-    "@types/react": "^18.3.27",
+    "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.3",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
