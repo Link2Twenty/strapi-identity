@@ -136,7 +136,7 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
       }
 
       const rawTarget = new URLSearchParams(window.location.search).get('redirectTo') || '/admin';
-      const target = rawTarget.startsWith('/') ? rawTarget : '/admin';
+      const target = /^\/[^/]/.test(rawTarget) ? rawTarget : '/admin';
       window.location.replace(target);
     } catch (error) {
       setError(
