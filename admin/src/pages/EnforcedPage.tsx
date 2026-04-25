@@ -75,6 +75,12 @@ const EnforcedPage = () => {
           }),
         ]);
 
+        // If unauthenticated, bounce to login (leave loading=true to avoid a content flash)
+        if (meRes.status === 401) {
+          window.location.replace('/admin/auth/login');
+          return;
+        }
+
         if (statusRes.ok) {
           const statusBody = await statusRes.json();
           if (statusBody.data?.status === 'full') {
@@ -92,10 +98,11 @@ const EnforcedPage = () => {
           const meBody = await meRes.json();
           setUserEmail(meBody.data?.email || '');
         }
+
+        setLoading(false);
       } catch (error) {
         if ((error as Error).name === 'AbortError') return;
         console.error('Failed to check MFA status:', error);
-      } finally {
         setLoading(false);
       }
     })();

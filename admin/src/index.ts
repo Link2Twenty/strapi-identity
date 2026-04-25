@@ -88,16 +88,24 @@ const plugin: StrapiApp['appPlugins'][string] = {
  * Middleware to redirect to MFA verify page after login if no token is present
  */
 const mfaRedirect: () => Middleware<object, ReturnType<Store['getState']>> = () => {
-  return () => (next) => (action) => {
-    // If the action is admin/login and token is undefined, redirect to verify page
-    if (
-      action &&
-      action.type === 'admin/login' &&
-      (action.payload || {}).hasOwnProperty('token') &&
-      action.payload.token === undefined
-    ) {
-      window.location.replace('/admin/strapi-identity/verify');
-      return;
+  return () => (next) => async (action) => {
+    if (action && action.type === 'admin/login' && (action.payload || {}).hasOwnProperty('token')) {
+      // If the action is admin/login and token is undefined, redirect to verify page
+      if (action.payload.token === undefined) {
+        window.location.replace('/admin/strapi-identity/verify');
+        return;
+      }
+
+      // If there is a token, check if MFA is enabled and enforce is on. If so, redirect to enforced page
+      const config = await fetch('/strapi-identity/config', {
+        headers: { authorization: `Bearer ${action.payload.token}` },
+      }).then((res) => res.json());
+
+      if (config.data?.enabled && config.data?.enforce) {
+        await next(action);
+        window.location.replace('/admin/strapi-identity/enforced');
+        return;
+      }
     }
 
     // action is not the one we want to override
