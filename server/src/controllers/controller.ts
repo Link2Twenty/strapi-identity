@@ -173,16 +173,11 @@ const controller = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       const accessResult = await sessionManager('admin').generateAccessToken(refreshToken);
       const { token: accessToken } = accessResult as { token: string };
 
-      const domain: string | undefined = strapi.config.get('admin.auth.domain');
-
-      const opt = { httpOnly: false, secure, overwrite: true, domain };
-      ctx.cookies.set('jwtToken', accessToken, opt);
-
       ctx.cookies.set('strapi_admin_mfa', null, { expires: new Date(0) });
 
       ctx.status = 200;
       ctx.body = {
-        data: { token: accessToken, accessToken },
+        data: { token: accessToken, accessToken, rememberMe: payload.rememberMe || false },
         error: null,
       };
     } catch (error) {

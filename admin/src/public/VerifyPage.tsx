@@ -106,6 +106,7 @@ const Logo = ({ fallbackIcon }: { fallbackIcon: string }) => {
 
 const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
   const auth = useAuth('MFA', (auth) => auth);
+  const dispatch = useDispatch();
   const { formatMessage } = useIntl();
 
   const [error, setError] = useState<string | null>(null);
@@ -135,9 +136,8 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
         );
       }
 
-      const rawTarget = new URLSearchParams(window.location.search).get('redirectTo') || '/admin';
-      const target = /^\/[^/]/.test(rawTarget) ? rawTarget : '/admin';
-      window.location.replace(target);
+      const { token, rememberMe } = data.data;
+      dispatch({ type: 'admin/login', payload: { token, persist: rememberMe } });
     } catch (error) {
       setError(
         formatMessage({
