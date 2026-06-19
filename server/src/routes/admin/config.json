@@ -5,13 +5,7 @@
     "handler": "config.isEnabled",
     "info": { "apiName": "isEnabled", "pluginName": "strapi-identity", "type": "content-api" },
     "config": {
-      "policies": [
-        "admin::isAuthenticatedAdmin",
-        {
-          "name": "admin::hasPermissions",
-          "config": { "actions": ["plugin::strapi-identity.settings.read"] }
-        }
-      ]
+      "policies": ["admin::isAuthenticatedAdmin"]
     }
   },
   {
