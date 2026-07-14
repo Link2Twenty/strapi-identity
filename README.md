@@ -2,7 +2,7 @@
 
 Detailed Multi-Factor Authentication (MFA) plugin for Strapi v5+. Secure your Strapi Admin panel with TOTP-based 2FA, fully integrated into the Strapi interface.
 
-![verification screen](./screenshots/login-verification.webp)
+![verification screen](https://raw.githubusercontent.com/Link2Twenty/strapi-identity/refs/heads/main/screenshots/login-verification.webp)
 
 ## Features
 
