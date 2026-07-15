@@ -104,13 +104,24 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
   server.use(async (ctx, next) => {
     const mfaCookie = ctx.cookies.get('strapi_admin_mfa');
 
-    // If they have the MFA cookie and try to hit the root admin or dashboard
-    if (mfaCookie && ctx.path.startsWith('/admin/auth')) {
-      ctx.cookies.set(tokenName, null, { expires: new Date(0) });
-      ctx.redirect('/admin/strapi-identity/verify');
-      return;
+    // If they have the MFA cookie
+    if (mfaCookie) {
+      // If they try to hit the root admin or dashboard
+      if (ctx.path.startsWith('/admin/auth')) {
+        ctx.cookies.set(tokenName, null, { expires: new Date(0) });
+        ctx.redirect('/admin/strapi-identity/verify');
+        return;
+      }
+
+      // If they try to hit the ai route, pretend to 404
+      if (['/admin/ai-token', '/admin/ai-usage', '/admin/ai-feature-config'].includes(ctx.path)) {
+        ctx.status = 404;
+        ctx.body = { data: null, error: { status: 404, message: 'Not Found' } };
+        return;
+      }
     }
 
+    // If they don't have the MFA cookie and try to hit the verify page, redirect them to the admin root
     if (!mfaCookie && ctx.path === '/admin/strapi-identity/verify') {
       ctx.redirect('/admin');
       return;
