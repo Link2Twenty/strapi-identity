@@ -130,10 +130,10 @@ const disableMFAForAllUsers = async () => {
 
 /**
  * Checks if a user has MFA enabled by verifying the provided JWT token and checking for an associated MFA token in the database
- * @param jwtToken the JWT token to verify and extract the user ID from
+ * @param token the JWT token to verify and extract the user ID from
  * @returns true if the user has MFA enabled, false otherwise
  */
-export const checkUserByJWT = async (jwtToken: string) => {
+export const checkUserByJWT = async (token: string) => {
   const config = await getConfig();
   const secret = strapi.config.get<string>('admin.auth.secret');
 
@@ -141,7 +141,7 @@ export const checkUserByJWT = async (jwtToken: string) => {
 
   let userId: string | undefined;
   try {
-    const decoded = jwt.verify(jwtToken, secret) as { id?: string; userId?: string };
+    const decoded = jwt.verify(token, secret) as { id?: string; userId?: string };
     userId = decoded.userId || decoded.id;
   } catch {
     return false;

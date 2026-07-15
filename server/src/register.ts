@@ -99,13 +99,14 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
  */
 const registerMiddlewares = (server: Core.Strapi['server']) => {
   const configService = strapi.service('plugin::strapi-identity.config');
+  const tokenName = strapi.config.get<string>('admin.auth.cookie.name') || 'jwtToken';
 
   server.use(async (ctx, next) => {
     const mfaCookie = ctx.cookies.get('strapi_admin_mfa');
 
     // If they have the MFA cookie and try to hit the root admin or dashboard
     if (mfaCookie && ctx.path.startsWith('/admin/auth')) {
-      ctx.cookies.set('jwtToken', null, { expires: new Date(0) });
+      ctx.cookies.set(tokenName, null, { expires: new Date(0) });
       ctx.redirect('/admin/strapi-identity/verify');
       return;
     }
@@ -119,7 +120,7 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
   });
 
   server.use(async (ctx, next) => {
-    const cookie = ctx.cookies.get('jwtToken');
+    const cookie = ctx.cookies.get(tokenName);
 
     // If we're not signed in, do nothing
     if (!cookie) {

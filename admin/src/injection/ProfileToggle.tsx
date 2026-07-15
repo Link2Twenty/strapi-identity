@@ -35,7 +35,6 @@ const ProfileToggle = () => {
    * Handle toggle of the TOTP MFA switch
    */
   const handleToggle = async ({ target }: { target: HTMLInputElement }) => {
-    // Get jwtToken from cookies
     const token = getToken();
 
     const enable = target?.checked || false;
@@ -112,7 +111,6 @@ const ProfileToggle = () => {
     const formData = new FormData(form);
     const code = formData.get('otp');
 
-    // Get jwtToken from cookies
     const token = getToken();
 
     try {
@@ -161,7 +159,6 @@ const ProfileToggle = () => {
     const formData = new FormData(form);
     const code = formData.get('otp');
 
-    // Get jwtToken from cookies
     const token = getToken();
 
     try {

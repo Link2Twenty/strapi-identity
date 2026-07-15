@@ -1,4 +1,12 @@
 /**
+ * Retrieves the name of the cookie used for authentication.
+ * @returns The name of the authentication cookie.
+ */
+export const getCookieName = (): string => {
+  return process?.env?.STRAPI_ADMIN_AUTH_COOKIE_NAME || 'jwtToken';
+};
+
+/**
  * Retrieves the value of a specified cookie.
  *
  * @param name - The name of the cookie to retrieve.
@@ -19,9 +27,11 @@ export const getCookieValue = (name: string): string | null => {
  * @returns The JWT token if found, otherwise null.
  */
 export const getToken = (): string | null => {
-  const fromLocalStorage = localStorage.getItem('jwtToken');
+  const tokenName = getCookieName();
+
+  const fromLocalStorage = localStorage.getItem(tokenName);
   if (fromLocalStorage) return JSON.parse(fromLocalStorage);
 
-  const fromCookie = getCookieValue('jwtToken');
+  const fromCookie = getCookieValue(tokenName);
   return fromCookie ?? null;
 };
