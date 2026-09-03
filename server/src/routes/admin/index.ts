@@ -5,9 +5,9 @@ import mfa from './mfa.json';
 // Types
 import type { Plugin } from '@strapi/types';
 
-const route = (): Plugin.LoadedPlugin['routes']['admin'] => ({
+const route: Plugin.LoadedPlugin['routes'][string] = () => ({
   type: 'admin',
-  routes: [...mfa, ...config, ...admin] as Plugin.LoadedPlugin['routes']['admin']['routes'],
+  routes: [...mfa, ...config, ...admin] as never,
 });
 
-export default route as unknown as Plugin.LoadedPlugin['routes']['admin'];
+export default route;

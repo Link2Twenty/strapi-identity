@@ -10,7 +10,7 @@ export const isEnabled = (id: string) => {
     return mfaToken
       .count({ where: { admin_user: { id }, enabled: true } })
       .then((count) => count > 0);
-  } catch (error) {
+  } catch {
     strapi.log.error('Error checking if 2FA is enabled for user');
     return false;
   }
@@ -34,7 +34,7 @@ export const reset = async (id: string) => {
       existingToken ? mfaToken.delete({ documentId: existingToken.documentId }) : null,
       existingTemp ? mfaTemp.delete({ documentId: existingTemp.documentId }) : null,
     ]);
-  } catch (error) {
+  } catch {
     strapi.log.error('Error resetting 2FA for user');
     throw new Error('Failed to reset 2FA for user');
   }

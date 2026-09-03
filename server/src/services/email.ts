@@ -1,4 +1,5 @@
 import type strapiEmail from '@strapi/email/dist/server/src';
+
 type StrapiEmailService = ReturnType<typeof strapiEmail.services.email>;
 
 export const send = async (to: string, otp: string) => {
@@ -35,9 +36,7 @@ export const send = async (to: string, otp: string) => {
     sendConfig.replyTo = config.response_email;
   }
 
-  return emailService.send(sendConfig).catch((error) => {
-    strapi.log.error('Error sending email');
-  });
+  return emailService.send(sendConfig).catch(() => strapi.log.error('Error sending email'));
 };
 
 /**

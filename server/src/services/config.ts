@@ -19,7 +19,7 @@ const defaultConfig = {
  * @returns a complete configuration object with all required fields
  */
 const _config = (
-  options: Partial<typeof defaultConfig> & Record<string, any>
+  options: Partial<typeof defaultConfig> & Record<string, unknown>
 ): typeof defaultConfig => {
   return Object.assign({}, defaultConfig, options);
 };
@@ -98,7 +98,7 @@ const disableEmailMFAForAllUsers = async () => {
           Promise.all(otps.map((otp) => otpDocument.delete({ documentId: otp.documentId })))
         ),
     ]);
-  } catch (err) {
+  } catch {
     strapi.log.error('Error disabling email MFA for all users');
   }
 };
@@ -123,7 +123,7 @@ const disableMFAForAllUsers = async () => {
       ...tokens.map((token) => tokenDocument.delete({ documentId: token.documentId })),
       ...temps.map((temp) => tempDocument.delete({ documentId: temp.documentId })),
     ]);
-  } catch (err) {
+  } catch {
     strapi.log.error('Error disabling MFA for all users');
   }
 };
