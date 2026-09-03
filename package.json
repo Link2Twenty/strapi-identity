@@ -38,18 +38,18 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "input-otp": "^1.4.2",
+    "input-otp": "^1.5.0",
     "otpauth": "^9.5.1",
     "qrcode.react": "^4.2.0",
     "strapi-admin-portal": "^0.3.0"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^6.1.1",
-    "@strapi/typescript-utils": "^5.50.2",
+    "@strapi/typescript-utils": "^5.52.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "prettier": "^3.9.5",
+    "prettier": "^3.9.6",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
