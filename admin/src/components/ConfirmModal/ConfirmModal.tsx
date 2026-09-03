@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 // Components
 import { Button, Flex, Grid, Modal, Typography } from '@strapi/design-system';
@@ -30,6 +30,7 @@ export default function ConfirmModal({
   passcodes,
 }: ConfirmModalProps) {
   const { formatMessage } = useIntl();
+  const theme = useTheme();
 
   return (
     <Modal.Root open={open} onOpenChange={onOpenChange}>
@@ -78,7 +79,14 @@ export default function ConfirmModal({
                         'You will need an authenticator app to scan the QR code below.',
                     })}
                   </Typography>
-                  {qrCodeUri && <QRCodeCanvas value={qrCodeUri} size={256} />}
+                  {qrCodeUri && (
+                    <QRCodeCanvas
+                      value={qrCodeUri}
+                      size={256}
+                      fgColor={theme.colors.neutral1000}
+                      bgColor={theme.colors.neutral0}
+                    />
+                  )}
                   {secret && <Typography variant="pi">{secret || ''}</Typography>}
                 </Flex>
                 <Rule />
