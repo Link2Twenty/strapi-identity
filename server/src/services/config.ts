@@ -141,7 +141,10 @@ export const checkUserByJWT = async (token: string) => {
 
   let userId: string | undefined;
   try {
-    const decoded = jwt.verify(token, secret) as { id?: string; userId?: string };
+    const decoded = jwt.verify(token, secret, { ignoreExpiration: true }) as {
+      id?: string;
+      userId?: string;
+    };
     userId = decoded.userId || decoded.id;
   } catch {
     return false;

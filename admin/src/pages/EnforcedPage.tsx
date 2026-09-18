@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 // Components
 import { Box, Button, Flex, Typography } from '@strapi/design-system';
-import { Layouts, Page } from '@strapi/strapi/admin';
+import { Layouts, Page, isFetchError, useAuth, useFetchClient } from '@strapi/strapi/admin';
 import ConfirmModal from '../components/ConfirmModal';
 import EmailOTPModal from '../components/EmailOTPModal/EmailOTPModal';
 
@@ -52,63 +52,46 @@ const EnforcedPage = () => {
   // Email OTP setup state
   const [emailModalOpen, setEmailModalOpen] = useState(false);
 
+  const { get } = useFetchClient();
+  const logout = useAuth('EnforcedPage', (auth) => auth.logout);
+
   // On mount: redirect to /admin if MFA is already fully set up
   useEffect(() => {
     const ac = new AbortController();
 
     (async () => {
-      const token = getToken();
-
       try {
         const [statusRes, configRes, meRes] = await Promise.all([
-          fetch('/strapi-identity/status', {
-            headers: { authorization: `Bearer ${token}` },
+          get<{ data?: { status?: string } }>('/strapi-identity/status', { signal: ac.signal }),
+          get<{ data?: { email_enabled?: boolean } }>('/strapi-identity/config', {
             signal: ac.signal,
           }),
-          fetch('/strapi-identity/config', {
-            headers: { authorization: `Bearer ${token}` },
-            signal: ac.signal,
-          }),
-          fetch('/admin/users/me', {
-            headers: { authorization: `Bearer ${token}` },
-            signal: ac.signal,
-          }),
+          get<{ data?: { email?: string } }>('/admin/users/me', { signal: ac.signal }),
         ]);
 
-        // If unauthenticated, bounce to login (leave loading=true to avoid a content flash)
-        if (meRes.status === 401) {
-          window.location.replace('/admin/auth/login');
+        if (statusRes.data.data?.status === 'full') {
+          window.location.replace('/admin');
           return;
         }
 
-        if (statusRes.ok) {
-          const statusBody = await statusRes.json();
-          if (statusBody.data?.status === 'full') {
-            window.location.replace('/admin');
-            return;
-          }
-        }
-
-        if (configRes.ok) {
-          const configBody = await configRes.json();
-          setEmailConfigured(!!configBody.data?.email_enabled);
-        }
-
-        if (meRes.ok) {
-          const meBody = await meRes.json();
-          setUserEmail(meBody.data?.email || '');
-        }
-
+        setEmailConfigured(!!configRes.data.data?.email_enabled);
+        setUserEmail(meRes.data.data?.email || '');
         setLoading(false);
       } catch (error) {
         if ((error as Error).name === 'AbortError') return;
+
+        if (isFetchError(error) && error.status === 401) {
+          await logout();
+          return;
+        }
+
         console.error('Failed to check MFA status:', error);
         setLoading(false);
       }
     })();
 
     return () => ac.abort();
-  }, []);
+  }, [get, logout]);
 
   const handleEnableTOTP = async () => {
     const token = getToken();
