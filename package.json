@@ -39,17 +39,17 @@
   },
   "dependencies": {
     "input-otp": "^1.5.0",
-    "otpauth": "^9.5.1",
+    "otpauth": "^9.5.2",
     "qrcode.react": "^4.2.0",
     "strapi-admin-portal": "^0.3.0"
   },
   "devDependencies": {
     "@strapi/sdk-plugin": "^6.1.1",
-    "@strapi/typescript-utils": "^5.52.3",
+    "@strapi/typescript-utils": "^5.54.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
