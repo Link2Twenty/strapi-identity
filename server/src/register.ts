@@ -167,6 +167,8 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
       '/admin/strapi-identity/enforced',
       '/admin/init',
       '/admin/users/me',
+      '/admin/access-token',
+      '/admin/logout',
       '/strapi-identity/status',
       '/strapi-identity/config',
       '/strapi-identity/enable',
