@@ -10,6 +10,7 @@ import type { StrapiApp } from '@strapi/strapi/admin';
 import type { Middleware } from '@reduxjs/toolkit';
 import type { Store } from '@strapi/admin/strapi-admin';
 
+const adminPath = process.env.ADMIN_PATH || '/admin';
 const plugin: StrapiApp['appPlugins'][string] = {
   register(app) {
     // Register the plugin in the Strapi admin
@@ -40,14 +41,14 @@ const plugin: StrapiApp['appPlugins'][string] = {
 
     injections.registerRoute({
       id: 'profile-toggle',
-      route: '/admin/me',
+      route: adminPath + '/me',
       selector: '#main-content form[method="put"] > :nth-child(2) > div > div > div:nth-child(2)',
       Component: () => import('./injection/ProfileToggle'),
     });
 
     injections.registerRoute({
       id: 'admin-reset',
-      route: '/admin/settings/users/:id',
+      route: adminPath + '/settings/users/:id',
       selector: '#main-content form[method="put"] > :nth-child(2) > div > div:nth-child(2)',
       permissions: [{ action: 'plugin::strapi-identity.settings.update' }],
       Component: () =>
@@ -92,7 +93,7 @@ const mfaRedirect: () => Middleware<object, ReturnType<Store['getState']>> = () 
     if (action && action.type === 'admin/login' && (action.payload || {}).hasOwnProperty('token')) {
       // If the action is admin/login and token is undefined, redirect to verify page
       if (action.payload.token === undefined) {
-        window.location.replace('/admin/strapi-identity/verify');
+        window.location.replace(`${adminPath}/strapi-identity/verify`);
         return;
       }
 
@@ -103,7 +104,7 @@ const mfaRedirect: () => Middleware<object, ReturnType<Store['getState']>> = () 
 
       if (config.data?.enabled && config.data?.enforce) {
         await next(action);
-        window.location.replace('/admin/strapi-identity/enforced');
+        window.location.replace(`${adminPath}/strapi-identity/enforced`);
         return;
       }
     }
