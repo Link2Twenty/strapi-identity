@@ -13,6 +13,8 @@ import { getTranslation } from '../utils/getTranslation';
 // Hooks
 import { useIntl } from 'react-intl';
 
+const adminPath = process.env.ADMIN_PATH || '/admin';
+
 const ProfileToggle = () => {
   const { formatMessage } = useIntl();
 
@@ -203,7 +205,7 @@ const ProfileToggle = () => {
             headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
             signal: ac.signal,
           }),
-          fetch('/admin/users/me', {
+          fetch(`${adminPath}/users/me`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
             signal: ac.signal,
@@ -214,11 +216,15 @@ const ProfileToggle = () => {
         const enabledBody = await enabledRes.json();
 
         if (!statusRes.ok) {
-          throw new Error(`${statusRes.status} - ${statusBody.error || 'Failed to get MFA status'}`);
+          throw new Error(
+            `${statusRes.status} - ${statusBody.error || 'Failed to get MFA status'}`
+          );
         }
 
         if (!enabledRes.ok) {
-          throw new Error(`${enabledRes.status} - ${enabledBody.error || 'Failed to get MFA config'}`);
+          throw new Error(
+            `${enabledRes.status} - ${enabledBody.error || 'Failed to get MFA config'}`
+          );
         }
 
         setMfaEnabled(enabledBody.data);

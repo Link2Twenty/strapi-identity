@@ -68,7 +68,7 @@ const EnforcedPage = () => {
           get<{ data?: { email_enabled?: boolean } }>('/strapi-identity/config', {
             signal: ac.signal,
           }),
-          get<{ data?: { email?: string } }>('/admin/users/me', { signal: ac.signal }),
+          get<{ data?: { email?: string } }>(`${adminPath}/users/me`, { signal: ac.signal }),
         ]);
 
         if (statusRes.data.data?.status === 'full') {
