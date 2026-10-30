@@ -22,6 +22,8 @@ export interface InjectPublicRouter extends Omit<StrapiApp['router'], 'router'> 
   router: { routes: RouteObject[] };
 }
 
+const adminPath = process.env.ADMIN_PATH || '/admin';
+
 /**
  * Inject the verify page route into the Strapi router
  * @param router StrapiApp router instance
@@ -152,7 +154,7 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
   // Redirect to admin if no MFA session is active; fetch mfaType from the server
   useEffect(() => {
     if (auth?.token) {
-      window.location.replace('/admin');
+      window.location.replace(adminPath);
       return;
     }
 
@@ -164,7 +166,7 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
 
         if (!response.ok) {
           // No valid MFA cookie — go back to login
-          window.location.replace('/admin');
+          window.location.replace(adminPath);
           return;
         }
 
@@ -172,7 +174,7 @@ const VerifyPage = ({ fallbackIcon }: { fallbackIcon: string }) => {
         setMfaType(data.data?.mfaType || null);
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') return;
-        window.location.replace('/admin');
+        window.location.replace(adminPath);
       }
     })();
 

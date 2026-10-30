@@ -21,6 +21,8 @@ export interface InjectPublicRouter extends Omit<StrapiApp['router'], 'router'> 
   router: { routes: RouteObject[] };
 }
 
+const adminPath = process.env.ADMIN_PATH || '/admin';
+
 /**
  * Inject the enforced MFA page route into the Strapi admin router
  */
@@ -70,7 +72,7 @@ const EnforcedPage = () => {
         ]);
 
         if (statusRes.data.data?.status === 'full') {
-          window.location.replace('/admin');
+          window.location.replace(adminPath);
           return;
         }
 
@@ -140,7 +142,7 @@ const EnforcedPage = () => {
       if (body.data?.recoveryCodes) {
         setPasscodes(body.data.recoveryCodes);
       } else {
-        window.location.replace('/admin');
+        window.location.replace(adminPath);
       }
 
       setUri(null);
@@ -153,7 +155,7 @@ const EnforcedPage = () => {
   // Called when the TOTP modal closes — navigate to /admin if setup completed (passcodes were shown)
   const handleCloseTOTP = () => {
     if (passcodes) {
-      window.location.replace('/admin');
+      window.location.replace(adminPath);
       return;
     }
 
@@ -251,7 +253,7 @@ const EnforcedPage = () => {
           if (!open) setEmailModalOpen(false);
         }}
         onSuccess={() => {
-          window.location.replace('/admin');
+          window.location.replace(adminPath);
         }}
       />
     </>
