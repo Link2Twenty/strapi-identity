@@ -140,8 +140,16 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
   server.use(async (ctx, next) => {
     const cookie = ctx.cookies.get(tokenName);
 
+    // The admin panel sends the cookie, but the admin API also accepts the access token alone
+    // in an `Authorization: Bearer` header. Take that token into account too, so enforcement
+    // cannot be bypassed by leaving the cookie out. Only admin JWTs are considered: Content API
+    // tokens and other bearer tokens are left untouched.
+    const bearer = cookie ? undefined : getBearerToken(ctx.request.headers.authorization);
+    const fromBearer = !!bearer && !!configService.getAdminUserIdFromJWT(bearer);
+    const token = cookie || (fromBearer ? bearer : undefined);
+
     // If we're not signed in, do nothing
-    if (!cookie) {
+    if (!token) {
       await next();
       return;
     }
@@ -154,7 +162,7 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
       return;
     }
 
-    const userEnabled = await configService.checkUserByJWT(cookie);
+    const userEnabled = await configService.checkUserByJWT(token);
 
     // User already has MFA — let them through
     if (userEnabled) {
@@ -192,8 +200,8 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
       ctx.path.startsWith(`${adminPath}/src/`);
 
     if (!isAllowed) {
-      // HTML navigation → redirect to the enforced page
-      if (ctx.accepts('html') && ctx.path.startsWith(adminPath)) {
+      // HTML navigation → redirect to the enforced page (API clients using a bearer token get the 403)
+      if (!fromBearer && ctx.accepts('html') && ctx.path.startsWith(adminPath)) {
         ctx.redirect(`${adminPath}/strapi-identity/enforced`);
         return;
       }
@@ -206,6 +214,19 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
 
     await next();
   });
+};
+
+/**
+ * Extracts the token from an `Authorization: Bearer <token>` header
+ * @param header the raw Authorization header
+ * @returns the token, or undefined if the header is missing or not a bearer header
+ */
+const getBearerToken = (header: string | undefined) => {
+  if (!header) return undefined;
+
+  const [scheme, token, ...rest] = header.trim().split(/\s+/);
+
+  return scheme?.toLowerCase() === 'bearer' && token && rest.length === 0 ? token : undefined;
 };
 
 export default register;
