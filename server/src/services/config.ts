@@ -129,26 +129,35 @@ const disableMFAForAllUsers = async () => {
 };
 
 /**
+ * Returns the admin user ID carried by a JWT signed with the admin auth secret
+ * @param token the JWT token to verify
+ * @returns the user ID, or undefined if the token is not an admin JWT
+ */
+export const getAdminUserIdFromJWT = (token: string) => {
+  const secret = strapi.config.get<string>('admin.auth.secret');
+
+  try {
+    const decoded = jwt.verify(token, secret, { ignoreExpiration: true }) as {
+      id?: string;
+      userId?: string;
+    };
+    return decoded.userId || decoded.id;
+  } catch {
+    return undefined;
+  }
+};
+
+/**
  * Checks if a user has MFA enabled by verifying the provided JWT token and checking for an associated MFA token in the database
  * @param token the JWT token to verify and extract the user ID from
  * @returns true if the user has MFA enabled, false otherwise
  */
 export const checkUserByJWT = async (token: string) => {
   const config = await getConfig();
-  const secret = strapi.config.get<string>('admin.auth.secret');
 
   if (!config.enabled) return false;
 
-  let userId: string | undefined;
-  try {
-    const decoded = jwt.verify(token, secret, { ignoreExpiration: true }) as {
-      id?: string;
-      userId?: string;
-    };
-    userId = decoded.userId || decoded.id;
-  } catch {
-    return false;
-  }
+  const userId = getAdminUserIdFromJWT(token);
 
   if (!userId) return false;
 
