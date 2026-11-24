@@ -99,7 +99,7 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
  */
 const registerMiddlewares = (server: Core.Strapi['server']) => {
   const configService = strapi.service('plugin::strapi-identity.config');
-  const adminPath = strapi.config.get<string>('admin.url') || '/admin';
+  const adminPath = strapi.config.get<string>('admin.path') || '/admin';
   const tokenName = strapi.config.get<string>('admin.auth.cookie.name') || 'jwtToken';
 
   server.use(async (ctx, next) => {
