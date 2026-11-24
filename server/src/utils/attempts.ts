@@ -57,6 +57,27 @@ export const claimAttempt = async (
   return Number(updated) > 0;
 };
 
+/**
+ * Records a TOTP time-step as used: `SET counter = step WHERE id = ? AND counter < step`.
+ * Each code can then be used once, and never a code older than the newest one accepted.
+ * For TOTP tokens the `counter` attribute holds the last accepted time-step.
+ * @param tokenId id of the user's mfa-token row
+ * @param step the time-step the submitted code matched
+ * @returns true if the step was newer and is now recorded, false if it was already used
+ */
+export const claimTimeStep = async (tokenId: number | string, step: number) => {
+  const knex = strapi.db.connection;
+  const { table, columns } = names('plugin::strapi-identity.mfa-token', ['counter']);
+  const column = columns.counter;
+
+  const updated = await knex(table)
+    .where('id', tokenId)
+    .andWhere(knex.raw('COALESCE(??, 0) < ?', [column, step]))
+    .update({ [column]: step });
+
+  return Number(updated) > 0;
+};
+
 export type AttemptResult = 'valid' | 'invalid' | 'locked';
 
 /**

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { Secret, TOTP } from 'otpauth';
 
-import { claimAttempt, isCodeShaped, withUserAttempt } from '../utils/attempts';
+import { claimAttempt, claimTimeStep, isCodeShaped, withUserAttempt } from '../utils/attempts';
 
 import type { AttemptResult } from '../utils/attempts';
 
@@ -23,16 +23,29 @@ const validateRecoveryCode = (code: string, hash: string): Promise<boolean> => {
 };
 
 /**
+ * Finds the time-step a TOTP token matches. The previous, current and next steps are accepted
+ * (window 1) to allow for clock drift.
+ * @param token TOTP token to validate
+ * @param secret secret to validate against
+ * @returns the matched time-step, or null if the token is not valid
+ */
+const matchTokenStep = (token: string, secret: string): number | null => {
+  const totp = new TOTP({ secret: Secret.fromBase32(secret) });
+  // Use one timestamp for both calls, so the step can't shift between them
+  const timestamp = Date.now();
+  const delta = totp.validate({ token, window: 1, timestamp });
+
+  return delta === null ? null : totp.counter({ timestamp }) + delta;
+};
+
+/**
  * Validates a TOTP token against a secret
  * @param token TOTP token to validate
  * @param secret secret to validate against
  * @returns is the token valid
  */
 const validateToken = (token: string, secret: string): boolean => {
-  const totp = new TOTP({ secret: Secret.fromBase32(secret) });
-  const delta = totp.validate({ token, window: 1 });
-
-  return delta !== null;
+  return matchTokenStep(token, secret) !== null;
 };
 
 /**
@@ -88,7 +101,12 @@ const validateLiveToken = async (userId: string, token: string): Promise<boolean
   // Email OTP type does not use TOTP validation
   if (record.type === 'email') return false;
 
-  return validateToken(token, record.secret);
+  const step = matchTokenStep(token, record.secret);
+
+  if (step === null) return false;
+
+  // Accept each code once: a code that was already used (or an older one) is a replay
+  return claimTimeStep(record.id, step);
 };
 
 /**
