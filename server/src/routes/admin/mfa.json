@@ -39,7 +39,9 @@
     "path": "/disable",
     "handler": "controller.disable",
     "info": { "apiName": "disable", "pluginName": "strapi-identity", "type": "content-api" },
-    "config": {}
+    "config": {
+      "middlewares": ["admin::rateLimit"]
+    }
   },
   {
     "method": "GET",
@@ -68,7 +70,9 @@
     "path": "/enable-email",
     "handler": "controller.enableEmail",
     "info": { "apiName": "enableEmail", "pluginName": "strapi-identity", "type": "content-api" },
-    "config": {}
+    "config": {
+      "middlewares": ["admin::rateLimit"]
+    }
   },
   {
     "method": "POST",
@@ -86,6 +90,8 @@
       "pluginName": "strapi-identity",
       "type": "content-api"
     },
-    "config": {}
+    "config": {
+      "middlewares": ["admin::rateLimit"]
+    }
   }
 ]

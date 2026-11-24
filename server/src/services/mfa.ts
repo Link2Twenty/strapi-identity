@@ -1,6 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { Secret, TOTP } from 'otpauth';
 
+import { claimAttempt, claimTimeStep, isCodeShaped, withUserAttempt } from '../utils/attempts';
+
+import type { AttemptResult } from '../utils/attempts';
+
 /**
  * hashes a recovery code
  * @param code code to hash
@@ -19,16 +23,29 @@ const validateRecoveryCode = (code: string, hash: string): Promise<boolean> => {
 };
 
 /**
+ * Finds the time-step a TOTP token matches. The previous, current and next steps are accepted
+ * (window 1) to allow for clock drift.
+ * @param token TOTP token to validate
+ * @param secret secret to validate against
+ * @returns the matched time-step, or null if the token is not valid
+ */
+const matchTokenStep = (token: string, secret: string): number | null => {
+  const totp = new TOTP({ secret: Secret.fromBase32(secret) });
+  // Use one timestamp for both calls, so the step can't shift between them
+  const timestamp = Date.now();
+  const delta = totp.validate({ token, window: 1, timestamp });
+
+  return delta === null ? null : totp.counter({ timestamp }) + delta;
+};
+
+/**
  * Validates a TOTP token against a secret
  * @param token TOTP token to validate
  * @param secret secret to validate against
  * @returns is the token valid
  */
 const validateToken = (token: string, secret: string): boolean => {
-  const totp = new TOTP({ secret: Secret.fromBase32(secret) });
-  const delta = totp.validate({ token, window: 1 });
-
-  return delta !== null;
+  return matchTokenStep(token, secret) !== null;
 };
 
 /**
@@ -52,15 +69,15 @@ const checkRecoveryCode = async (userId: string, code: string): Promise<boolean>
 
   if (matchedIndex === -1) return false;
 
-  // Remove the used recovery code from the database
+  // Remove the used recovery code from the database. Only send the changed field: spreading the
+  // whole record would write back stale values for the attempt counters.
   await tokenDocument.update({
     documentId: record.documentId,
     data: {
-      ...record,
       recovery_codes: record.recovery_codes.filter(
         (_: string, index: number) => index !== matchedIndex
       ),
-    },
+    } as Record<string, unknown>,
   });
 
   return true;
@@ -84,7 +101,12 @@ const validateLiveToken = async (userId: string, token: string): Promise<boolean
   // Email OTP type does not use TOTP validation
   if (record.type === 'email') return false;
 
-  return validateToken(token, record.secret);
+  const step = matchTokenStep(token, record.secret);
+
+  if (step === null) return false;
+
+  // Accept each code once: a code that was already used (or an older one) is a replay
+  return claimTimeStep(record.id, step);
 };
 
 /**
@@ -175,7 +197,15 @@ export const setupFullSecret = async (userId: string): Promise<string[]> => {
   if (existing) {
     await tokenDocument.update({
       documentId: existing.documentId,
-      data: { ...existing, type: 'totp', secret: tempField.secret, enabled: true, recovery_codes },
+      data: {
+        type: 'totp',
+        secret: tempField.secret,
+        enabled: true,
+        recovery_codes,
+        // A fresh setup starts with a clean failure count
+        failed_attempts: 0,
+        locked_until: null,
+      } as Record<string, unknown>,
     });
   } else {
     await tokenDocument.create({
@@ -248,7 +278,7 @@ export const generateEmailOTP = async (
 
 /**
  * Validates an email OTP for a given user and purpose.
- * Increments attempt count, rejects on expiry or too many attempts, removes the record on success.
+ * Claims an attempt atomically, rejects on expiry or too many attempts, removes the record on success.
  * @param userId id of the user to validate against
  * @param code plaintext OTP to validate
  * @param purpose the purpose of the OTP
@@ -270,16 +300,19 @@ export const validateEmailOTP = async (
     return false;
   }
 
-  const attempts = (record.attempts as number) || 0;
-  if (attempts >= EMAIL_OTP_MAX_ATTEMPTS) {
+  // Claim an attempt in one UPDATE (`attempts < max`). A separate read, check and write would let
+  // parallel requests all see the same count and get past the limit.
+  const claimed = await claimAttempt(
+    'plugin::strapi-identity.email-otp',
+    record.id,
+    'attempts',
+    EMAIL_OTP_MAX_ATTEMPTS
+  );
+
+  if (!claimed) {
     await otpDocument.delete({ documentId: record.documentId });
     return false;
   }
-
-  await otpDocument.update({
-    documentId: record.documentId,
-    data: { ...record, attempts: attempts + 1 },
-  });
 
   const isValid = await bcrypt.compare(code, record.code_hash as string);
 
@@ -300,7 +333,14 @@ export const enableEmailMFA = async (userId: string): Promise<void> => {
   if (existing) {
     await tokenDocument.update({
       documentId: existing.documentId,
-      data: { ...existing, type: 'email', enabled: true, secret: '' },
+      data: {
+        type: 'email',
+        enabled: true,
+        secret: '',
+        // A fresh setup starts with a clean failure count
+        failed_attempts: 0,
+        locked_until: null,
+      } as Record<string, unknown>,
     });
   } else {
     await tokenDocument.create({
@@ -329,13 +369,63 @@ export const getMFAInfo = async (
 };
 
 /**
+ * Error thrown when a user has too many failed MFA checks and is temporarily locked
+ */
+export class MFALockedError extends Error {
+  constructor() {
+    super('Too many failed attempts. Try again later.');
+    this.name = 'MFALockedError';
+  }
+}
+
+/**
+ * Error thrown when a submitted MFA code is wrong
+ */
+export class InvalidMFACodeError extends Error {
+  constructor() {
+    super('Invalid token or recovery code');
+    this.name = 'InvalidMFACodeError';
+  }
+}
+
+/**
+ * Checks a code against the user's enabled MFA method under the per-user failure limit.
+ * TOTP users can use a TOTP code or a recovery code; email users use the OTP for `purpose`.
+ * @param userId id of the user
+ * @param code the submitted code
+ * @param purpose which email OTP to check ('login' or 'disable'); ignored for TOTP
+ * @returns 'valid', 'invalid', or 'locked'
+ */
+export const verifyUserCode = async (
+  userId: string,
+  code: unknown,
+  purpose: 'login' | 'disable' = 'login'
+): Promise<AttemptResult> => {
+  const record = await strapi
+    .documents('plugin::strapi-identity.mfa-token')
+    .findFirst({ filters: { admin_user: { id: userId }, enabled: true } });
+
+  if (!record) return 'invalid';
+
+  return withUserAttempt(record.id, async () => {
+    if (!isCodeShaped(code)) return false;
+
+    if (record.type === 'email') return validateEmailOTP(userId, code, purpose);
+
+    return validateTokenOrRecoveryCode(userId, code);
+  });
+};
+
+/**
  * Disables MFA for a user after validating the provided code.
  * For TOTP, validates against TOTP token or recovery code.
  * For email OTP, validates against a previously generated disable OTP.
  * @param userId id of the user to disable MFA for
  * @param code a valid TOTP token, recovery code, or email OTP
+ * @throws {MFALockedError} if the user is locked after too many failed attempts
+ * @throws {InvalidMFACodeError} if the code is wrong
  */
-export const disableSecret = async (userId: string, code: string): Promise<void> => {
+export const disableSecret = async (userId: string, code: unknown): Promise<void> => {
   const tokenDocument = strapi.documents('plugin::strapi-identity.mfa-token');
 
   const record = await tokenDocument.findFirst({
@@ -344,18 +434,21 @@ export const disableSecret = async (userId: string, code: string): Promise<void>
 
   if (!record) throw new Error('MFA is not enabled for this user');
 
-  let valid: boolean;
-  if (record.type === 'email') {
-    valid = await validateEmailOTP(userId, code, 'disable');
-  } else {
-    valid = await validateTokenOrRecoveryCode(userId, code);
-  }
+  const result = await verifyUserCode(userId, code, 'disable');
 
-  if (!valid) throw new Error('Invalid token or recovery code');
+  if (result === 'locked') throw new MFALockedError();
+  if (result !== 'valid') throw new InvalidMFACodeError();
 
+  // Clear the secret and recovery codes so nothing from this setup can be used again
   await tokenDocument.update({
     documentId: record.documentId,
-    data: { ...record, enabled: false },
+    data: {
+      enabled: false,
+      secret: '',
+      recovery_codes: [],
+      failed_attempts: 0,
+      locked_until: null,
+    } as Record<string, unknown>,
   });
 };
 
