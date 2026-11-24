@@ -47,6 +47,15 @@
     "recovery_codes": {
       "type": "json",
       "private": true
+    },
+    "failed_attempts": {
+      "type": "integer",
+      "default": 0,
+      "private": true
+    },
+    "locked_until": {
+      "type": "biginteger",
+      "private": true
     }
   }
 }

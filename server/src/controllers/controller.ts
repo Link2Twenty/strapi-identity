@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { TOTP } from 'otpauth';
 
+import { isCodeShaped } from '../utils/attempts';
+
 // Types
 import type { Plugin } from '@strapi/types';
 import type { Secret } from 'otpauth';
@@ -124,25 +126,21 @@ const controller: Plugin.LoadedPlugin['controllers'][string] = ({ strapi }) => (
     };
 
     // Get the code from the request body and validate it against the user's active secret and recovery codes
-    const body: { code: string } = ctx.request.body;
+    const body: { code?: unknown } = ctx.request.body || {};
 
     try {
-      const mfaRecord = await strapi
-        .documents('plugin::strapi-identity.mfa-token')
-        .findFirst({ filters: { admin_user: { id: payload.userId }, enabled: true } });
+      // Checked under the per-user failure limit, so guesses from many IPs still count against the account
+      const result: 'valid' | 'invalid' | 'locked' = await strapi
+        .service('plugin::strapi-identity.secret')
+        .verifyUserCode(payload.userId, body.code, 'login');
 
-      let valid: boolean;
-      if (mfaRecord?.type === 'email') {
-        valid = await strapi
-          .service('plugin::strapi-identity.secret')
-          .validateEmailOTP(payload.userId, body.code, 'login');
-      } else {
-        valid = await strapi
-          .service('plugin::strapi-identity.secret')
-          .validateTokenOrRecoveryCode(payload.userId, body.code);
+      if (result === 'locked') {
+        ctx.status = 429;
+        ctx.body = { data: null, error: 'Too many failed attempts. Try again later.' };
+        return;
       }
 
-      if (!valid) {
+      if (result !== 'valid') {
         ctx.status = 400;
         ctx.body = { data: null, error: 'Invalid MFA code' };
         return;
@@ -219,6 +217,12 @@ const controller: Plugin.LoadedPlugin['controllers'][string] = ({ strapi }) => (
     const body: { code: string } = ctx.request.body;
     const secretService = strapi.service('plugin::strapi-identity.secret');
 
+    if (!isCodeShaped(body?.code)) {
+      ctx.status = 400;
+      ctx.body = { data: null, error: 'Invalid MFA code' };
+      return;
+    }
+
     try {
       const isValid = await secretService.validateTempToken(user.id, body.code);
 
@@ -257,12 +261,26 @@ const controller: Plugin.LoadedPlugin['controllers'][string] = ({ strapi }) => (
     const secretService = strapi.service('plugin::strapi-identity.secret');
 
     try {
-      await secretService.disableSecret(user.id, body.code);
+      await secretService.disableSecret(user.id, body?.code);
 
       ctx.status = 200;
       ctx.body = { data: { message: 'MFA disabled' }, error: null };
-    } catch {
-      strapi.log.error('Error disabling MFA');
+    } catch (error) {
+      const name = error instanceof Error ? error.name : '';
+
+      if (name === 'MFALockedError') {
+        ctx.status = 429;
+        ctx.body = { data: null, error: 'Too many failed attempts. Try again later.' };
+        return;
+      }
+
+      if (name === 'InvalidMFACodeError') {
+        ctx.status = 400;
+        ctx.body = { data: null, error: 'Invalid MFA code' };
+        return;
+      }
+
+      strapi.log.error('Error disabling MFA', error);
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Failed to disable MFA' };
@@ -307,6 +325,12 @@ const controller: Plugin.LoadedPlugin['controllers'][string] = ({ strapi }) => (
     const user = ctx.state.user;
     const body: { code: string } = ctx.request.body;
     const secretService = strapi.service('plugin::strapi-identity.secret');
+
+    if (!isCodeShaped(body?.code)) {
+      ctx.status = 400;
+      ctx.body = { data: null, error: 'Invalid or expired verification code' };
+      return;
+    }
 
     try {
       const valid = await secretService.validateEmailOTP(user.id, body.code, 'setup');
