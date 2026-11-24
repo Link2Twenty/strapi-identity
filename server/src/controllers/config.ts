@@ -32,7 +32,8 @@ const config = ({ strapi }: { strapi: Core.Strapi }): controller => ({
     }
   },
   async updateConfig(ctx) {
-    const body: Partial<{ enabled: boolean; enforce: boolean; issuer: string }> = ctx.request.body;
+    // The service picks out and type-checks the known fields, so pass the raw body through
+    const body: unknown = ctx.request.body;
 
     try {
       const updatedConfig = await strapi
@@ -42,7 +43,13 @@ const config = ({ strapi }: { strapi: Core.Strapi }): controller => ({
       ctx.status = 200;
       ctx.body = { data: updatedConfig, error: null };
     } catch (error) {
-      strapi.log.error('Error updating config');
+      if (error instanceof Error && error.name === 'InvalidConfigError') {
+        ctx.status = 400;
+        ctx.body = { data: null, error: error.message };
+        return;
+      }
+
+      strapi.log.error('Error updating config', error);
 
       ctx.status = 500;
       ctx.body = { data: null, error: 'Server Error' };
