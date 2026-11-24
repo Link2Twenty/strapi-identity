@@ -27,7 +27,7 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
   route.config.middlewares = route.config.middlewares || [];
 
   route.config.middlewares.push(async (ctx, next) => {
-    const { deviceId, rememberMe } = ctx.request.body as Record<string, any>;
+    const { deviceId, rememberMe } = ctx.request.body as { deviceId: string; rememberMe: boolean };
 
     await next();
 
@@ -67,7 +67,7 @@ const replaceLogin = (route: Core.Route, secret: string, domain: string | undefi
 
           await strapi.service('plugin::strapi-identity.email').send(adminUser.email, otp);
         }
-      } catch (err) {
+      } catch {
         strapi.log.error('Error sending login email OTP');
       }
     }
@@ -138,18 +138,28 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
   });
 
   server.use(async (ctx, next) => {
-    const cookie = ctx.cookies.get(tokenName);
+    // Strapi's admin API authenticates with the `Authorization` header only, so when one is sent,
+    // judge that token and ignore the cookie. Otherwise a cookie holding another user's token
+    // could decide the outcome for a request Strapi runs as the header's user.
+    // A header Strapi would reject (expired, wrong type, Content API token...) gives no user, and
+    // the request is passed on so Strapi answers 401, which lets the admin panel refresh its token.
+    // With no header, Strapi treats the request as signed out; the cookie is then only used to
+    // steer page navigation to the enforced page.
+    const authorization = ctx.request.headers.authorization;
+    const fromBearer = !!authorization;
 
-    // The admin panel sends the cookie, but the admin API also accepts the access token alone
-    // in an `Authorization: Bearer` header. Take that token into account too, so enforcement
-    // cannot be bypassed by leaving the cookie out. Only admin JWTs are considered: Content API
-    // tokens and other bearer tokens are left untouched.
-    const bearer = cookie ? undefined : getBearerToken(ctx.request.headers.authorization);
-    const fromBearer = !!bearer && !!configService.getAdminUserIdFromJWT(bearer);
-    const token = cookie || (fromBearer ? bearer : undefined);
+    let userId: string | undefined;
 
-    // If we're not signed in, do nothing
-    if (!token) {
+    if (authorization) {
+      const bearer = getBearerToken(authorization);
+      userId = bearer ? configService.getAdminUserIdFromAccessToken(bearer) : undefined;
+    } else {
+      const cookie = ctx.cookies.get(tokenName);
+      userId = cookie ? configService.getAdminUserIdFromCookie(cookie) : undefined;
+    }
+
+    // If we're not signed in (or Strapi won't accept the token), do nothing
+    if (!userId) {
       await next();
       return;
     }
@@ -162,7 +172,7 @@ const registerMiddlewares = (server: Core.Strapi['server']) => {
       return;
     }
 
-    const userEnabled = await configService.checkUserByJWT(token);
+    const userEnabled = await configService.isUserEnrolled(userId);
 
     // User already has MFA — let them through
     if (userEnabled) {

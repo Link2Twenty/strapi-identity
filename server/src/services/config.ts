@@ -112,7 +112,11 @@ export const updateConfig = async (input: unknown) => {
       await disableEmailMFAForAllUsers();
 
     return configDocument
-      .update({ documentId: existingConfig.documentId, data: data as Record<string, unknown>, fields })
+      .update({
+        documentId: existingConfig.documentId,
+        data: data as Record<string, unknown>,
+        fields,
+      })
       .then((updated) => _config(updated));
   });
 };
@@ -168,38 +172,49 @@ const disableMFAForAllUsers = async () => {
 };
 
 /**
- * Returns the admin user ID carried by a JWT signed with the admin auth secret
- * @param token the JWT token to verify
- * @returns the user ID, or undefined if the token is not an admin JWT
+ * Returns the admin user ID from a bearer access token, using the same check Strapi's admin
+ * auth strategy uses (signature, expiry and `type: 'access'`). Any token Strapi would reject
+ * returns undefined, so enforcement only ever judges the user Strapi will authenticate.
+ * @param token the bearer token from the Authorization header
+ * @returns the user ID, or undefined if Strapi would not accept the token
  */
-export const getAdminUserIdFromJWT = (token: string) => {
+export const getAdminUserIdFromAccessToken = (token: string) => {
+  const { isValid, payload } = strapi.sessionManager('admin').validateAccessToken(token);
+
+  return isValid && payload?.userId ? String(payload.userId) : undefined;
+};
+
+/**
+ * Returns the admin user ID from the admin panel's token cookie. Only used to choose where to
+ * send page navigations, never to allow an API request. Expiry is ignored so an expired cookie
+ * does not send a user who already has MFA to the enforced page (the panel refreshes the token itself).
+ * @param token the value of the admin token cookie
+ * @returns the user ID, or undefined if the cookie is not an admin access token
+ */
+export const getAdminUserIdFromCookie = (token: string) => {
   const secret = strapi.config.get<string>('admin.auth.secret');
 
   try {
     const decoded = jwt.verify(token, secret, { ignoreExpiration: true }) as {
-      id?: string;
       userId?: string;
+      type?: string;
     };
-    return decoded.userId || decoded.id;
+
+    // Only access tokens: the MFA pending token and other tokens signed with this secret don't count
+    if (decoded.type !== 'access' || !decoded.userId) return undefined;
+
+    return String(decoded.userId);
   } catch {
     return undefined;
   }
 };
 
 /**
- * Checks if a user has MFA enabled by verifying the provided JWT token and checking for an associated MFA token in the database
- * @param token the JWT token to verify and extract the user ID from
+ * Checks if a user has completed MFA setup
+ * @param userId the admin user ID to check
  * @returns true if the user has MFA enabled, false otherwise
  */
-export const checkUserByJWT = async (token: string) => {
-  const config = await getConfig();
-
-  if (!config.enabled) return false;
-
-  const userId = getAdminUserIdFromJWT(token);
-
-  if (!userId) return false;
-
+export const isUserEnrolled = async (userId: string) => {
   try {
     const mfaExists = await strapi.documents('plugin::strapi-identity.mfa-token').count({
       filters: { admin_user: { id: userId }, enabled: true },
